@@ -1,0 +1,4337 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.Ltext0:
+  10               		.cfi_sections	.debug_frame
+  11               	.global	__mulsf3
+  12               	.global	__ltsf2
+  13               	.global	__gtsf2
+  14               	.global	__divsf3
+  15               	.global	__fixunssfsi
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               		.file 1 "main.c"
+   1:main.c        **** /************************************
+   2:main.c        **** ********* MSYS, LAB6, del 3 *********
+   3:main.c        **** ********* Henning Hargaard  *********
+   4:main.c        **** ********* 18.september 2015 *********
+   5:main.c        **** *************************************/
+   6:main.c        **** //#define F_CPU 16000000
+   7:main.c        **** #include <util/delay.h>
+   8:main.c        **** #include <avr/io.h>
+   9:main.c        **** 
+  10:main.c        **** int main(void)
+  11:main.c        **** {
+  21               		.loc 1 11 0
+  22               		.cfi_startproc
+  23 0000 0F93      		push r16
+  24               	.LCFI0:
+  25               		.cfi_def_cfa_offset 4
+  26               		.cfi_offset 16, -3
+  27 0002 1F93      		push r17
+  28               	.LCFI1:
+  29               		.cfi_def_cfa_offset 5
+  30               		.cfi_offset 17, -4
+  31 0004 CF93      		push r28
+  32               	.LCFI2:
+  33               		.cfi_def_cfa_offset 6
+  34               		.cfi_offset 28, -5
+  35 0006 DF93      		push r29
+  36               	.LCFI3:
+  37               		.cfi_def_cfa_offset 7
+  38               		.cfi_offset 29, -6
+  39 0008 CDB7      		in r28,__SP_L__
+  40 000a DEB7      		in r29,__SP_H__
+  41               	.LCFI4:
+  42               		.cfi_def_cfa_register 28
+  43 000c C850      		subi r28,8
+  44 000e D140      		sbci r29,1
+  45               	.LCFI5:
+  46               		.cfi_def_cfa_offset 271
+  47 0010 0FB6      		in __tmp_reg__,__SREG__
+  48 0012 F894      		cli
+  49 0014 DEBF      		out __SP_H__,r29
+  50 0016 0FBE      		out __SREG__,__tmp_reg__
+  51 0018 CDBF      		out __SP_L__,r28
+  52               	/* prologue: function */
+  53               	/* frame size = 264 */
+  54               	/* stack size = 268 */
+  55               	.L__stack_usage = 268
+  12:main.c        **** 	DDRA = 0;
+  56               		.loc 1 12 0
+  57 001a 81E2      		ldi r24,lo8(33)
+  58 001c 90E0      		ldi r25,0
+  59 001e FC01      		movw r30,r24
+  60 0020 1082      		st Z,__zero_reg__
+  13:main.c        **** 	DDRB = 0xFF;
+  61               		.loc 1 13 0
+  62 0022 84E2      		ldi r24,lo8(36)
+  63 0024 90E0      		ldi r25,0
+  64 0026 2FEF      		ldi r18,lo8(-1)
+  65 0028 FC01      		movw r30,r24
+  66 002a 2083      		st Z,r18
+  67               	.L130:
+  14:main.c        **** 	while (1)
+  15:main.c        **** 	{
+  16:main.c        **** 		if ((PINA & 0b10000000) == 0)
+  68               		.loc 1 16 0
+  69 002c 80E2      		ldi r24,lo8(32)
+  70 002e 90E0      		ldi r25,0
+  71 0030 FC01      		movw r30,r24
+  72 0032 8081      		ld r24,Z
+  73 0034 8823      		tst r24
+  74 0036 04F4      		brge .+2
+  75 0038 00C0      		rjmp .L2
+  76 003a 80E0      		ldi r24,0
+  77 003c 90E0      		ldi r25,0
+  78 003e AFE6      		ldi r26,lo8(111)
+  79 0040 B4E4      		ldi r27,lo8(68)
+  80 0042 8983      		std Y+1,r24
+  81 0044 9A83      		std Y+2,r25
+  82 0046 AB83      		std Y+3,r26
+  83 0048 BC83      		std Y+4,r27
+  84               	.LBB121:
+  85               	.LBB122:
+  86               		.file 2 "/usr/lib/avr/include/util/delay.h"
+   1:/usr/lib/avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:/usr/lib/avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:/usr/lib/avr/include/util/delay.h ****    All rights reserved.
+   5:/usr/lib/avr/include/util/delay.h **** 
+   6:/usr/lib/avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:/usr/lib/avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:/usr/lib/avr/include/util/delay.h **** 
+   9:/usr/lib/avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:/usr/lib/avr/include/util/delay.h **** 
+  12:/usr/lib/avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:/usr/lib/avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:/usr/lib/avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:/usr/lib/avr/include/util/delay.h ****      distribution.
+  16:/usr/lib/avr/include/util/delay.h **** 
+  17:/usr/lib/avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:/usr/lib/avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:/usr/lib/avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:/usr/lib/avr/include/util/delay.h **** 
+  21:/usr/lib/avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:/usr/lib/avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:/usr/lib/avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:/usr/lib/avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:/usr/lib/avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:/usr/lib/avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:/usr/lib/avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:/usr/lib/avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:/usr/lib/avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:/usr/lib/avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:/usr/lib/avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:/usr/lib/avr/include/util/delay.h **** 
+  33:/usr/lib/avr/include/util/delay.h **** /* $Id$ */
+  34:/usr/lib/avr/include/util/delay.h **** 
+  35:/usr/lib/avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:/usr/lib/avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:/usr/lib/avr/include/util/delay.h **** 
+  38:/usr/lib/avr/include/util/delay.h **** #ifndef __HAS_DELAY_CYCLES
+  39:/usr/lib/avr/include/util/delay.h **** #define __HAS_DELAY_CYCLES 1
+  40:/usr/lib/avr/include/util/delay.h **** #endif
+  41:/usr/lib/avr/include/util/delay.h **** 
+  42:/usr/lib/avr/include/util/delay.h **** #include <inttypes.h>
+  43:/usr/lib/avr/include/util/delay.h **** #include <util/delay_basic.h>
+  44:/usr/lib/avr/include/util/delay.h **** #include <math.h>
+  45:/usr/lib/avr/include/util/delay.h **** 
+  46:/usr/lib/avr/include/util/delay.h **** /** \file */
+  47:/usr/lib/avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  48:/usr/lib/avr/include/util/delay.h ****     \code
+  49:/usr/lib/avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  50:/usr/lib/avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  51:/usr/lib/avr/include/util/delay.h ****     #include <util/delay.h>
+  52:/usr/lib/avr/include/util/delay.h ****     \endcode
+  53:/usr/lib/avr/include/util/delay.h **** 
+  54:/usr/lib/avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  55:/usr/lib/avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  56:/usr/lib/avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  57:/usr/lib/avr/include/util/delay.h ****     used.
+  58:/usr/lib/avr/include/util/delay.h **** 
+  59:/usr/lib/avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  60:/usr/lib/avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  61:/usr/lib/avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  62:/usr/lib/avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  63:/usr/lib/avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  64:/usr/lib/avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  65:/usr/lib/avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  66:/usr/lib/avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  67:/usr/lib/avr/include/util/delay.h **** 
+  68:/usr/lib/avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  69:/usr/lib/avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  70:/usr/lib/avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  71:/usr/lib/avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  72:/usr/lib/avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  73:/usr/lib/avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  74:/usr/lib/avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  75:/usr/lib/avr/include/util/delay.h ****     routines linked into the application.
+  76:/usr/lib/avr/include/util/delay.h **** 
+  77:/usr/lib/avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  78:/usr/lib/avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  79:/usr/lib/avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  80:/usr/lib/avr/include/util/delay.h **** 
+  81:/usr/lib/avr/include/util/delay.h **** */
+  82:/usr/lib/avr/include/util/delay.h **** 
+  83:/usr/lib/avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  84:/usr/lib/avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  85:/usr/lib/avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  86:/usr/lib/avr/include/util/delay.h **** #endif
+  87:/usr/lib/avr/include/util/delay.h **** 
+  88:/usr/lib/avr/include/util/delay.h **** #ifndef F_CPU
+  89:/usr/lib/avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  90:/usr/lib/avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  91:/usr/lib/avr/include/util/delay.h **** # define F_CPU 1000000UL
+  92:/usr/lib/avr/include/util/delay.h **** #endif
+  93:/usr/lib/avr/include/util/delay.h **** 
+  94:/usr/lib/avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  95:/usr/lib/avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  96:/usr/lib/avr/include/util/delay.h **** #endif
+  97:/usr/lib/avr/include/util/delay.h **** 
+  98:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+  99:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 100:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 101:/usr/lib/avr/include/util/delay.h **** #  include <math.h>
+ 102:/usr/lib/avr/include/util/delay.h **** #endif
+ 103:/usr/lib/avr/include/util/delay.h **** 
+ 104:/usr/lib/avr/include/util/delay.h **** /**
+ 105:/usr/lib/avr/include/util/delay.h ****    \ingroup util_delay
+ 106:/usr/lib/avr/include/util/delay.h **** 
+ 107:/usr/lib/avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+ 108:/usr/lib/avr/include/util/delay.h **** 
+ 109:/usr/lib/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 110:/usr/lib/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 111:/usr/lib/avr/include/util/delay.h **** 
+ 112:/usr/lib/avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 113:/usr/lib/avr/include/util/delay.h **** 
+ 114:/usr/lib/avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 115:/usr/lib/avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 116:/usr/lib/avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 117:/usr/lib/avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 118:/usr/lib/avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 119:/usr/lib/avr/include/util/delay.h **** 
+ 120:/usr/lib/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 121:/usr/lib/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 ms/ F_CPU in MHz. For
+ 122:/usr/lib/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflows results in
+ 123:/usr/lib/avr/include/util/delay.h ****    no delay i.e., 0ms.
+ 124:/usr/lib/avr/include/util/delay.h **** 
+ 125:/usr/lib/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 126:/usr/lib/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 127:/usr/lib/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 128:/usr/lib/avr/include/util/delay.h **** 
+ 129:/usr/lib/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 130:/usr/lib/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 131:/usr/lib/avr/include/util/delay.h **** 
+ 132:/usr/lib/avr/include/util/delay.h ****    Note: The new implementation of _delay_ms(double __ms) with 
+ 133:/usr/lib/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible. 
+ 134:/usr/lib/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 135:/usr/lib/avr/include/util/delay.h ****    Also, the backward compatible
+ 136:/usr/lib/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 137:/usr/lib/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 138:/usr/lib/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 139:/usr/lib/avr/include/util/delay.h **** 
+ 140:/usr/lib/avr/include/util/delay.h ****  */
+ 141:/usr/lib/avr/include/util/delay.h **** void
+ 142:/usr/lib/avr/include/util/delay.h **** _delay_ms(double __ms)
+ 143:/usr/lib/avr/include/util/delay.h **** {
+ 144:/usr/lib/avr/include/util/delay.h **** 	double __tmp ; 
+ 145:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 146:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 147:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 148:/usr/lib/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 149:/usr/lib/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 150:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e3) * __ms;
+ 151:/usr/lib/avr/include/util/delay.h **** 
+ 152:/usr/lib/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 153:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 154:/usr/lib/avr/include/util/delay.h **** 
+ 155:/usr/lib/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 156:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 157:/usr/lib/avr/include/util/delay.h **** 
+ 158:/usr/lib/avr/include/util/delay.h **** 	#else
+ 159:/usr/lib/avr/include/util/delay.h **** 		//round up by default
+ 160:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 161:/usr/lib/avr/include/util/delay.h **** 	#endif
+ 162:/usr/lib/avr/include/util/delay.h **** 
+ 163:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 164:/usr/lib/avr/include/util/delay.h **** 
+ 165:/usr/lib/avr/include/util/delay.h **** #else
+ 166:/usr/lib/avr/include/util/delay.h **** 	uint16_t __ticks;
+ 167:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 4e3) * __ms;
+ 168:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 169:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 170:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 171:/usr/lib/avr/include/util/delay.h **** 	{
+ 172:/usr/lib/avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 173:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 174:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 175:/usr/lib/avr/include/util/delay.h **** 		{
+ 176:/usr/lib/avr/include/util/delay.h **** 			// wait 1/10 ms
+ 177:/usr/lib/avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 178:/usr/lib/avr/include/util/delay.h **** 			__ticks --;
+ 179:/usr/lib/avr/include/util/delay.h **** 		}
+ 180:/usr/lib/avr/include/util/delay.h **** 		return;
+ 181:/usr/lib/avr/include/util/delay.h **** 	}
+ 182:/usr/lib/avr/include/util/delay.h **** 	else
+ 183:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint16_t)__tmp;
+ 184:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 185:/usr/lib/avr/include/util/delay.h **** #endif
+ 186:/usr/lib/avr/include/util/delay.h **** }
+ 187:/usr/lib/avr/include/util/delay.h **** 
+ 188:/usr/lib/avr/include/util/delay.h **** /**
+ 189:/usr/lib/avr/include/util/delay.h ****    \ingroup util_delay
+ 190:/usr/lib/avr/include/util/delay.h **** 
+ 191:/usr/lib/avr/include/util/delay.h ****    Perform a delay of \c __us microseconds, using _delay_loop_1().
+ 192:/usr/lib/avr/include/util/delay.h **** 
+ 193:/usr/lib/avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+ 194:/usr/lib/avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 195:/usr/lib/avr/include/util/delay.h **** 
+ 196:/usr/lib/avr/include/util/delay.h ****    The maximal possible delay is 768 us / F_CPU in MHz.
+ 197:/usr/lib/avr/include/util/delay.h **** 
+ 198:/usr/lib/avr/include/util/delay.h ****    If the user requests a delay greater than the maximal possible one,
+ 199:/usr/lib/avr/include/util/delay.h ****    _delay_us() will automatically call _delay_ms() instead.  The user
+ 200:/usr/lib/avr/include/util/delay.h ****    will not be informed about this case.
+ 201:/usr/lib/avr/include/util/delay.h **** 
+ 202:/usr/lib/avr/include/util/delay.h ****    If the avr-gcc toolchain has __builtin_avr_delay_cycles(unsigned long)
+ 203:/usr/lib/avr/include/util/delay.h ****    support, maximal possible delay is 4294967.295 us/ F_CPU in MHz. For
+ 204:/usr/lib/avr/include/util/delay.h ****    values greater than the maximal possible delay, overflow results in
+ 205:/usr/lib/avr/include/util/delay.h ****    no delay i.e., 0us.
+ 206:/usr/lib/avr/include/util/delay.h ****   
+ 207:/usr/lib/avr/include/util/delay.h ****    Conversion of __us into clock cycles may not always result in integer.
+ 208:/usr/lib/avr/include/util/delay.h ****    By default, the clock cycles rounded up to next integer. This ensures that
+ 209:/usr/lib/avr/include/util/delay.h ****    the user gets atleast __us microseconds of delay.
+ 210:/usr/lib/avr/include/util/delay.h **** 
+ 211:/usr/lib/avr/include/util/delay.h ****    Alternatively, user can define __DELAY_ROUND_DOWN__ and __DELAY_ROUND_CLOSEST__
+ 212:/usr/lib/avr/include/util/delay.h ****    to round down and round to closest integer.
+ 213:/usr/lib/avr/include/util/delay.h ****  
+ 214:/usr/lib/avr/include/util/delay.h ****    Note: The new implementation of _delay_us(double __us) with 
+ 215:/usr/lib/avr/include/util/delay.h ****     __builtin_avr_delay_cycles(unsigned long) support is not backward compatible.
+ 216:/usr/lib/avr/include/util/delay.h ****    User can define __DELAY_BACKWARD_COMPATIBLE__ to get a backward compatible delay.
+ 217:/usr/lib/avr/include/util/delay.h ****    Also, the backward compatible
+ 218:/usr/lib/avr/include/util/delay.h ****    algorithm will be chosen if the code is compiled in a <em>freestanding
+ 219:/usr/lib/avr/include/util/delay.h ****    environment</em> (GCC option \c -ffreestanding), as the math functions
+ 220:/usr/lib/avr/include/util/delay.h ****    required for rounding are not available to the compiler then.
+ 221:/usr/lib/avr/include/util/delay.h **** 
+ 222:/usr/lib/avr/include/util/delay.h ****  */
+ 223:/usr/lib/avr/include/util/delay.h **** void
+ 224:/usr/lib/avr/include/util/delay.h **** _delay_us(double __us)
+ 225:/usr/lib/avr/include/util/delay.h **** {
+ 226:/usr/lib/avr/include/util/delay.h **** 	double __tmp ; 
+ 227:/usr/lib/avr/include/util/delay.h **** #if __HAS_DELAY_CYCLES && defined(__OPTIMIZE__) && \
+ 228:/usr/lib/avr/include/util/delay.h ****   !defined(__DELAY_BACKWARD_COMPATIBLE__) &&	   \
+ 229:/usr/lib/avr/include/util/delay.h ****   __STDC_HOSTED__
+ 230:/usr/lib/avr/include/util/delay.h **** 	uint32_t __ticks_dc;
+ 231:/usr/lib/avr/include/util/delay.h **** 	extern void __builtin_avr_delay_cycles(unsigned long);
+ 232:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 1e6) * __us;
+ 233:/usr/lib/avr/include/util/delay.h **** 
+ 234:/usr/lib/avr/include/util/delay.h **** 	#if defined(__DELAY_ROUND_DOWN__)
+ 235:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)fabs(__tmp);
+ 236:/usr/lib/avr/include/util/delay.h **** 
+ 237:/usr/lib/avr/include/util/delay.h **** 	#elif defined(__DELAY_ROUND_CLOSEST__)
+ 238:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(fabs(__tmp)+0.5);
+ 239:/usr/lib/avr/include/util/delay.h **** 
+ 240:/usr/lib/avr/include/util/delay.h **** 	#else
+ 241:/usr/lib/avr/include/util/delay.h **** 		//round up by default
+ 242:/usr/lib/avr/include/util/delay.h **** 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+ 243:/usr/lib/avr/include/util/delay.h **** 	#endif
+ 244:/usr/lib/avr/include/util/delay.h **** 
+ 245:/usr/lib/avr/include/util/delay.h **** 	__builtin_avr_delay_cycles(__ticks_dc);
+ 246:/usr/lib/avr/include/util/delay.h **** 
+ 247:/usr/lib/avr/include/util/delay.h **** #else
+ 248:/usr/lib/avr/include/util/delay.h **** 	uint8_t __ticks;
+ 249:/usr/lib/avr/include/util/delay.h **** 	double __tmp2 ; 
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp = ((F_CPU) / 3e6) * __us;
+  87               		.loc 2 250 0
+  88 004a 2BEA      		ldi r18,lo8(-85)
+  89 004c 3AEA      		ldi r19,lo8(-86)
+  90 004e 4AEA      		ldi r20,lo8(-86)
+  91 0050 50E4      		ldi r21,lo8(64)
+  92 0052 6981      		ldd r22,Y+1
+  93 0054 7A81      		ldd r23,Y+2
+  94 0056 8B81      		ldd r24,Y+3
+  95 0058 9C81      		ldd r25,Y+4
+  96 005a 0E94 0000 		call __mulsf3
+  97 005e DC01      		movw r26,r24
+  98 0060 CB01      		movw r24,r22
+  99 0062 8D83      		std Y+5,r24
+ 100 0064 9E83      		std Y+6,r25
+ 101 0066 AF83      		std Y+7,r26
+ 102 0068 B887      		std Y+8,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 103               		.loc 2 251 0
+ 104 006a 20E0      		ldi r18,0
+ 105 006c 30E0      		ldi r19,0
+ 106 006e 40E8      		ldi r20,lo8(-128)
+ 107 0070 50E4      		ldi r21,lo8(64)
+ 108 0072 6981      		ldd r22,Y+1
+ 109 0074 7A81      		ldd r23,Y+2
+ 110 0076 8B81      		ldd r24,Y+3
+ 111 0078 9C81      		ldd r25,Y+4
+ 112 007a 0E94 0000 		call __mulsf3
+ 113 007e DC01      		movw r26,r24
+ 114 0080 CB01      		movw r24,r22
+ 115 0082 8987      		std Y+9,r24
+ 116 0084 9A87      		std Y+10,r25
+ 117 0086 AB87      		std Y+11,r26
+ 118 0088 BC87      		std Y+12,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 119               		.loc 2 252 0
+ 120 008a 20E0      		ldi r18,0
+ 121 008c 30E0      		ldi r19,0
+ 122 008e 40E8      		ldi r20,lo8(-128)
+ 123 0090 5FE3      		ldi r21,lo8(63)
+ 124 0092 6D81      		ldd r22,Y+5
+ 125 0094 7E81      		ldd r23,Y+6
+ 126 0096 8F81      		ldd r24,Y+7
+ 127 0098 9885      		ldd r25,Y+8
+ 128 009a 0E94 0000 		call __ltsf2
+ 129 009e 8823      		tst r24
+ 130 00a0 04F4      		brge .L171
+ 253:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 131               		.loc 2 253 0
+ 132 00a2 81E0      		ldi r24,lo8(1)
+ 133 00a4 8D87      		std Y+13,r24
+ 134 00a6 00C0      		rjmp .L5
+ 135               	.L171:
+ 254:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 136               		.loc 2 254 0
+ 137 00a8 20E0      		ldi r18,0
+ 138 00aa 3FEF      		ldi r19,lo8(-1)
+ 139 00ac 4FE7      		ldi r20,lo8(127)
+ 140 00ae 57E4      		ldi r21,lo8(71)
+ 141 00b0 6985      		ldd r22,Y+9
+ 142 00b2 7A85      		ldd r23,Y+10
+ 143 00b4 8B85      		ldd r24,Y+11
+ 144 00b6 9C85      		ldd r25,Y+12
+ 145 00b8 0E94 0000 		call __gtsf2
+ 146 00bc 1816      		cp __zero_reg__,r24
+ 147 00be 04F0      		brlt .+2
+ 148 00c0 00C0      		rjmp .L172
+ 255:/usr/lib/avr/include/util/delay.h **** 	{
+ 256:/usr/lib/avr/include/util/delay.h **** 		_delay_ms(__us / 1000.0);
+ 149               		.loc 2 256 0
+ 150 00c2 20E0      		ldi r18,0
+ 151 00c4 30E0      		ldi r19,0
+ 152 00c6 4AE7      		ldi r20,lo8(122)
+ 153 00c8 54E4      		ldi r21,lo8(68)
+ 154 00ca 6981      		ldd r22,Y+1
+ 155 00cc 7A81      		ldd r23,Y+2
+ 156 00ce 8B81      		ldd r24,Y+3
+ 157 00d0 9C81      		ldd r25,Y+4
+ 158 00d2 0E94 0000 		call __divsf3
+ 159 00d6 DC01      		movw r26,r24
+ 160 00d8 CB01      		movw r24,r22
+ 161 00da 8E87      		std Y+14,r24
+ 162 00dc 9F87      		std Y+15,r25
+ 163 00de A88B      		std Y+16,r26
+ 164 00e0 B98B      		std Y+17,r27
+ 165               	.LBB123:
+ 166               	.LBB124:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 167               		.loc 2 167 0
+ 168 00e2 20E0      		ldi r18,0
+ 169 00e4 30E0      		ldi r19,0
+ 170 00e6 4AE7      		ldi r20,lo8(122)
+ 171 00e8 55E4      		ldi r21,lo8(69)
+ 172 00ea 6E85      		ldd r22,Y+14
+ 173 00ec 7F85      		ldd r23,Y+15
+ 174 00ee 8889      		ldd r24,Y+16
+ 175 00f0 9989      		ldd r25,Y+17
+ 176 00f2 0E94 0000 		call __mulsf3
+ 177 00f6 DC01      		movw r26,r24
+ 178 00f8 CB01      		movw r24,r22
+ 179 00fa 8A8B      		std Y+18,r24
+ 180 00fc 9B8B      		std Y+19,r25
+ 181 00fe AC8B      		std Y+20,r26
+ 182 0100 BD8B      		std Y+21,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 183               		.loc 2 168 0
+ 184 0102 20E0      		ldi r18,0
+ 185 0104 30E0      		ldi r19,0
+ 186 0106 40E8      		ldi r20,lo8(-128)
+ 187 0108 5FE3      		ldi r21,lo8(63)
+ 188 010a 6A89      		ldd r22,Y+18
+ 189 010c 7B89      		ldd r23,Y+19
+ 190 010e 8C89      		ldd r24,Y+20
+ 191 0110 9D89      		ldd r25,Y+21
+ 192 0112 0E94 0000 		call __ltsf2
+ 193 0116 8823      		tst r24
+ 194 0118 04F4      		brge .L173
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 195               		.loc 2 169 0
+ 196 011a 81E0      		ldi r24,lo8(1)
+ 197 011c 90E0      		ldi r25,0
+ 198 011e 9F8B      		std Y+23,r25
+ 199 0120 8E8B      		std Y+22,r24
+ 200 0122 00C0      		rjmp .L10
+ 201               	.L173:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 202               		.loc 2 170 0
+ 203 0124 20E0      		ldi r18,0
+ 204 0126 3FEF      		ldi r19,lo8(-1)
+ 205 0128 4FE7      		ldi r20,lo8(127)
+ 206 012a 57E4      		ldi r21,lo8(71)
+ 207 012c 6A89      		ldd r22,Y+18
+ 208 012e 7B89      		ldd r23,Y+19
+ 209 0130 8C89      		ldd r24,Y+20
+ 210 0132 9D89      		ldd r25,Y+21
+ 211 0134 0E94 0000 		call __gtsf2
+ 212 0138 1816      		cp __zero_reg__,r24
+ 213 013a 04F4      		brge .L174
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 214               		.loc 2 173 0
+ 215 013c 20E0      		ldi r18,0
+ 216 013e 30E0      		ldi r19,0
+ 217 0140 40E2      		ldi r20,lo8(32)
+ 218 0142 51E4      		ldi r21,lo8(65)
+ 219 0144 6E85      		ldd r22,Y+14
+ 220 0146 7F85      		ldd r23,Y+15
+ 221 0148 8889      		ldd r24,Y+16
+ 222 014a 9989      		ldd r25,Y+17
+ 223 014c 0E94 0000 		call __mulsf3
+ 224 0150 DC01      		movw r26,r24
+ 225 0152 CB01      		movw r24,r22
+ 226 0154 BC01      		movw r22,r24
+ 227 0156 CD01      		movw r24,r26
+ 228 0158 0E94 0000 		call __fixunssfsi
+ 229 015c DC01      		movw r26,r24
+ 230 015e CB01      		movw r24,r22
+ 231 0160 9F8B      		std Y+23,r25
+ 232 0162 8E8B      		std Y+22,r24
+ 233 0164 00C0      		rjmp .L13
+ 234               	.L14:
+ 235 0166 80E9      		ldi r24,lo8(-112)
+ 236 0168 91E0      		ldi r25,lo8(1)
+ 237 016a 998F      		std Y+25,r25
+ 238 016c 888F      		std Y+24,r24
+ 239               	.LBB125:
+ 240               	.LBB126:
+ 241               		.file 3 "/usr/lib/avr/include/util/delay_basic.h"
+   1:/usr/lib/avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:/usr/lib/avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:/usr/lib/avr/include/util/delay_basic.h ****    All rights reserved.
+   4:/usr/lib/avr/include/util/delay_basic.h **** 
+   5:/usr/lib/avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:/usr/lib/avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:/usr/lib/avr/include/util/delay_basic.h **** 
+   8:/usr/lib/avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:/usr/lib/avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:/usr/lib/avr/include/util/delay_basic.h **** 
+  11:/usr/lib/avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:/usr/lib/avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:/usr/lib/avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:/usr/lib/avr/include/util/delay_basic.h ****      distribution.
+  15:/usr/lib/avr/include/util/delay_basic.h **** 
+  16:/usr/lib/avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:/usr/lib/avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:/usr/lib/avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:/usr/lib/avr/include/util/delay_basic.h **** 
+  20:/usr/lib/avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:/usr/lib/avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:/usr/lib/avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:/usr/lib/avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:/usr/lib/avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:/usr/lib/avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:/usr/lib/avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:/usr/lib/avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:/usr/lib/avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:/usr/lib/avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:/usr/lib/avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:/usr/lib/avr/include/util/delay_basic.h **** 
+  32:/usr/lib/avr/include/util/delay_basic.h **** /* $Id$ */
+  33:/usr/lib/avr/include/util/delay_basic.h **** 
+  34:/usr/lib/avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:/usr/lib/avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:/usr/lib/avr/include/util/delay_basic.h **** 
+  37:/usr/lib/avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:/usr/lib/avr/include/util/delay_basic.h **** 
+  39:/usr/lib/avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  40:/usr/lib/avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  41:/usr/lib/avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  42:/usr/lib/avr/include/util/delay_basic.h **** #endif
+  43:/usr/lib/avr/include/util/delay_basic.h **** 
+  44:/usr/lib/avr/include/util/delay_basic.h **** /** \file */
+  45:/usr/lib/avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  46:/usr/lib/avr/include/util/delay_basic.h ****     \code
+  47:/usr/lib/avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  48:/usr/lib/avr/include/util/delay_basic.h ****     \endcode
+  49:/usr/lib/avr/include/util/delay_basic.h **** 
+  50:/usr/lib/avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  51:/usr/lib/avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  52:/usr/lib/avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  53:/usr/lib/avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  54:/usr/lib/avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  55:/usr/lib/avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  56:/usr/lib/avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  57:/usr/lib/avr/include/util/delay_basic.h **** 
+  58:/usr/lib/avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  59:/usr/lib/avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  60:/usr/lib/avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  61:/usr/lib/avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  62:/usr/lib/avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  63:/usr/lib/avr/include/util/delay_basic.h ****     to the overall delay time.
+  64:/usr/lib/avr/include/util/delay_basic.h **** 
+  65:/usr/lib/avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  66:/usr/lib/avr/include/util/delay_basic.h **** 
+  67:/usr/lib/avr/include/util/delay_basic.h **** */
+  68:/usr/lib/avr/include/util/delay_basic.h **** 
+  69:/usr/lib/avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:/usr/lib/avr/include/util/delay_basic.h **** 
+  71:/usr/lib/avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:/usr/lib/avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:/usr/lib/avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:/usr/lib/avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:/usr/lib/avr/include/util/delay_basic.h ****     register.
+  76:/usr/lib/avr/include/util/delay_basic.h **** 
+  77:/usr/lib/avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:/usr/lib/avr/include/util/delay_basic.h ****     can be achieved.
+  79:/usr/lib/avr/include/util/delay_basic.h **** */
+  80:/usr/lib/avr/include/util/delay_basic.h **** void
+  81:/usr/lib/avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:/usr/lib/avr/include/util/delay_basic.h **** {
+  83:/usr/lib/avr/include/util/delay_basic.h **** 	__asm__ volatile (
+  84:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:/usr/lib/avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:/usr/lib/avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:/usr/lib/avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:/usr/lib/avr/include/util/delay_basic.h **** 	);
+  89:/usr/lib/avr/include/util/delay_basic.h **** }
+  90:/usr/lib/avr/include/util/delay_basic.h **** 
+  91:/usr/lib/avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:/usr/lib/avr/include/util/delay_basic.h **** 
+  93:/usr/lib/avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:/usr/lib/avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:/usr/lib/avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:/usr/lib/avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:/usr/lib/avr/include/util/delay_basic.h ****     counter register pair.
+  98:/usr/lib/avr/include/util/delay_basic.h **** 
+  99:/usr/lib/avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:/usr/lib/avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:/usr/lib/avr/include/util/delay_basic.h ****  */
+ 102:/usr/lib/avr/include/util/delay_basic.h **** void
+ 103:/usr/lib/avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:/usr/lib/avr/include/util/delay_basic.h **** {
+ 105:/usr/lib/avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 242               		.loc 3 105 0
+ 243 016e 888D      		ldd r24,Y+24
+ 244 0170 998D      		ldd r25,Y+25
+ 245               	/* #APP */
+ 246               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 247 0172 0197      		1: sbiw r24,1
+ 248 0174 01F4      		brne 1b
+ 249               	 ;  0 "" 2
+ 250               	/* #NOAPP */
+ 251 0176 998F      		std Y+25,r25
+ 252 0178 888F      		std Y+24,r24
+ 253               	.LBE126:
+ 254               	.LBE125:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 255               		.loc 2 178 0
+ 256 017a 8E89      		ldd r24,Y+22
+ 257 017c 9F89      		ldd r25,Y+23
+ 258 017e 0197      		sbiw r24,1
+ 259 0180 9F8B      		std Y+23,r25
+ 260 0182 8E8B      		std Y+22,r24
+ 261               	.L13:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 262               		.loc 2 174 0
+ 263 0184 8E89      		ldd r24,Y+22
+ 264 0186 9F89      		ldd r25,Y+23
+ 265 0188 892B      		or r24,r25
+ 266 018a 01F4      		brne .L14
+ 267 018c 89A1      		ldd r24,Y+33
+ 268 018e 8D87      		std Y+13,r24
+ 269 0190 00C0      		rjmp .L5
+ 270               	.L174:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 271               		.loc 2 183 0
+ 272 0192 6A89      		ldd r22,Y+18
+ 273 0194 7B89      		ldd r23,Y+19
+ 274 0196 8C89      		ldd r24,Y+20
+ 275 0198 9D89      		ldd r25,Y+21
+ 276 019a 0E94 0000 		call __fixunssfsi
+ 277 019e DC01      		movw r26,r24
+ 278 01a0 CB01      		movw r24,r22
+ 279 01a2 9F8B      		std Y+23,r25
+ 280 01a4 8E8B      		std Y+22,r24
+ 281               	.L10:
+ 282 01a6 8E89      		ldd r24,Y+22
+ 283 01a8 9F89      		ldd r25,Y+23
+ 284 01aa 9B8F      		std Y+27,r25
+ 285 01ac 8A8F      		std Y+26,r24
+ 286               	.LBB127:
+ 287               	.LBB128:
+ 288               		.loc 3 105 0
+ 289 01ae 8A8D      		ldd r24,Y+26
+ 290 01b0 9B8D      		ldd r25,Y+27
+ 291               	/* #APP */
+ 292               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 293 01b2 0197      		1: sbiw r24,1
+ 294 01b4 01F4      		brne 1b
+ 295               	 ;  0 "" 2
+ 296               	/* #NOAPP */
+ 297 01b6 9B8F      		std Y+27,r25
+ 298 01b8 8A8F      		std Y+26,r24
+ 299 01ba 89A1      		ldd r24,Y+33
+ 300 01bc 8D87      		std Y+13,r24
+ 301 01be 00C0      		rjmp .L5
+ 302               	.L172:
+ 303               	.LBE128:
+ 304               	.LBE127:
+ 305               	.LBE124:
+ 306               	.LBE123:
+ 257:/usr/lib/avr/include/util/delay.h **** 	}
+ 258:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 255)
+ 307               		.loc 2 258 0
+ 308 01c0 20E0      		ldi r18,0
+ 309 01c2 30E0      		ldi r19,0
+ 310 01c4 4FE7      		ldi r20,lo8(127)
+ 311 01c6 53E4      		ldi r21,lo8(67)
+ 312 01c8 6D81      		ldd r22,Y+5
+ 313 01ca 7E81      		ldd r23,Y+6
+ 314 01cc 8F81      		ldd r24,Y+7
+ 315 01ce 9885      		ldd r25,Y+8
+ 316 01d0 0E94 0000 		call __gtsf2
+ 317 01d4 1816      		cp __zero_reg__,r24
+ 318 01d6 04F4      		brge .L175
+ 319               	.LBB129:
+ 259:/usr/lib/avr/include/util/delay.h **** 	{
+ 260:/usr/lib/avr/include/util/delay.h **** 		uint16_t __ticks=(uint16_t)__tmp2;
+ 320               		.loc 2 260 0
+ 321 01d8 6985      		ldd r22,Y+9
+ 322 01da 7A85      		ldd r23,Y+10
+ 323 01dc 8B85      		ldd r24,Y+11
+ 324 01de 9C85      		ldd r25,Y+12
+ 325 01e0 0E94 0000 		call __fixunssfsi
+ 326 01e4 DC01      		movw r26,r24
+ 327 01e6 CB01      		movw r24,r22
+ 328 01e8 9D8F      		std Y+29,r25
+ 329 01ea 8C8F      		std Y+28,r24
+ 330 01ec 8C8D      		ldd r24,Y+28
+ 331 01ee 9D8D      		ldd r25,Y+29
+ 332 01f0 9F8F      		std Y+31,r25
+ 333 01f2 8E8F      		std Y+30,r24
+ 334               	.LBB130:
+ 335               	.LBB131:
+ 336               		.loc 3 105 0
+ 337 01f4 8E8D      		ldd r24,Y+30
+ 338 01f6 9F8D      		ldd r25,Y+31
+ 339               	/* #APP */
+ 340               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 341 01f8 0197      		1: sbiw r24,1
+ 342 01fa 01F4      		brne 1b
+ 343               	 ;  0 "" 2
+ 344               	/* #NOAPP */
+ 345 01fc 9F8F      		std Y+31,r25
+ 346 01fe 8E8F      		std Y+30,r24
+ 347               	.LBE131:
+ 348               	.LBE130:
+ 349               	.LBE129:
+ 350               	.LBE122:
+ 351               	.LBE121:
+ 352 0200 0C94 0000 		jmp .L18
+ 353               	.L175:
+ 354               	.LBB135:
+ 355               	.LBB134:
+ 261:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 262:/usr/lib/avr/include/util/delay.h **** 		return;
+ 263:/usr/lib/avr/include/util/delay.h **** 	}
+ 264:/usr/lib/avr/include/util/delay.h **** 	else
+ 265:/usr/lib/avr/include/util/delay.h **** 		__ticks = (uint8_t)__tmp;
+ 356               		.loc 2 265 0
+ 357 0204 6D81      		ldd r22,Y+5
+ 358 0206 7E81      		ldd r23,Y+6
+ 359 0208 8F81      		ldd r24,Y+7
+ 360 020a 9885      		ldd r25,Y+8
+ 361 020c 0E94 0000 		call __fixunssfsi
+ 362 0210 DC01      		movw r26,r24
+ 363 0212 CB01      		movw r24,r22
+ 364 0214 8D87      		std Y+13,r24
+ 365               	.L5:
+ 366 0216 8D85      		ldd r24,Y+13
+ 367 0218 88A3      		std Y+32,r24
+ 368               	.LBB132:
+ 369               	.LBB133:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 370               		.loc 3 83 0
+ 371 021a 88A1      		ldd r24,Y+32
+ 372               	/* #APP */
+ 373               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 374 021c 8A95      		1: dec r24
+ 375 021e 01F4      		brne 1b
+ 376               	 ;  0 "" 2
+ 377               	/* #NOAPP */
+ 378 0220 88A3      		std Y+32,r24
+ 379 0222 0C94 0000 		jmp .L18
+ 380               	.L2:
+ 381               	.LBE133:
+ 382               	.LBE132:
+ 383               	.LBE134:
+ 384               	.LBE135:
+  17:main.c        **** 		_delay_us(956);
+  18:main.c        **** 		else if ((PINA & 0b01000000) == 0)
+ 385               		.loc 1 18 0
+ 386 0226 80E2      		ldi r24,lo8(32)
+ 387 0228 90E0      		ldi r25,0
+ 388 022a FC01      		movw r30,r24
+ 389 022c 8081      		ld r24,Z
+ 390 022e 882F      		mov r24,r24
+ 391 0230 90E0      		ldi r25,0
+ 392 0232 8074      		andi r24,64
+ 393 0234 9927      		clr r25
+ 394 0236 892B      		or r24,r25
+ 395 0238 01F0      		breq .+2
+ 396 023a 00C0      		rjmp .L19
+ 397 023c 80E0      		ldi r24,0
+ 398 023e 90EC      		ldi r25,lo8(-64)
+ 399 0240 A4E5      		ldi r26,lo8(84)
+ 400 0242 B4E4      		ldi r27,lo8(68)
+ 401 0244 8AA3      		std Y+34,r24
+ 402 0246 9BA3      		std Y+35,r25
+ 403 0248 ACA3      		std Y+36,r26
+ 404 024a BDA3      		std Y+37,r27
+ 405               	.LBB136:
+ 406               	.LBB137:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 407               		.loc 2 250 0
+ 408 024c 2BEA      		ldi r18,lo8(-85)
+ 409 024e 3AEA      		ldi r19,lo8(-86)
+ 410 0250 4AEA      		ldi r20,lo8(-86)
+ 411 0252 50E4      		ldi r21,lo8(64)
+ 412 0254 6AA1      		ldd r22,Y+34
+ 413 0256 7BA1      		ldd r23,Y+35
+ 414 0258 8CA1      		ldd r24,Y+36
+ 415 025a 9DA1      		ldd r25,Y+37
+ 416 025c 0E94 0000 		call __mulsf3
+ 417 0260 DC01      		movw r26,r24
+ 418 0262 CB01      		movw r24,r22
+ 419 0264 8EA3      		std Y+38,r24
+ 420 0266 9FA3      		std Y+39,r25
+ 421 0268 A8A7      		std Y+40,r26
+ 422 026a B9A7      		std Y+41,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 423               		.loc 2 251 0
+ 424 026c 20E0      		ldi r18,0
+ 425 026e 30E0      		ldi r19,0
+ 426 0270 40E8      		ldi r20,lo8(-128)
+ 427 0272 50E4      		ldi r21,lo8(64)
+ 428 0274 6AA1      		ldd r22,Y+34
+ 429 0276 7BA1      		ldd r23,Y+35
+ 430 0278 8CA1      		ldd r24,Y+36
+ 431 027a 9DA1      		ldd r25,Y+37
+ 432 027c 0E94 0000 		call __mulsf3
+ 433 0280 DC01      		movw r26,r24
+ 434 0282 CB01      		movw r24,r22
+ 435 0284 8AA7      		std Y+42,r24
+ 436 0286 9BA7      		std Y+43,r25
+ 437 0288 ACA7      		std Y+44,r26
+ 438 028a BDA7      		std Y+45,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 439               		.loc 2 252 0
+ 440 028c 20E0      		ldi r18,0
+ 441 028e 30E0      		ldi r19,0
+ 442 0290 40E8      		ldi r20,lo8(-128)
+ 443 0292 5FE3      		ldi r21,lo8(63)
+ 444 0294 6EA1      		ldd r22,Y+38
+ 445 0296 7FA1      		ldd r23,Y+39
+ 446 0298 88A5      		ldd r24,Y+40
+ 447 029a 99A5      		ldd r25,Y+41
+ 448 029c 0E94 0000 		call __ltsf2
+ 449 02a0 8823      		tst r24
+ 450 02a2 04F4      		brge .L176
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 451               		.loc 2 253 0
+ 452 02a4 81E0      		ldi r24,lo8(1)
+ 453 02a6 8EA7      		std Y+46,r24
+ 454 02a8 00C0      		rjmp .L22
+ 455               	.L176:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 456               		.loc 2 254 0
+ 457 02aa 20E0      		ldi r18,0
+ 458 02ac 3FEF      		ldi r19,lo8(-1)
+ 459 02ae 4FE7      		ldi r20,lo8(127)
+ 460 02b0 57E4      		ldi r21,lo8(71)
+ 461 02b2 6AA5      		ldd r22,Y+42
+ 462 02b4 7BA5      		ldd r23,Y+43
+ 463 02b6 8CA5      		ldd r24,Y+44
+ 464 02b8 9DA5      		ldd r25,Y+45
+ 465 02ba 0E94 0000 		call __gtsf2
+ 466 02be 1816      		cp __zero_reg__,r24
+ 467 02c0 04F0      		brlt .+2
+ 468 02c2 00C0      		rjmp .L177
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 469               		.loc 2 256 0
+ 470 02c4 20E0      		ldi r18,0
+ 471 02c6 30E0      		ldi r19,0
+ 472 02c8 4AE7      		ldi r20,lo8(122)
+ 473 02ca 54E4      		ldi r21,lo8(68)
+ 474 02cc 6AA1      		ldd r22,Y+34
+ 475 02ce 7BA1      		ldd r23,Y+35
+ 476 02d0 8CA1      		ldd r24,Y+36
+ 477 02d2 9DA1      		ldd r25,Y+37
+ 478 02d4 0E94 0000 		call __divsf3
+ 479 02d8 DC01      		movw r26,r24
+ 480 02da CB01      		movw r24,r22
+ 481 02dc 8FA7      		std Y+47,r24
+ 482 02de 98AB      		std Y+48,r25
+ 483 02e0 A9AB      		std Y+49,r26
+ 484 02e2 BAAB      		std Y+50,r27
+ 485               	.LBB138:
+ 486               	.LBB139:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 487               		.loc 2 167 0
+ 488 02e4 20E0      		ldi r18,0
+ 489 02e6 30E0      		ldi r19,0
+ 490 02e8 4AE7      		ldi r20,lo8(122)
+ 491 02ea 55E4      		ldi r21,lo8(69)
+ 492 02ec 6FA5      		ldd r22,Y+47
+ 493 02ee 78A9      		ldd r23,Y+48
+ 494 02f0 89A9      		ldd r24,Y+49
+ 495 02f2 9AA9      		ldd r25,Y+50
+ 496 02f4 0E94 0000 		call __mulsf3
+ 497 02f8 DC01      		movw r26,r24
+ 498 02fa CB01      		movw r24,r22
+ 499 02fc 8BAB      		std Y+51,r24
+ 500 02fe 9CAB      		std Y+52,r25
+ 501 0300 ADAB      		std Y+53,r26
+ 502 0302 BEAB      		std Y+54,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 503               		.loc 2 168 0
+ 504 0304 20E0      		ldi r18,0
+ 505 0306 30E0      		ldi r19,0
+ 506 0308 40E8      		ldi r20,lo8(-128)
+ 507 030a 5FE3      		ldi r21,lo8(63)
+ 508 030c 6BA9      		ldd r22,Y+51
+ 509 030e 7CA9      		ldd r23,Y+52
+ 510 0310 8DA9      		ldd r24,Y+53
+ 511 0312 9EA9      		ldd r25,Y+54
+ 512 0314 0E94 0000 		call __ltsf2
+ 513 0318 8823      		tst r24
+ 514 031a 04F4      		brge .L178
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 515               		.loc 2 169 0
+ 516 031c 81E0      		ldi r24,lo8(1)
+ 517 031e 90E0      		ldi r25,0
+ 518 0320 98AF      		std Y+56,r25
+ 519 0322 8FAB      		std Y+55,r24
+ 520 0324 00C0      		rjmp .L27
+ 521               	.L178:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 522               		.loc 2 170 0
+ 523 0326 20E0      		ldi r18,0
+ 524 0328 3FEF      		ldi r19,lo8(-1)
+ 525 032a 4FE7      		ldi r20,lo8(127)
+ 526 032c 57E4      		ldi r21,lo8(71)
+ 527 032e 6BA9      		ldd r22,Y+51
+ 528 0330 7CA9      		ldd r23,Y+52
+ 529 0332 8DA9      		ldd r24,Y+53
+ 530 0334 9EA9      		ldd r25,Y+54
+ 531 0336 0E94 0000 		call __gtsf2
+ 532 033a 1816      		cp __zero_reg__,r24
+ 533 033c 04F4      		brge .L179
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 534               		.loc 2 173 0
+ 535 033e 20E0      		ldi r18,0
+ 536 0340 30E0      		ldi r19,0
+ 537 0342 40E2      		ldi r20,lo8(32)
+ 538 0344 51E4      		ldi r21,lo8(65)
+ 539 0346 6FA5      		ldd r22,Y+47
+ 540 0348 78A9      		ldd r23,Y+48
+ 541 034a 89A9      		ldd r24,Y+49
+ 542 034c 9AA9      		ldd r25,Y+50
+ 543 034e 0E94 0000 		call __mulsf3
+ 544 0352 DC01      		movw r26,r24
+ 545 0354 CB01      		movw r24,r22
+ 546 0356 BC01      		movw r22,r24
+ 547 0358 CD01      		movw r24,r26
+ 548 035a 0E94 0000 		call __fixunssfsi
+ 549 035e DC01      		movw r26,r24
+ 550 0360 CB01      		movw r24,r22
+ 551 0362 98AF      		std Y+56,r25
+ 552 0364 8FAB      		std Y+55,r24
+ 553 0366 00C0      		rjmp .L30
+ 554               	.L31:
+ 555 0368 80E9      		ldi r24,lo8(-112)
+ 556 036a 91E0      		ldi r25,lo8(1)
+ 557 036c 9AAF      		std Y+58,r25
+ 558 036e 89AF      		std Y+57,r24
+ 559               	.LBB140:
+ 560               	.LBB141:
+ 561               		.loc 3 105 0
+ 562 0370 89AD      		ldd r24,Y+57
+ 563 0372 9AAD      		ldd r25,Y+58
+ 564               	/* #APP */
+ 565               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 566 0374 0197      		1: sbiw r24,1
+ 567 0376 01F4      		brne 1b
+ 568               	 ;  0 "" 2
+ 569               	/* #NOAPP */
+ 570 0378 9AAF      		std Y+58,r25
+ 571 037a 89AF      		std Y+57,r24
+ 572               	.LBE141:
+ 573               	.LBE140:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 574               		.loc 2 178 0
+ 575 037c 8FA9      		ldd r24,Y+55
+ 576 037e 98AD      		ldd r25,Y+56
+ 577 0380 0197      		sbiw r24,1
+ 578 0382 98AF      		std Y+56,r25
+ 579 0384 8FAB      		std Y+55,r24
+ 580               	.L30:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 581               		.loc 2 174 0
+ 582 0386 8FA9      		ldd r24,Y+55
+ 583 0388 98AD      		ldd r25,Y+56
+ 584 038a 892B      		or r24,r25
+ 585 038c 01F4      		brne .L31
+ 586 038e CE01      		movw r24,r28
+ 587 0390 8E5B      		subi r24,-66
+ 588 0392 9F4F      		sbci r25,-1
+ 589 0394 FC01      		movw r30,r24
+ 590 0396 8081      		ld r24,Z
+ 591 0398 8EA7      		std Y+46,r24
+ 592 039a 00C0      		rjmp .L22
+ 593               	.L179:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 594               		.loc 2 183 0
+ 595 039c 6BA9      		ldd r22,Y+51
+ 596 039e 7CA9      		ldd r23,Y+52
+ 597 03a0 8DA9      		ldd r24,Y+53
+ 598 03a2 9EA9      		ldd r25,Y+54
+ 599 03a4 0E94 0000 		call __fixunssfsi
+ 600 03a8 DC01      		movw r26,r24
+ 601 03aa CB01      		movw r24,r22
+ 602 03ac 98AF      		std Y+56,r25
+ 603 03ae 8FAB      		std Y+55,r24
+ 604               	.L27:
+ 605 03b0 8FA9      		ldd r24,Y+55
+ 606 03b2 98AD      		ldd r25,Y+56
+ 607 03b4 9CAF      		std Y+60,r25
+ 608 03b6 8BAF      		std Y+59,r24
+ 609               	.LBB142:
+ 610               	.LBB143:
+ 611               		.loc 3 105 0
+ 612 03b8 8BAD      		ldd r24,Y+59
+ 613 03ba 9CAD      		ldd r25,Y+60
+ 614               	/* #APP */
+ 615               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 616 03bc 0197      		1: sbiw r24,1
+ 617 03be 01F4      		brne 1b
+ 618               	 ;  0 "" 2
+ 619               	/* #NOAPP */
+ 620 03c0 9CAF      		std Y+60,r25
+ 621 03c2 8BAF      		std Y+59,r24
+ 622 03c4 CE01      		movw r24,r28
+ 623 03c6 8E5B      		subi r24,-66
+ 624 03c8 9F4F      		sbci r25,-1
+ 625 03ca FC01      		movw r30,r24
+ 626 03cc 8081      		ld r24,Z
+ 627 03ce 8EA7      		std Y+46,r24
+ 628 03d0 00C0      		rjmp .L22
+ 629               	.L177:
+ 630               	.LBE143:
+ 631               	.LBE142:
+ 632               	.LBE139:
+ 633               	.LBE138:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 634               		.loc 2 258 0
+ 635 03d2 20E0      		ldi r18,0
+ 636 03d4 30E0      		ldi r19,0
+ 637 03d6 4FE7      		ldi r20,lo8(127)
+ 638 03d8 53E4      		ldi r21,lo8(67)
+ 639 03da 6EA1      		ldd r22,Y+38
+ 640 03dc 7FA1      		ldd r23,Y+39
+ 641 03de 88A5      		ldd r24,Y+40
+ 642 03e0 99A5      		ldd r25,Y+41
+ 643 03e2 0E94 0000 		call __gtsf2
+ 644 03e6 1816      		cp __zero_reg__,r24
+ 645 03e8 04F4      		brge .L180
+ 646               	.LBB144:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 647               		.loc 2 260 0
+ 648 03ea 6AA5      		ldd r22,Y+42
+ 649 03ec 7BA5      		ldd r23,Y+43
+ 650 03ee 8CA5      		ldd r24,Y+44
+ 651 03f0 9DA5      		ldd r25,Y+45
+ 652 03f2 0E94 0000 		call __fixunssfsi
+ 653 03f6 DC01      		movw r26,r24
+ 654 03f8 CB01      		movw r24,r22
+ 655 03fa 9EAF      		std Y+62,r25
+ 656 03fc 8DAF      		std Y+61,r24
+ 657 03fe 2DAD      		ldd r18,Y+61
+ 658 0400 3EAD      		ldd r19,Y+62
+ 659 0402 CE01      		movw r24,r28
+ 660 0404 CF96      		adiw r24,63
+ 661 0406 FC01      		movw r30,r24
+ 662 0408 3183      		std Z+1,r19
+ 663 040a 2083      		st Z,r18
+ 664               	.LBB145:
+ 665               	.LBB146:
+ 666               		.loc 3 105 0
+ 667 040c CE01      		movw r24,r28
+ 668 040e CF96      		adiw r24,63
+ 669 0410 FC01      		movw r30,r24
+ 670 0412 8081      		ld r24,Z
+ 671 0414 9181      		ldd r25,Z+1
+ 672               	/* #APP */
+ 673               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 674 0416 0197      		1: sbiw r24,1
+ 675 0418 01F4      		brne 1b
+ 676               	 ;  0 "" 2
+ 677               	/* #NOAPP */
+ 678 041a 9E01      		movw r18,r28
+ 679 041c 215C      		subi r18,-63
+ 680 041e 3F4F      		sbci r19,-1
+ 681 0420 F901      		movw r30,r18
+ 682 0422 9183      		std Z+1,r25
+ 683 0424 8083      		st Z,r24
+ 684               	.LBE146:
+ 685               	.LBE145:
+ 686               	.LBE144:
+ 687               	.LBE137:
+ 688               	.LBE136:
+ 689 0426 0C94 0000 		jmp .L18
+ 690               	.L180:
+ 691               	.LBB150:
+ 692               	.LBB149:
+ 693               		.loc 2 265 0
+ 694 042a 6EA1      		ldd r22,Y+38
+ 695 042c 7FA1      		ldd r23,Y+39
+ 696 042e 88A5      		ldd r24,Y+40
+ 697 0430 99A5      		ldd r25,Y+41
+ 698 0432 0E94 0000 		call __fixunssfsi
+ 699 0436 DC01      		movw r26,r24
+ 700 0438 CB01      		movw r24,r22
+ 701 043a 8EA7      		std Y+46,r24
+ 702               	.L22:
+ 703 043c CE01      		movw r24,r28
+ 704 043e 8F5B      		subi r24,-65
+ 705 0440 9F4F      		sbci r25,-1
+ 706 0442 2EA5      		ldd r18,Y+46
+ 707 0444 FC01      		movw r30,r24
+ 708 0446 2083      		st Z,r18
+ 709               	.LBB147:
+ 710               	.LBB148:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 711               		.loc 3 83 0
+ 712 0448 CE01      		movw r24,r28
+ 713 044a 8F5B      		subi r24,-65
+ 714 044c 9F4F      		sbci r25,-1
+ 715 044e FC01      		movw r30,r24
+ 716 0450 8081      		ld r24,Z
+ 717 0452 282F      		mov r18,r24
+ 718               	/* #APP */
+ 719               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 720 0454 2A95      		1: dec r18
+ 721 0456 01F4      		brne 1b
+ 722               	 ;  0 "" 2
+ 723               	/* #NOAPP */
+ 724 0458 CE01      		movw r24,r28
+ 725 045a 8F5B      		subi r24,-65
+ 726 045c 9F4F      		sbci r25,-1
+ 727 045e FC01      		movw r30,r24
+ 728 0460 2083      		st Z,r18
+ 729 0462 0C94 0000 		jmp .L18
+ 730               	.L19:
+ 731               	.LBE148:
+ 732               	.LBE147:
+ 733               	.LBE149:
+ 734               	.LBE150:
+  19:main.c        **** 		_delay_us(851);
+  20:main.c        **** 		else if ((PINA & 0b00100000) == 0)
+ 735               		.loc 1 20 0
+ 736 0466 80E2      		ldi r24,lo8(32)
+ 737 0468 90E0      		ldi r25,0
+ 738 046a FC01      		movw r30,r24
+ 739 046c 8081      		ld r24,Z
+ 740 046e 882F      		mov r24,r24
+ 741 0470 90E0      		ldi r25,0
+ 742 0472 8072      		andi r24,32
+ 743 0474 9927      		clr r25
+ 744 0476 892B      		or r24,r25
+ 745 0478 01F0      		breq .+2
+ 746 047a 00C0      		rjmp .L35
+ 747 047c 9E01      		movw r18,r28
+ 748 047e 2D5B      		subi r18,-67
+ 749 0480 3F4F      		sbci r19,-1
+ 750 0482 80E0      		ldi r24,0
+ 751 0484 90E8      		ldi r25,lo8(-128)
+ 752 0486 ADE3      		ldi r26,lo8(61)
+ 753 0488 B4E4      		ldi r27,lo8(68)
+ 754 048a F901      		movw r30,r18
+ 755 048c 8083      		st Z,r24
+ 756 048e 9183      		std Z+1,r25
+ 757 0490 A283      		std Z+2,r26
+ 758 0492 B383      		std Z+3,r27
+ 759               	.LBB151:
+ 760               	.LBB152:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 761               		.loc 2 250 0
+ 762 0494 8E01      		movw r16,r28
+ 763 0496 095B      		subi r16,-71
+ 764 0498 1F4F      		sbci r17,-1
+ 765 049a CE01      		movw r24,r28
+ 766 049c 8D5B      		subi r24,-67
+ 767 049e 9F4F      		sbci r25,-1
+ 768 04a0 2BEA      		ldi r18,lo8(-85)
+ 769 04a2 3AEA      		ldi r19,lo8(-86)
+ 770 04a4 4AEA      		ldi r20,lo8(-86)
+ 771 04a6 50E4      		ldi r21,lo8(64)
+ 772 04a8 FC01      		movw r30,r24
+ 773 04aa 6081      		ld r22,Z
+ 774 04ac 7181      		ldd r23,Z+1
+ 775 04ae 8281      		ldd r24,Z+2
+ 776 04b0 9381      		ldd r25,Z+3
+ 777 04b2 0E94 0000 		call __mulsf3
+ 778 04b6 DC01      		movw r26,r24
+ 779 04b8 CB01      		movw r24,r22
+ 780 04ba F801      		movw r30,r16
+ 781 04bc 8083      		st Z,r24
+ 782 04be 9183      		std Z+1,r25
+ 783 04c0 A283      		std Z+2,r26
+ 784 04c2 B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 785               		.loc 2 251 0
+ 786 04c4 8E01      		movw r16,r28
+ 787 04c6 055B      		subi r16,-75
+ 788 04c8 1F4F      		sbci r17,-1
+ 789 04ca CE01      		movw r24,r28
+ 790 04cc 8D5B      		subi r24,-67
+ 791 04ce 9F4F      		sbci r25,-1
+ 792 04d0 20E0      		ldi r18,0
+ 793 04d2 30E0      		ldi r19,0
+ 794 04d4 40E8      		ldi r20,lo8(-128)
+ 795 04d6 50E4      		ldi r21,lo8(64)
+ 796 04d8 FC01      		movw r30,r24
+ 797 04da 6081      		ld r22,Z
+ 798 04dc 7181      		ldd r23,Z+1
+ 799 04de 8281      		ldd r24,Z+2
+ 800 04e0 9381      		ldd r25,Z+3
+ 801 04e2 0E94 0000 		call __mulsf3
+ 802 04e6 DC01      		movw r26,r24
+ 803 04e8 CB01      		movw r24,r22
+ 804 04ea F801      		movw r30,r16
+ 805 04ec 8083      		st Z,r24
+ 806 04ee 9183      		std Z+1,r25
+ 807 04f0 A283      		std Z+2,r26
+ 808 04f2 B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 809               		.loc 2 252 0
+ 810 04f4 CE01      		movw r24,r28
+ 811 04f6 895B      		subi r24,-71
+ 812 04f8 9F4F      		sbci r25,-1
+ 813 04fa 20E0      		ldi r18,0
+ 814 04fc 30E0      		ldi r19,0
+ 815 04fe 40E8      		ldi r20,lo8(-128)
+ 816 0500 5FE3      		ldi r21,lo8(63)
+ 817 0502 FC01      		movw r30,r24
+ 818 0504 6081      		ld r22,Z
+ 819 0506 7181      		ldd r23,Z+1
+ 820 0508 8281      		ldd r24,Z+2
+ 821 050a 9381      		ldd r25,Z+3
+ 822 050c 0E94 0000 		call __ltsf2
+ 823 0510 8823      		tst r24
+ 824 0512 04F4      		brge .L181
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 825               		.loc 2 253 0
+ 826 0514 CE01      		movw r24,r28
+ 827 0516 815B      		subi r24,-79
+ 828 0518 9F4F      		sbci r25,-1
+ 829 051a 21E0      		ldi r18,lo8(1)
+ 830 051c FC01      		movw r30,r24
+ 831 051e 2083      		st Z,r18
+ 832 0520 00C0      		rjmp .L38
+ 833               	.L181:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 834               		.loc 2 254 0
+ 835 0522 CE01      		movw r24,r28
+ 836 0524 855B      		subi r24,-75
+ 837 0526 9F4F      		sbci r25,-1
+ 838 0528 20E0      		ldi r18,0
+ 839 052a 3FEF      		ldi r19,lo8(-1)
+ 840 052c 4FE7      		ldi r20,lo8(127)
+ 841 052e 57E4      		ldi r21,lo8(71)
+ 842 0530 FC01      		movw r30,r24
+ 843 0532 6081      		ld r22,Z
+ 844 0534 7181      		ldd r23,Z+1
+ 845 0536 8281      		ldd r24,Z+2
+ 846 0538 9381      		ldd r25,Z+3
+ 847 053a 0E94 0000 		call __gtsf2
+ 848 053e 1816      		cp __zero_reg__,r24
+ 849 0540 04F0      		brlt .+2
+ 850 0542 00C0      		rjmp .L182
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 851               		.loc 2 256 0
+ 852 0544 CE01      		movw r24,r28
+ 853 0546 8D5B      		subi r24,-67
+ 854 0548 9F4F      		sbci r25,-1
+ 855 054a 20E0      		ldi r18,0
+ 856 054c 30E0      		ldi r19,0
+ 857 054e 4AE7      		ldi r20,lo8(122)
+ 858 0550 54E4      		ldi r21,lo8(68)
+ 859 0552 FC01      		movw r30,r24
+ 860 0554 6081      		ld r22,Z
+ 861 0556 7181      		ldd r23,Z+1
+ 862 0558 8281      		ldd r24,Z+2
+ 863 055a 9381      		ldd r25,Z+3
+ 864 055c 0E94 0000 		call __divsf3
+ 865 0560 DC01      		movw r26,r24
+ 866 0562 CB01      		movw r24,r22
+ 867 0564 9E01      		movw r18,r28
+ 868 0566 205B      		subi r18,-80
+ 869 0568 3F4F      		sbci r19,-1
+ 870 056a F901      		movw r30,r18
+ 871 056c 8083      		st Z,r24
+ 872 056e 9183      		std Z+1,r25
+ 873 0570 A283      		std Z+2,r26
+ 874 0572 B383      		std Z+3,r27
+ 875               	.LBB153:
+ 876               	.LBB154:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 877               		.loc 2 167 0
+ 878 0574 8E01      		movw r16,r28
+ 879 0576 0C5A      		subi r16,-84
+ 880 0578 1F4F      		sbci r17,-1
+ 881 057a CE01      		movw r24,r28
+ 882 057c 805B      		subi r24,-80
+ 883 057e 9F4F      		sbci r25,-1
+ 884 0580 20E0      		ldi r18,0
+ 885 0582 30E0      		ldi r19,0
+ 886 0584 4AE7      		ldi r20,lo8(122)
+ 887 0586 55E4      		ldi r21,lo8(69)
+ 888 0588 FC01      		movw r30,r24
+ 889 058a 6081      		ld r22,Z
+ 890 058c 7181      		ldd r23,Z+1
+ 891 058e 8281      		ldd r24,Z+2
+ 892 0590 9381      		ldd r25,Z+3
+ 893 0592 0E94 0000 		call __mulsf3
+ 894 0596 DC01      		movw r26,r24
+ 895 0598 CB01      		movw r24,r22
+ 896 059a F801      		movw r30,r16
+ 897 059c 8083      		st Z,r24
+ 898 059e 9183      		std Z+1,r25
+ 899 05a0 A283      		std Z+2,r26
+ 900 05a2 B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 901               		.loc 2 168 0
+ 902 05a4 CE01      		movw r24,r28
+ 903 05a6 8C5A      		subi r24,-84
+ 904 05a8 9F4F      		sbci r25,-1
+ 905 05aa 20E0      		ldi r18,0
+ 906 05ac 30E0      		ldi r19,0
+ 907 05ae 40E8      		ldi r20,lo8(-128)
+ 908 05b0 5FE3      		ldi r21,lo8(63)
+ 909 05b2 FC01      		movw r30,r24
+ 910 05b4 6081      		ld r22,Z
+ 911 05b6 7181      		ldd r23,Z+1
+ 912 05b8 8281      		ldd r24,Z+2
+ 913 05ba 9381      		ldd r25,Z+3
+ 914 05bc 0E94 0000 		call __ltsf2
+ 915 05c0 8823      		tst r24
+ 916 05c2 04F4      		brge .L183
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 917               		.loc 2 169 0
+ 918 05c4 CE01      		movw r24,r28
+ 919 05c6 885A      		subi r24,-88
+ 920 05c8 9F4F      		sbci r25,-1
+ 921 05ca 21E0      		ldi r18,lo8(1)
+ 922 05cc 30E0      		ldi r19,0
+ 923 05ce FC01      		movw r30,r24
+ 924 05d0 3183      		std Z+1,r19
+ 925 05d2 2083      		st Z,r18
+ 926 05d4 00C0      		rjmp .L43
+ 927               	.L183:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 928               		.loc 2 170 0
+ 929 05d6 CE01      		movw r24,r28
+ 930 05d8 8C5A      		subi r24,-84
+ 931 05da 9F4F      		sbci r25,-1
+ 932 05dc 20E0      		ldi r18,0
+ 933 05de 3FEF      		ldi r19,lo8(-1)
+ 934 05e0 4FE7      		ldi r20,lo8(127)
+ 935 05e2 57E4      		ldi r21,lo8(71)
+ 936 05e4 FC01      		movw r30,r24
+ 937 05e6 6081      		ld r22,Z
+ 938 05e8 7181      		ldd r23,Z+1
+ 939 05ea 8281      		ldd r24,Z+2
+ 940 05ec 9381      		ldd r25,Z+3
+ 941 05ee 0E94 0000 		call __gtsf2
+ 942 05f2 1816      		cp __zero_reg__,r24
+ 943 05f4 04F0      		brlt .+2
+ 944 05f6 00C0      		rjmp .L184
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 945               		.loc 2 173 0
+ 946 05f8 CE01      		movw r24,r28
+ 947 05fa 805B      		subi r24,-80
+ 948 05fc 9F4F      		sbci r25,-1
+ 949 05fe 20E0      		ldi r18,0
+ 950 0600 30E0      		ldi r19,0
+ 951 0602 40E2      		ldi r20,lo8(32)
+ 952 0604 51E4      		ldi r21,lo8(65)
+ 953 0606 FC01      		movw r30,r24
+ 954 0608 6081      		ld r22,Z
+ 955 060a 7181      		ldd r23,Z+1
+ 956 060c 8281      		ldd r24,Z+2
+ 957 060e 9381      		ldd r25,Z+3
+ 958 0610 0E94 0000 		call __mulsf3
+ 959 0614 DC01      		movw r26,r24
+ 960 0616 CB01      		movw r24,r22
+ 961 0618 8E01      		movw r16,r28
+ 962 061a 085A      		subi r16,-88
+ 963 061c 1F4F      		sbci r17,-1
+ 964 061e BC01      		movw r22,r24
+ 965 0620 CD01      		movw r24,r26
+ 966 0622 0E94 0000 		call __fixunssfsi
+ 967 0626 DC01      		movw r26,r24
+ 968 0628 CB01      		movw r24,r22
+ 969 062a F801      		movw r30,r16
+ 970 062c 9183      		std Z+1,r25
+ 971 062e 8083      		st Z,r24
+ 972 0630 00C0      		rjmp .L46
+ 973               	.L47:
+ 974 0632 CE01      		movw r24,r28
+ 975 0634 865A      		subi r24,-90
+ 976 0636 9F4F      		sbci r25,-1
+ 977 0638 20E9      		ldi r18,lo8(-112)
+ 978 063a 31E0      		ldi r19,lo8(1)
+ 979 063c FC01      		movw r30,r24
+ 980 063e 3183      		std Z+1,r19
+ 981 0640 2083      		st Z,r18
+ 982               	.LBB155:
+ 983               	.LBB156:
+ 984               		.loc 3 105 0
+ 985 0642 CE01      		movw r24,r28
+ 986 0644 865A      		subi r24,-90
+ 987 0646 9F4F      		sbci r25,-1
+ 988 0648 FC01      		movw r30,r24
+ 989 064a 8081      		ld r24,Z
+ 990 064c 9181      		ldd r25,Z+1
+ 991               	/* #APP */
+ 992               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 993 064e 0197      		1: sbiw r24,1
+ 994 0650 01F4      		brne 1b
+ 995               	 ;  0 "" 2
+ 996               	/* #NOAPP */
+ 997 0652 9E01      		movw r18,r28
+ 998 0654 265A      		subi r18,-90
+ 999 0656 3F4F      		sbci r19,-1
+ 1000 0658 F901      		movw r30,r18
+ 1001 065a 9183      		std Z+1,r25
+ 1002 065c 8083      		st Z,r24
+ 1003               	.LBE156:
+ 1004               	.LBE155:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 1005               		.loc 2 178 0
+ 1006 065e CE01      		movw r24,r28
+ 1007 0660 885A      		subi r24,-88
+ 1008 0662 9F4F      		sbci r25,-1
+ 1009 0664 9E01      		movw r18,r28
+ 1010 0666 285A      		subi r18,-88
+ 1011 0668 3F4F      		sbci r19,-1
+ 1012 066a F901      		movw r30,r18
+ 1013 066c 2081      		ld r18,Z
+ 1014 066e 3181      		ldd r19,Z+1
+ 1015 0670 2150      		subi r18,1
+ 1016 0672 3109      		sbc r19,__zero_reg__
+ 1017 0674 FC01      		movw r30,r24
+ 1018 0676 3183      		std Z+1,r19
+ 1019 0678 2083      		st Z,r18
+ 1020               	.L46:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 1021               		.loc 2 174 0
+ 1022 067a CE01      		movw r24,r28
+ 1023 067c 885A      		subi r24,-88
+ 1024 067e 9F4F      		sbci r25,-1
+ 1025 0680 FC01      		movw r30,r24
+ 1026 0682 8081      		ld r24,Z
+ 1027 0684 9181      		ldd r25,Z+1
+ 1028 0686 892B      		or r24,r25
+ 1029 0688 01F4      		brne .L47
+ 1030 068a CE01      		movw r24,r28
+ 1031 068c 815B      		subi r24,-79
+ 1032 068e 9F4F      		sbci r25,-1
+ 1033 0690 9E01      		movw r18,r28
+ 1034 0692 2D59      		subi r18,-99
+ 1035 0694 3F4F      		sbci r19,-1
+ 1036 0696 F901      		movw r30,r18
+ 1037 0698 2081      		ld r18,Z
+ 1038 069a FC01      		movw r30,r24
+ 1039 069c 2083      		st Z,r18
+ 1040 069e 00C0      		rjmp .L38
+ 1041               	.L184:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 1042               		.loc 2 183 0
+ 1043 06a0 8E01      		movw r16,r28
+ 1044 06a2 085A      		subi r16,-88
+ 1045 06a4 1F4F      		sbci r17,-1
+ 1046 06a6 CE01      		movw r24,r28
+ 1047 06a8 8C5A      		subi r24,-84
+ 1048 06aa 9F4F      		sbci r25,-1
+ 1049 06ac FC01      		movw r30,r24
+ 1050 06ae 6081      		ld r22,Z
+ 1051 06b0 7181      		ldd r23,Z+1
+ 1052 06b2 8281      		ldd r24,Z+2
+ 1053 06b4 9381      		ldd r25,Z+3
+ 1054 06b6 0E94 0000 		call __fixunssfsi
+ 1055 06ba DC01      		movw r26,r24
+ 1056 06bc CB01      		movw r24,r22
+ 1057 06be F801      		movw r30,r16
+ 1058 06c0 9183      		std Z+1,r25
+ 1059 06c2 8083      		st Z,r24
+ 1060               	.L43:
+ 1061 06c4 CE01      		movw r24,r28
+ 1062 06c6 845A      		subi r24,-92
+ 1063 06c8 9F4F      		sbci r25,-1
+ 1064 06ca 9E01      		movw r18,r28
+ 1065 06cc 285A      		subi r18,-88
+ 1066 06ce 3F4F      		sbci r19,-1
+ 1067 06d0 F901      		movw r30,r18
+ 1068 06d2 2081      		ld r18,Z
+ 1069 06d4 3181      		ldd r19,Z+1
+ 1070 06d6 FC01      		movw r30,r24
+ 1071 06d8 3183      		std Z+1,r19
+ 1072 06da 2083      		st Z,r18
+ 1073               	.LBB157:
+ 1074               	.LBB158:
+ 1075               		.loc 3 105 0
+ 1076 06dc CE01      		movw r24,r28
+ 1077 06de 845A      		subi r24,-92
+ 1078 06e0 9F4F      		sbci r25,-1
+ 1079 06e2 FC01      		movw r30,r24
+ 1080 06e4 8081      		ld r24,Z
+ 1081 06e6 9181      		ldd r25,Z+1
+ 1082               	/* #APP */
+ 1083               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1084 06e8 0197      		1: sbiw r24,1
+ 1085 06ea 01F4      		brne 1b
+ 1086               	 ;  0 "" 2
+ 1087               	/* #NOAPP */
+ 1088 06ec 9E01      		movw r18,r28
+ 1089 06ee 245A      		subi r18,-92
+ 1090 06f0 3F4F      		sbci r19,-1
+ 1091 06f2 F901      		movw r30,r18
+ 1092 06f4 9183      		std Z+1,r25
+ 1093 06f6 8083      		st Z,r24
+ 1094 06f8 CE01      		movw r24,r28
+ 1095 06fa 815B      		subi r24,-79
+ 1096 06fc 9F4F      		sbci r25,-1
+ 1097 06fe 9E01      		movw r18,r28
+ 1098 0700 2D59      		subi r18,-99
+ 1099 0702 3F4F      		sbci r19,-1
+ 1100 0704 F901      		movw r30,r18
+ 1101 0706 2081      		ld r18,Z
+ 1102 0708 FC01      		movw r30,r24
+ 1103 070a 2083      		st Z,r18
+ 1104 070c 00C0      		rjmp .L38
+ 1105               	.L182:
+ 1106               	.LBE158:
+ 1107               	.LBE157:
+ 1108               	.LBE154:
+ 1109               	.LBE153:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 1110               		.loc 2 258 0
+ 1111 070e CE01      		movw r24,r28
+ 1112 0710 895B      		subi r24,-71
+ 1113 0712 9F4F      		sbci r25,-1
+ 1114 0714 20E0      		ldi r18,0
+ 1115 0716 30E0      		ldi r19,0
+ 1116 0718 4FE7      		ldi r20,lo8(127)
+ 1117 071a 53E4      		ldi r21,lo8(67)
+ 1118 071c FC01      		movw r30,r24
+ 1119 071e 6081      		ld r22,Z
+ 1120 0720 7181      		ldd r23,Z+1
+ 1121 0722 8281      		ldd r24,Z+2
+ 1122 0724 9381      		ldd r25,Z+3
+ 1123 0726 0E94 0000 		call __gtsf2
+ 1124 072a 1816      		cp __zero_reg__,r24
+ 1125 072c 04F4      		brge .L185
+ 1126               	.LBB159:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 1127               		.loc 2 260 0
+ 1128 072e 8E01      		movw r16,r28
+ 1129 0730 025A      		subi r16,-94
+ 1130 0732 1F4F      		sbci r17,-1
+ 1131 0734 CE01      		movw r24,r28
+ 1132 0736 855B      		subi r24,-75
+ 1133 0738 9F4F      		sbci r25,-1
+ 1134 073a FC01      		movw r30,r24
+ 1135 073c 6081      		ld r22,Z
+ 1136 073e 7181      		ldd r23,Z+1
+ 1137 0740 8281      		ldd r24,Z+2
+ 1138 0742 9381      		ldd r25,Z+3
+ 1139 0744 0E94 0000 		call __fixunssfsi
+ 1140 0748 DC01      		movw r26,r24
+ 1141 074a CB01      		movw r24,r22
+ 1142 074c F801      		movw r30,r16
+ 1143 074e 9183      		std Z+1,r25
+ 1144 0750 8083      		st Z,r24
+ 1145 0752 CE01      		movw r24,r28
+ 1146 0754 805A      		subi r24,-96
+ 1147 0756 9F4F      		sbci r25,-1
+ 1148 0758 9E01      		movw r18,r28
+ 1149 075a 225A      		subi r18,-94
+ 1150 075c 3F4F      		sbci r19,-1
+ 1151 075e F901      		movw r30,r18
+ 1152 0760 2081      		ld r18,Z
+ 1153 0762 3181      		ldd r19,Z+1
+ 1154 0764 FC01      		movw r30,r24
+ 1155 0766 3183      		std Z+1,r19
+ 1156 0768 2083      		st Z,r18
+ 1157               	.LBB160:
+ 1158               	.LBB161:
+ 1159               		.loc 3 105 0
+ 1160 076a CE01      		movw r24,r28
+ 1161 076c 805A      		subi r24,-96
+ 1162 076e 9F4F      		sbci r25,-1
+ 1163 0770 FC01      		movw r30,r24
+ 1164 0772 8081      		ld r24,Z
+ 1165 0774 9181      		ldd r25,Z+1
+ 1166               	/* #APP */
+ 1167               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1168 0776 0197      		1: sbiw r24,1
+ 1169 0778 01F4      		brne 1b
+ 1170               	 ;  0 "" 2
+ 1171               	/* #NOAPP */
+ 1172 077a 9E01      		movw r18,r28
+ 1173 077c 205A      		subi r18,-96
+ 1174 077e 3F4F      		sbci r19,-1
+ 1175 0780 F901      		movw r30,r18
+ 1176 0782 9183      		std Z+1,r25
+ 1177 0784 8083      		st Z,r24
+ 1178               	.LBE161:
+ 1179               	.LBE160:
+ 1180               	.LBE159:
+ 1181               	.LBE152:
+ 1182               	.LBE151:
+ 1183 0786 0C94 0000 		jmp .L18
+ 1184               	.L185:
+ 1185               	.LBB165:
+ 1186               	.LBB164:
+ 1187               		.loc 2 265 0
+ 1188 078a 8E01      		movw r16,r28
+ 1189 078c 015B      		subi r16,-79
+ 1190 078e 1F4F      		sbci r17,-1
+ 1191 0790 CE01      		movw r24,r28
+ 1192 0792 895B      		subi r24,-71
+ 1193 0794 9F4F      		sbci r25,-1
+ 1194 0796 FC01      		movw r30,r24
+ 1195 0798 6081      		ld r22,Z
+ 1196 079a 7181      		ldd r23,Z+1
+ 1197 079c 8281      		ldd r24,Z+2
+ 1198 079e 9381      		ldd r25,Z+3
+ 1199 07a0 0E94 0000 		call __fixunssfsi
+ 1200 07a4 DC01      		movw r26,r24
+ 1201 07a6 CB01      		movw r24,r22
+ 1202 07a8 F801      		movw r30,r16
+ 1203 07aa 8083      		st Z,r24
+ 1204               	.L38:
+ 1205 07ac CE01      		movw r24,r28
+ 1206 07ae 8E59      		subi r24,-98
+ 1207 07b0 9F4F      		sbci r25,-1
+ 1208 07b2 9E01      		movw r18,r28
+ 1209 07b4 215B      		subi r18,-79
+ 1210 07b6 3F4F      		sbci r19,-1
+ 1211 07b8 F901      		movw r30,r18
+ 1212 07ba 2081      		ld r18,Z
+ 1213 07bc FC01      		movw r30,r24
+ 1214 07be 2083      		st Z,r18
+ 1215               	.LBB162:
+ 1216               	.LBB163:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 1217               		.loc 3 83 0
+ 1218 07c0 CE01      		movw r24,r28
+ 1219 07c2 8E59      		subi r24,-98
+ 1220 07c4 9F4F      		sbci r25,-1
+ 1221 07c6 FC01      		movw r30,r24
+ 1222 07c8 8081      		ld r24,Z
+ 1223 07ca 282F      		mov r18,r24
+ 1224               	/* #APP */
+ 1225               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1226 07cc 2A95      		1: dec r18
+ 1227 07ce 01F4      		brne 1b
+ 1228               	 ;  0 "" 2
+ 1229               	/* #NOAPP */
+ 1230 07d0 CE01      		movw r24,r28
+ 1231 07d2 8E59      		subi r24,-98
+ 1232 07d4 9F4F      		sbci r25,-1
+ 1233 07d6 FC01      		movw r30,r24
+ 1234 07d8 2083      		st Z,r18
+ 1235 07da 0C94 0000 		jmp .L18
+ 1236               	.L35:
+ 1237               	.LBE163:
+ 1238               	.LBE162:
+ 1239               	.LBE164:
+ 1240               	.LBE165:
+  21:main.c        **** 		_delay_us(758);
+  22:main.c        **** 		else if ((PINA & 0b00010000) == 0)
+ 1241               		.loc 1 22 0
+ 1242 07de 80E2      		ldi r24,lo8(32)
+ 1243 07e0 90E0      		ldi r25,0
+ 1244 07e2 FC01      		movw r30,r24
+ 1245 07e4 8081      		ld r24,Z
+ 1246 07e6 882F      		mov r24,r24
+ 1247 07e8 90E0      		ldi r25,0
+ 1248 07ea 8071      		andi r24,16
+ 1249 07ec 9927      		clr r25
+ 1250 07ee 892B      		or r24,r25
+ 1251 07f0 01F0      		breq .+2
+ 1252 07f2 00C0      		rjmp .L51
+ 1253 07f4 9E01      		movw r18,r28
+ 1254 07f6 2C59      		subi r18,-100
+ 1255 07f8 3F4F      		sbci r19,-1
+ 1256 07fa 80E0      		ldi r24,0
+ 1257 07fc 90E0      		ldi r25,0
+ 1258 07fe A3E3      		ldi r26,lo8(51)
+ 1259 0800 B4E4      		ldi r27,lo8(68)
+ 1260 0802 F901      		movw r30,r18
+ 1261 0804 8083      		st Z,r24
+ 1262 0806 9183      		std Z+1,r25
+ 1263 0808 A283      		std Z+2,r26
+ 1264 080a B383      		std Z+3,r27
+ 1265               	.LBB166:
+ 1266               	.LBB167:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 1267               		.loc 2 250 0
+ 1268 080c 8E01      		movw r16,r28
+ 1269 080e 0859      		subi r16,-104
+ 1270 0810 1F4F      		sbci r17,-1
+ 1271 0812 CE01      		movw r24,r28
+ 1272 0814 8C59      		subi r24,-100
+ 1273 0816 9F4F      		sbci r25,-1
+ 1274 0818 2BEA      		ldi r18,lo8(-85)
+ 1275 081a 3AEA      		ldi r19,lo8(-86)
+ 1276 081c 4AEA      		ldi r20,lo8(-86)
+ 1277 081e 50E4      		ldi r21,lo8(64)
+ 1278 0820 FC01      		movw r30,r24
+ 1279 0822 6081      		ld r22,Z
+ 1280 0824 7181      		ldd r23,Z+1
+ 1281 0826 8281      		ldd r24,Z+2
+ 1282 0828 9381      		ldd r25,Z+3
+ 1283 082a 0E94 0000 		call __mulsf3
+ 1284 082e DC01      		movw r26,r24
+ 1285 0830 CB01      		movw r24,r22
+ 1286 0832 F801      		movw r30,r16
+ 1287 0834 8083      		st Z,r24
+ 1288 0836 9183      		std Z+1,r25
+ 1289 0838 A283      		std Z+2,r26
+ 1290 083a B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 1291               		.loc 2 251 0
+ 1292 083c 8E01      		movw r16,r28
+ 1293 083e 0459      		subi r16,-108
+ 1294 0840 1F4F      		sbci r17,-1
+ 1295 0842 CE01      		movw r24,r28
+ 1296 0844 8C59      		subi r24,-100
+ 1297 0846 9F4F      		sbci r25,-1
+ 1298 0848 20E0      		ldi r18,0
+ 1299 084a 30E0      		ldi r19,0
+ 1300 084c 40E8      		ldi r20,lo8(-128)
+ 1301 084e 50E4      		ldi r21,lo8(64)
+ 1302 0850 FC01      		movw r30,r24
+ 1303 0852 6081      		ld r22,Z
+ 1304 0854 7181      		ldd r23,Z+1
+ 1305 0856 8281      		ldd r24,Z+2
+ 1306 0858 9381      		ldd r25,Z+3
+ 1307 085a 0E94 0000 		call __mulsf3
+ 1308 085e DC01      		movw r26,r24
+ 1309 0860 CB01      		movw r24,r22
+ 1310 0862 F801      		movw r30,r16
+ 1311 0864 8083      		st Z,r24
+ 1312 0866 9183      		std Z+1,r25
+ 1313 0868 A283      		std Z+2,r26
+ 1314 086a B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 1315               		.loc 2 252 0
+ 1316 086c CE01      		movw r24,r28
+ 1317 086e 8859      		subi r24,-104
+ 1318 0870 9F4F      		sbci r25,-1
+ 1319 0872 20E0      		ldi r18,0
+ 1320 0874 30E0      		ldi r19,0
+ 1321 0876 40E8      		ldi r20,lo8(-128)
+ 1322 0878 5FE3      		ldi r21,lo8(63)
+ 1323 087a FC01      		movw r30,r24
+ 1324 087c 6081      		ld r22,Z
+ 1325 087e 7181      		ldd r23,Z+1
+ 1326 0880 8281      		ldd r24,Z+2
+ 1327 0882 9381      		ldd r25,Z+3
+ 1328 0884 0E94 0000 		call __ltsf2
+ 1329 0888 8823      		tst r24
+ 1330 088a 04F4      		brge .L186
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 1331               		.loc 2 253 0
+ 1332 088c CE01      		movw r24,r28
+ 1333 088e 8059      		subi r24,-112
+ 1334 0890 9F4F      		sbci r25,-1
+ 1335 0892 21E0      		ldi r18,lo8(1)
+ 1336 0894 FC01      		movw r30,r24
+ 1337 0896 2083      		st Z,r18
+ 1338 0898 00C0      		rjmp .L54
+ 1339               	.L186:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 1340               		.loc 2 254 0
+ 1341 089a CE01      		movw r24,r28
+ 1342 089c 8459      		subi r24,-108
+ 1343 089e 9F4F      		sbci r25,-1
+ 1344 08a0 20E0      		ldi r18,0
+ 1345 08a2 3FEF      		ldi r19,lo8(-1)
+ 1346 08a4 4FE7      		ldi r20,lo8(127)
+ 1347 08a6 57E4      		ldi r21,lo8(71)
+ 1348 08a8 FC01      		movw r30,r24
+ 1349 08aa 6081      		ld r22,Z
+ 1350 08ac 7181      		ldd r23,Z+1
+ 1351 08ae 8281      		ldd r24,Z+2
+ 1352 08b0 9381      		ldd r25,Z+3
+ 1353 08b2 0E94 0000 		call __gtsf2
+ 1354 08b6 1816      		cp __zero_reg__,r24
+ 1355 08b8 04F0      		brlt .+2
+ 1356 08ba 00C0      		rjmp .L187
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 1357               		.loc 2 256 0
+ 1358 08bc CE01      		movw r24,r28
+ 1359 08be 8C59      		subi r24,-100
+ 1360 08c0 9F4F      		sbci r25,-1
+ 1361 08c2 20E0      		ldi r18,0
+ 1362 08c4 30E0      		ldi r19,0
+ 1363 08c6 4AE7      		ldi r20,lo8(122)
+ 1364 08c8 54E4      		ldi r21,lo8(68)
+ 1365 08ca FC01      		movw r30,r24
+ 1366 08cc 6081      		ld r22,Z
+ 1367 08ce 7181      		ldd r23,Z+1
+ 1368 08d0 8281      		ldd r24,Z+2
+ 1369 08d2 9381      		ldd r25,Z+3
+ 1370 08d4 0E94 0000 		call __divsf3
+ 1371 08d8 DC01      		movw r26,r24
+ 1372 08da CB01      		movw r24,r22
+ 1373 08dc 9E01      		movw r18,r28
+ 1374 08de 2F58      		subi r18,-113
+ 1375 08e0 3F4F      		sbci r19,-1
+ 1376 08e2 F901      		movw r30,r18
+ 1377 08e4 8083      		st Z,r24
+ 1378 08e6 9183      		std Z+1,r25
+ 1379 08e8 A283      		std Z+2,r26
+ 1380 08ea B383      		std Z+3,r27
+ 1381               	.LBB168:
+ 1382               	.LBB169:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 1383               		.loc 2 167 0
+ 1384 08ec 8E01      		movw r16,r28
+ 1385 08ee 0B58      		subi r16,-117
+ 1386 08f0 1F4F      		sbci r17,-1
+ 1387 08f2 CE01      		movw r24,r28
+ 1388 08f4 8F58      		subi r24,-113
+ 1389 08f6 9F4F      		sbci r25,-1
+ 1390 08f8 20E0      		ldi r18,0
+ 1391 08fa 30E0      		ldi r19,0
+ 1392 08fc 4AE7      		ldi r20,lo8(122)
+ 1393 08fe 55E4      		ldi r21,lo8(69)
+ 1394 0900 FC01      		movw r30,r24
+ 1395 0902 6081      		ld r22,Z
+ 1396 0904 7181      		ldd r23,Z+1
+ 1397 0906 8281      		ldd r24,Z+2
+ 1398 0908 9381      		ldd r25,Z+3
+ 1399 090a 0E94 0000 		call __mulsf3
+ 1400 090e DC01      		movw r26,r24
+ 1401 0910 CB01      		movw r24,r22
+ 1402 0912 F801      		movw r30,r16
+ 1403 0914 8083      		st Z,r24
+ 1404 0916 9183      		std Z+1,r25
+ 1405 0918 A283      		std Z+2,r26
+ 1406 091a B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 1407               		.loc 2 168 0
+ 1408 091c CE01      		movw r24,r28
+ 1409 091e 8B58      		subi r24,-117
+ 1410 0920 9F4F      		sbci r25,-1
+ 1411 0922 20E0      		ldi r18,0
+ 1412 0924 30E0      		ldi r19,0
+ 1413 0926 40E8      		ldi r20,lo8(-128)
+ 1414 0928 5FE3      		ldi r21,lo8(63)
+ 1415 092a FC01      		movw r30,r24
+ 1416 092c 6081      		ld r22,Z
+ 1417 092e 7181      		ldd r23,Z+1
+ 1418 0930 8281      		ldd r24,Z+2
+ 1419 0932 9381      		ldd r25,Z+3
+ 1420 0934 0E94 0000 		call __ltsf2
+ 1421 0938 8823      		tst r24
+ 1422 093a 04F4      		brge .L188
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 1423               		.loc 2 169 0
+ 1424 093c CE01      		movw r24,r28
+ 1425 093e 8758      		subi r24,-121
+ 1426 0940 9F4F      		sbci r25,-1
+ 1427 0942 21E0      		ldi r18,lo8(1)
+ 1428 0944 30E0      		ldi r19,0
+ 1429 0946 FC01      		movw r30,r24
+ 1430 0948 3183      		std Z+1,r19
+ 1431 094a 2083      		st Z,r18
+ 1432 094c 00C0      		rjmp .L59
+ 1433               	.L188:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 1434               		.loc 2 170 0
+ 1435 094e CE01      		movw r24,r28
+ 1436 0950 8B58      		subi r24,-117
+ 1437 0952 9F4F      		sbci r25,-1
+ 1438 0954 20E0      		ldi r18,0
+ 1439 0956 3FEF      		ldi r19,lo8(-1)
+ 1440 0958 4FE7      		ldi r20,lo8(127)
+ 1441 095a 57E4      		ldi r21,lo8(71)
+ 1442 095c FC01      		movw r30,r24
+ 1443 095e 6081      		ld r22,Z
+ 1444 0960 7181      		ldd r23,Z+1
+ 1445 0962 8281      		ldd r24,Z+2
+ 1446 0964 9381      		ldd r25,Z+3
+ 1447 0966 0E94 0000 		call __gtsf2
+ 1448 096a 1816      		cp __zero_reg__,r24
+ 1449 096c 04F0      		brlt .+2
+ 1450 096e 00C0      		rjmp .L189
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 1451               		.loc 2 173 0
+ 1452 0970 CE01      		movw r24,r28
+ 1453 0972 8F58      		subi r24,-113
+ 1454 0974 9F4F      		sbci r25,-1
+ 1455 0976 20E0      		ldi r18,0
+ 1456 0978 30E0      		ldi r19,0
+ 1457 097a 40E2      		ldi r20,lo8(32)
+ 1458 097c 51E4      		ldi r21,lo8(65)
+ 1459 097e FC01      		movw r30,r24
+ 1460 0980 6081      		ld r22,Z
+ 1461 0982 7181      		ldd r23,Z+1
+ 1462 0984 8281      		ldd r24,Z+2
+ 1463 0986 9381      		ldd r25,Z+3
+ 1464 0988 0E94 0000 		call __mulsf3
+ 1465 098c DC01      		movw r26,r24
+ 1466 098e CB01      		movw r24,r22
+ 1467 0990 8E01      		movw r16,r28
+ 1468 0992 0758      		subi r16,-121
+ 1469 0994 1F4F      		sbci r17,-1
+ 1470 0996 BC01      		movw r22,r24
+ 1471 0998 CD01      		movw r24,r26
+ 1472 099a 0E94 0000 		call __fixunssfsi
+ 1473 099e DC01      		movw r26,r24
+ 1474 09a0 CB01      		movw r24,r22
+ 1475 09a2 F801      		movw r30,r16
+ 1476 09a4 9183      		std Z+1,r25
+ 1477 09a6 8083      		st Z,r24
+ 1478 09a8 00C0      		rjmp .L62
+ 1479               	.L63:
+ 1480 09aa CE01      		movw r24,r28
+ 1481 09ac 8558      		subi r24,-123
+ 1482 09ae 9F4F      		sbci r25,-1
+ 1483 09b0 20E9      		ldi r18,lo8(-112)
+ 1484 09b2 31E0      		ldi r19,lo8(1)
+ 1485 09b4 FC01      		movw r30,r24
+ 1486 09b6 3183      		std Z+1,r19
+ 1487 09b8 2083      		st Z,r18
+ 1488               	.LBB170:
+ 1489               	.LBB171:
+ 1490               		.loc 3 105 0
+ 1491 09ba CE01      		movw r24,r28
+ 1492 09bc 8558      		subi r24,-123
+ 1493 09be 9F4F      		sbci r25,-1
+ 1494 09c0 FC01      		movw r30,r24
+ 1495 09c2 8081      		ld r24,Z
+ 1496 09c4 9181      		ldd r25,Z+1
+ 1497               	/* #APP */
+ 1498               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1499 09c6 0197      		1: sbiw r24,1
+ 1500 09c8 01F4      		brne 1b
+ 1501               	 ;  0 "" 2
+ 1502               	/* #NOAPP */
+ 1503 09ca 9E01      		movw r18,r28
+ 1504 09cc 2558      		subi r18,-123
+ 1505 09ce 3F4F      		sbci r19,-1
+ 1506 09d0 F901      		movw r30,r18
+ 1507 09d2 9183      		std Z+1,r25
+ 1508 09d4 8083      		st Z,r24
+ 1509               	.LBE171:
+ 1510               	.LBE170:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 1511               		.loc 2 178 0
+ 1512 09d6 CE01      		movw r24,r28
+ 1513 09d8 8758      		subi r24,-121
+ 1514 09da 9F4F      		sbci r25,-1
+ 1515 09dc 9E01      		movw r18,r28
+ 1516 09de 2758      		subi r18,-121
+ 1517 09e0 3F4F      		sbci r19,-1
+ 1518 09e2 F901      		movw r30,r18
+ 1519 09e4 2081      		ld r18,Z
+ 1520 09e6 3181      		ldd r19,Z+1
+ 1521 09e8 2150      		subi r18,1
+ 1522 09ea 3109      		sbc r19,__zero_reg__
+ 1523 09ec FC01      		movw r30,r24
+ 1524 09ee 3183      		std Z+1,r19
+ 1525 09f0 2083      		st Z,r18
+ 1526               	.L62:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 1527               		.loc 2 174 0
+ 1528 09f2 CE01      		movw r24,r28
+ 1529 09f4 8758      		subi r24,-121
+ 1530 09f6 9F4F      		sbci r25,-1
+ 1531 09f8 FC01      		movw r30,r24
+ 1532 09fa 8081      		ld r24,Z
+ 1533 09fc 9181      		ldd r25,Z+1
+ 1534 09fe 892B      		or r24,r25
+ 1535 0a00 01F4      		brne .L63
+ 1536 0a02 CE01      		movw r24,r28
+ 1537 0a04 8059      		subi r24,-112
+ 1538 0a06 9F4F      		sbci r25,-1
+ 1539 0a08 9E01      		movw r18,r28
+ 1540 0a0a 2C57      		subi r18,124
+ 1541 0a0c 3F4F      		sbci r19,-1
+ 1542 0a0e F901      		movw r30,r18
+ 1543 0a10 2081      		ld r18,Z
+ 1544 0a12 FC01      		movw r30,r24
+ 1545 0a14 2083      		st Z,r18
+ 1546 0a16 00C0      		rjmp .L54
+ 1547               	.L189:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 1548               		.loc 2 183 0
+ 1549 0a18 8E01      		movw r16,r28
+ 1550 0a1a 0758      		subi r16,-121
+ 1551 0a1c 1F4F      		sbci r17,-1
+ 1552 0a1e CE01      		movw r24,r28
+ 1553 0a20 8B58      		subi r24,-117
+ 1554 0a22 9F4F      		sbci r25,-1
+ 1555 0a24 FC01      		movw r30,r24
+ 1556 0a26 6081      		ld r22,Z
+ 1557 0a28 7181      		ldd r23,Z+1
+ 1558 0a2a 8281      		ldd r24,Z+2
+ 1559 0a2c 9381      		ldd r25,Z+3
+ 1560 0a2e 0E94 0000 		call __fixunssfsi
+ 1561 0a32 DC01      		movw r26,r24
+ 1562 0a34 CB01      		movw r24,r22
+ 1563 0a36 F801      		movw r30,r16
+ 1564 0a38 9183      		std Z+1,r25
+ 1565 0a3a 8083      		st Z,r24
+ 1566               	.L59:
+ 1567 0a3c CE01      		movw r24,r28
+ 1568 0a3e 8358      		subi r24,-125
+ 1569 0a40 9F4F      		sbci r25,-1
+ 1570 0a42 9E01      		movw r18,r28
+ 1571 0a44 2758      		subi r18,-121
+ 1572 0a46 3F4F      		sbci r19,-1
+ 1573 0a48 F901      		movw r30,r18
+ 1574 0a4a 2081      		ld r18,Z
+ 1575 0a4c 3181      		ldd r19,Z+1
+ 1576 0a4e FC01      		movw r30,r24
+ 1577 0a50 3183      		std Z+1,r19
+ 1578 0a52 2083      		st Z,r18
+ 1579               	.LBB172:
+ 1580               	.LBB173:
+ 1581               		.loc 3 105 0
+ 1582 0a54 CE01      		movw r24,r28
+ 1583 0a56 8358      		subi r24,-125
+ 1584 0a58 9F4F      		sbci r25,-1
+ 1585 0a5a FC01      		movw r30,r24
+ 1586 0a5c 8081      		ld r24,Z
+ 1587 0a5e 9181      		ldd r25,Z+1
+ 1588               	/* #APP */
+ 1589               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1590 0a60 0197      		1: sbiw r24,1
+ 1591 0a62 01F4      		brne 1b
+ 1592               	 ;  0 "" 2
+ 1593               	/* #NOAPP */
+ 1594 0a64 9E01      		movw r18,r28
+ 1595 0a66 2358      		subi r18,-125
+ 1596 0a68 3F4F      		sbci r19,-1
+ 1597 0a6a F901      		movw r30,r18
+ 1598 0a6c 9183      		std Z+1,r25
+ 1599 0a6e 8083      		st Z,r24
+ 1600 0a70 CE01      		movw r24,r28
+ 1601 0a72 8059      		subi r24,-112
+ 1602 0a74 9F4F      		sbci r25,-1
+ 1603 0a76 9E01      		movw r18,r28
+ 1604 0a78 2C57      		subi r18,124
+ 1605 0a7a 3F4F      		sbci r19,-1
+ 1606 0a7c F901      		movw r30,r18
+ 1607 0a7e 2081      		ld r18,Z
+ 1608 0a80 FC01      		movw r30,r24
+ 1609 0a82 2083      		st Z,r18
+ 1610 0a84 00C0      		rjmp .L54
+ 1611               	.L187:
+ 1612               	.LBE173:
+ 1613               	.LBE172:
+ 1614               	.LBE169:
+ 1615               	.LBE168:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 1616               		.loc 2 258 0
+ 1617 0a86 CE01      		movw r24,r28
+ 1618 0a88 8859      		subi r24,-104
+ 1619 0a8a 9F4F      		sbci r25,-1
+ 1620 0a8c 20E0      		ldi r18,0
+ 1621 0a8e 30E0      		ldi r19,0
+ 1622 0a90 4FE7      		ldi r20,lo8(127)
+ 1623 0a92 53E4      		ldi r21,lo8(67)
+ 1624 0a94 FC01      		movw r30,r24
+ 1625 0a96 6081      		ld r22,Z
+ 1626 0a98 7181      		ldd r23,Z+1
+ 1627 0a9a 8281      		ldd r24,Z+2
+ 1628 0a9c 9381      		ldd r25,Z+3
+ 1629 0a9e 0E94 0000 		call __gtsf2
+ 1630 0aa2 1816      		cp __zero_reg__,r24
+ 1631 0aa4 04F4      		brge .L190
+ 1632               	.LBB174:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 1633               		.loc 2 260 0
+ 1634 0aa6 8E01      		movw r16,r28
+ 1635 0aa8 0158      		subi r16,-127
+ 1636 0aaa 1F4F      		sbci r17,-1
+ 1637 0aac CE01      		movw r24,r28
+ 1638 0aae 8459      		subi r24,-108
+ 1639 0ab0 9F4F      		sbci r25,-1
+ 1640 0ab2 FC01      		movw r30,r24
+ 1641 0ab4 6081      		ld r22,Z
+ 1642 0ab6 7181      		ldd r23,Z+1
+ 1643 0ab8 8281      		ldd r24,Z+2
+ 1644 0aba 9381      		ldd r25,Z+3
+ 1645 0abc 0E94 0000 		call __fixunssfsi
+ 1646 0ac0 DC01      		movw r26,r24
+ 1647 0ac2 CB01      		movw r24,r22
+ 1648 0ac4 F801      		movw r30,r16
+ 1649 0ac6 9183      		std Z+1,r25
+ 1650 0ac8 8083      		st Z,r24
+ 1651 0aca CE01      		movw r24,r28
+ 1652 0acc 8F57      		subi r24,127
+ 1653 0ace 9F4F      		sbci r25,-1
+ 1654 0ad0 9E01      		movw r18,r28
+ 1655 0ad2 2158      		subi r18,-127
+ 1656 0ad4 3F4F      		sbci r19,-1
+ 1657 0ad6 F901      		movw r30,r18
+ 1658 0ad8 2081      		ld r18,Z
+ 1659 0ada 3181      		ldd r19,Z+1
+ 1660 0adc FC01      		movw r30,r24
+ 1661 0ade 3183      		std Z+1,r19
+ 1662 0ae0 2083      		st Z,r18
+ 1663               	.LBB175:
+ 1664               	.LBB176:
+ 1665               		.loc 3 105 0
+ 1666 0ae2 CE01      		movw r24,r28
+ 1667 0ae4 8F57      		subi r24,127
+ 1668 0ae6 9F4F      		sbci r25,-1
+ 1669 0ae8 FC01      		movw r30,r24
+ 1670 0aea 8081      		ld r24,Z
+ 1671 0aec 9181      		ldd r25,Z+1
+ 1672               	/* #APP */
+ 1673               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1674 0aee 0197      		1: sbiw r24,1
+ 1675 0af0 01F4      		brne 1b
+ 1676               	 ;  0 "" 2
+ 1677               	/* #NOAPP */
+ 1678 0af2 9E01      		movw r18,r28
+ 1679 0af4 2F57      		subi r18,127
+ 1680 0af6 3F4F      		sbci r19,-1
+ 1681 0af8 F901      		movw r30,r18
+ 1682 0afa 9183      		std Z+1,r25
+ 1683 0afc 8083      		st Z,r24
+ 1684               	.LBE176:
+ 1685               	.LBE175:
+ 1686               	.LBE174:
+ 1687               	.LBE167:
+ 1688               	.LBE166:
+ 1689 0afe 00C0      		rjmp .L18
+ 1690               	.L190:
+ 1691               	.LBB180:
+ 1692               	.LBB179:
+ 1693               		.loc 2 265 0
+ 1694 0b00 8E01      		movw r16,r28
+ 1695 0b02 0059      		subi r16,-112
+ 1696 0b04 1F4F      		sbci r17,-1
+ 1697 0b06 CE01      		movw r24,r28
+ 1698 0b08 8859      		subi r24,-104
+ 1699 0b0a 9F4F      		sbci r25,-1
+ 1700 0b0c FC01      		movw r30,r24
+ 1701 0b0e 6081      		ld r22,Z
+ 1702 0b10 7181      		ldd r23,Z+1
+ 1703 0b12 8281      		ldd r24,Z+2
+ 1704 0b14 9381      		ldd r25,Z+3
+ 1705 0b16 0E94 0000 		call __fixunssfsi
+ 1706 0b1a DC01      		movw r26,r24
+ 1707 0b1c CB01      		movw r24,r22
+ 1708 0b1e F801      		movw r30,r16
+ 1709 0b20 8083      		st Z,r24
+ 1710               	.L54:
+ 1711 0b22 CE01      		movw r24,r28
+ 1712 0b24 8D57      		subi r24,125
+ 1713 0b26 9F4F      		sbci r25,-1
+ 1714 0b28 9E01      		movw r18,r28
+ 1715 0b2a 2059      		subi r18,-112
+ 1716 0b2c 3F4F      		sbci r19,-1
+ 1717 0b2e F901      		movw r30,r18
+ 1718 0b30 2081      		ld r18,Z
+ 1719 0b32 FC01      		movw r30,r24
+ 1720 0b34 2083      		st Z,r18
+ 1721               	.LBB177:
+ 1722               	.LBB178:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 1723               		.loc 3 83 0
+ 1724 0b36 CE01      		movw r24,r28
+ 1725 0b38 8D57      		subi r24,125
+ 1726 0b3a 9F4F      		sbci r25,-1
+ 1727 0b3c FC01      		movw r30,r24
+ 1728 0b3e 8081      		ld r24,Z
+ 1729 0b40 282F      		mov r18,r24
+ 1730               	/* #APP */
+ 1731               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 1732 0b42 2A95      		1: dec r18
+ 1733 0b44 01F4      		brne 1b
+ 1734               	 ;  0 "" 2
+ 1735               	/* #NOAPP */
+ 1736 0b46 CE01      		movw r24,r28
+ 1737 0b48 8D57      		subi r24,125
+ 1738 0b4a 9F4F      		sbci r25,-1
+ 1739 0b4c FC01      		movw r30,r24
+ 1740 0b4e 2083      		st Z,r18
+ 1741 0b50 00C0      		rjmp .L18
+ 1742               	.L51:
+ 1743               	.LBE178:
+ 1744               	.LBE177:
+ 1745               	.LBE179:
+ 1746               	.LBE180:
+  23:main.c        **** 		_delay_us(716);
+  24:main.c        **** 		else if ((PINA & 0b00001000) == 0)
+ 1747               		.loc 1 24 0
+ 1748 0b52 80E2      		ldi r24,lo8(32)
+ 1749 0b54 90E0      		ldi r25,0
+ 1750 0b56 FC01      		movw r30,r24
+ 1751 0b58 8081      		ld r24,Z
+ 1752 0b5a 882F      		mov r24,r24
+ 1753 0b5c 90E0      		ldi r25,0
+ 1754 0b5e 8870      		andi r24,8
+ 1755 0b60 9927      		clr r25
+ 1756 0b62 892B      		or r24,r25
+ 1757 0b64 01F0      		breq .+2
+ 1758 0b66 00C0      		rjmp .L67
+ 1759 0b68 9E01      		movw r18,r28
+ 1760 0b6a 2B57      		subi r18,123
+ 1761 0b6c 3F4F      		sbci r19,-1
+ 1762 0b6e 80E0      		ldi r24,0
+ 1763 0b70 90E8      		ldi r25,lo8(-128)
+ 1764 0b72 AFE1      		ldi r26,lo8(31)
+ 1765 0b74 B4E4      		ldi r27,lo8(68)
+ 1766 0b76 F901      		movw r30,r18
+ 1767 0b78 8083      		st Z,r24
+ 1768 0b7a 9183      		std Z+1,r25
+ 1769 0b7c A283      		std Z+2,r26
+ 1770 0b7e B383      		std Z+3,r27
+ 1771               	.LBB181:
+ 1772               	.LBB182:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 1773               		.loc 2 250 0
+ 1774 0b80 8E01      		movw r16,r28
+ 1775 0b82 0757      		subi r16,119
+ 1776 0b84 1F4F      		sbci r17,-1
+ 1777 0b86 CE01      		movw r24,r28
+ 1778 0b88 8B57      		subi r24,123
+ 1779 0b8a 9F4F      		sbci r25,-1
+ 1780 0b8c 2BEA      		ldi r18,lo8(-85)
+ 1781 0b8e 3AEA      		ldi r19,lo8(-86)
+ 1782 0b90 4AEA      		ldi r20,lo8(-86)
+ 1783 0b92 50E4      		ldi r21,lo8(64)
+ 1784 0b94 FC01      		movw r30,r24
+ 1785 0b96 6081      		ld r22,Z
+ 1786 0b98 7181      		ldd r23,Z+1
+ 1787 0b9a 8281      		ldd r24,Z+2
+ 1788 0b9c 9381      		ldd r25,Z+3
+ 1789 0b9e 0E94 0000 		call __mulsf3
+ 1790 0ba2 DC01      		movw r26,r24
+ 1791 0ba4 CB01      		movw r24,r22
+ 1792 0ba6 F801      		movw r30,r16
+ 1793 0ba8 8083      		st Z,r24
+ 1794 0baa 9183      		std Z+1,r25
+ 1795 0bac A283      		std Z+2,r26
+ 1796 0bae B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 1797               		.loc 2 251 0
+ 1798 0bb0 8E01      		movw r16,r28
+ 1799 0bb2 0357      		subi r16,115
+ 1800 0bb4 1F4F      		sbci r17,-1
+ 1801 0bb6 CE01      		movw r24,r28
+ 1802 0bb8 8B57      		subi r24,123
+ 1803 0bba 9F4F      		sbci r25,-1
+ 1804 0bbc 20E0      		ldi r18,0
+ 1805 0bbe 30E0      		ldi r19,0
+ 1806 0bc0 40E8      		ldi r20,lo8(-128)
+ 1807 0bc2 50E4      		ldi r21,lo8(64)
+ 1808 0bc4 FC01      		movw r30,r24
+ 1809 0bc6 6081      		ld r22,Z
+ 1810 0bc8 7181      		ldd r23,Z+1
+ 1811 0bca 8281      		ldd r24,Z+2
+ 1812 0bcc 9381      		ldd r25,Z+3
+ 1813 0bce 0E94 0000 		call __mulsf3
+ 1814 0bd2 DC01      		movw r26,r24
+ 1815 0bd4 CB01      		movw r24,r22
+ 1816 0bd6 F801      		movw r30,r16
+ 1817 0bd8 8083      		st Z,r24
+ 1818 0bda 9183      		std Z+1,r25
+ 1819 0bdc A283      		std Z+2,r26
+ 1820 0bde B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 1821               		.loc 2 252 0
+ 1822 0be0 CE01      		movw r24,r28
+ 1823 0be2 8757      		subi r24,119
+ 1824 0be4 9F4F      		sbci r25,-1
+ 1825 0be6 20E0      		ldi r18,0
+ 1826 0be8 30E0      		ldi r19,0
+ 1827 0bea 40E8      		ldi r20,lo8(-128)
+ 1828 0bec 5FE3      		ldi r21,lo8(63)
+ 1829 0bee FC01      		movw r30,r24
+ 1830 0bf0 6081      		ld r22,Z
+ 1831 0bf2 7181      		ldd r23,Z+1
+ 1832 0bf4 8281      		ldd r24,Z+2
+ 1833 0bf6 9381      		ldd r25,Z+3
+ 1834 0bf8 0E94 0000 		call __ltsf2
+ 1835 0bfc 8823      		tst r24
+ 1836 0bfe 04F4      		brge .L191
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 1837               		.loc 2 253 0
+ 1838 0c00 CE01      		movw r24,r28
+ 1839 0c02 8F56      		subi r24,111
+ 1840 0c04 9F4F      		sbci r25,-1
+ 1841 0c06 21E0      		ldi r18,lo8(1)
+ 1842 0c08 FC01      		movw r30,r24
+ 1843 0c0a 2083      		st Z,r18
+ 1844 0c0c 00C0      		rjmp .L70
+ 1845               	.L191:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 1846               		.loc 2 254 0
+ 1847 0c0e CE01      		movw r24,r28
+ 1848 0c10 8357      		subi r24,115
+ 1849 0c12 9F4F      		sbci r25,-1
+ 1850 0c14 20E0      		ldi r18,0
+ 1851 0c16 3FEF      		ldi r19,lo8(-1)
+ 1852 0c18 4FE7      		ldi r20,lo8(127)
+ 1853 0c1a 57E4      		ldi r21,lo8(71)
+ 1854 0c1c FC01      		movw r30,r24
+ 1855 0c1e 6081      		ld r22,Z
+ 1856 0c20 7181      		ldd r23,Z+1
+ 1857 0c22 8281      		ldd r24,Z+2
+ 1858 0c24 9381      		ldd r25,Z+3
+ 1859 0c26 0E94 0000 		call __gtsf2
+ 1860 0c2a 1816      		cp __zero_reg__,r24
+ 1861 0c2c 04F0      		brlt .+2
+ 1862 0c2e 00C0      		rjmp .L192
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 1863               		.loc 2 256 0
+ 1864 0c30 CE01      		movw r24,r28
+ 1865 0c32 8B57      		subi r24,123
+ 1866 0c34 9F4F      		sbci r25,-1
+ 1867 0c36 20E0      		ldi r18,0
+ 1868 0c38 30E0      		ldi r19,0
+ 1869 0c3a 4AE7      		ldi r20,lo8(122)
+ 1870 0c3c 54E4      		ldi r21,lo8(68)
+ 1871 0c3e FC01      		movw r30,r24
+ 1872 0c40 6081      		ld r22,Z
+ 1873 0c42 7181      		ldd r23,Z+1
+ 1874 0c44 8281      		ldd r24,Z+2
+ 1875 0c46 9381      		ldd r25,Z+3
+ 1876 0c48 0E94 0000 		call __divsf3
+ 1877 0c4c DC01      		movw r26,r24
+ 1878 0c4e CB01      		movw r24,r22
+ 1879 0c50 9E01      		movw r18,r28
+ 1880 0c52 2E56      		subi r18,110
+ 1881 0c54 3F4F      		sbci r19,-1
+ 1882 0c56 F901      		movw r30,r18
+ 1883 0c58 8083      		st Z,r24
+ 1884 0c5a 9183      		std Z+1,r25
+ 1885 0c5c A283      		std Z+2,r26
+ 1886 0c5e B383      		std Z+3,r27
+ 1887               	.LBB183:
+ 1888               	.LBB184:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 1889               		.loc 2 167 0
+ 1890 0c60 8E01      		movw r16,r28
+ 1891 0c62 0A56      		subi r16,106
+ 1892 0c64 1F4F      		sbci r17,-1
+ 1893 0c66 CE01      		movw r24,r28
+ 1894 0c68 8E56      		subi r24,110
+ 1895 0c6a 9F4F      		sbci r25,-1
+ 1896 0c6c 20E0      		ldi r18,0
+ 1897 0c6e 30E0      		ldi r19,0
+ 1898 0c70 4AE7      		ldi r20,lo8(122)
+ 1899 0c72 55E4      		ldi r21,lo8(69)
+ 1900 0c74 FC01      		movw r30,r24
+ 1901 0c76 6081      		ld r22,Z
+ 1902 0c78 7181      		ldd r23,Z+1
+ 1903 0c7a 8281      		ldd r24,Z+2
+ 1904 0c7c 9381      		ldd r25,Z+3
+ 1905 0c7e 0E94 0000 		call __mulsf3
+ 1906 0c82 DC01      		movw r26,r24
+ 1907 0c84 CB01      		movw r24,r22
+ 1908 0c86 F801      		movw r30,r16
+ 1909 0c88 8083      		st Z,r24
+ 1910 0c8a 9183      		std Z+1,r25
+ 1911 0c8c A283      		std Z+2,r26
+ 1912 0c8e B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 1913               		.loc 2 168 0
+ 1914 0c90 CE01      		movw r24,r28
+ 1915 0c92 8A56      		subi r24,106
+ 1916 0c94 9F4F      		sbci r25,-1
+ 1917 0c96 20E0      		ldi r18,0
+ 1918 0c98 30E0      		ldi r19,0
+ 1919 0c9a 40E8      		ldi r20,lo8(-128)
+ 1920 0c9c 5FE3      		ldi r21,lo8(63)
+ 1921 0c9e FC01      		movw r30,r24
+ 1922 0ca0 6081      		ld r22,Z
+ 1923 0ca2 7181      		ldd r23,Z+1
+ 1924 0ca4 8281      		ldd r24,Z+2
+ 1925 0ca6 9381      		ldd r25,Z+3
+ 1926 0ca8 0E94 0000 		call __ltsf2
+ 1927 0cac 8823      		tst r24
+ 1928 0cae 04F4      		brge .L193
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 1929               		.loc 2 169 0
+ 1930 0cb0 CE01      		movw r24,r28
+ 1931 0cb2 8656      		subi r24,102
+ 1932 0cb4 9F4F      		sbci r25,-1
+ 1933 0cb6 21E0      		ldi r18,lo8(1)
+ 1934 0cb8 30E0      		ldi r19,0
+ 1935 0cba FC01      		movw r30,r24
+ 1936 0cbc 3183      		std Z+1,r19
+ 1937 0cbe 2083      		st Z,r18
+ 1938 0cc0 00C0      		rjmp .L75
+ 1939               	.L193:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 1940               		.loc 2 170 0
+ 1941 0cc2 CE01      		movw r24,r28
+ 1942 0cc4 8A56      		subi r24,106
+ 1943 0cc6 9F4F      		sbci r25,-1
+ 1944 0cc8 20E0      		ldi r18,0
+ 1945 0cca 3FEF      		ldi r19,lo8(-1)
+ 1946 0ccc 4FE7      		ldi r20,lo8(127)
+ 1947 0cce 57E4      		ldi r21,lo8(71)
+ 1948 0cd0 FC01      		movw r30,r24
+ 1949 0cd2 6081      		ld r22,Z
+ 1950 0cd4 7181      		ldd r23,Z+1
+ 1951 0cd6 8281      		ldd r24,Z+2
+ 1952 0cd8 9381      		ldd r25,Z+3
+ 1953 0cda 0E94 0000 		call __gtsf2
+ 1954 0cde 1816      		cp __zero_reg__,r24
+ 1955 0ce0 04F0      		brlt .+2
+ 1956 0ce2 00C0      		rjmp .L194
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 1957               		.loc 2 173 0
+ 1958 0ce4 CE01      		movw r24,r28
+ 1959 0ce6 8E56      		subi r24,110
+ 1960 0ce8 9F4F      		sbci r25,-1
+ 1961 0cea 20E0      		ldi r18,0
+ 1962 0cec 30E0      		ldi r19,0
+ 1963 0cee 40E2      		ldi r20,lo8(32)
+ 1964 0cf0 51E4      		ldi r21,lo8(65)
+ 1965 0cf2 FC01      		movw r30,r24
+ 1966 0cf4 6081      		ld r22,Z
+ 1967 0cf6 7181      		ldd r23,Z+1
+ 1968 0cf8 8281      		ldd r24,Z+2
+ 1969 0cfa 9381      		ldd r25,Z+3
+ 1970 0cfc 0E94 0000 		call __mulsf3
+ 1971 0d00 DC01      		movw r26,r24
+ 1972 0d02 CB01      		movw r24,r22
+ 1973 0d04 8E01      		movw r16,r28
+ 1974 0d06 0656      		subi r16,102
+ 1975 0d08 1F4F      		sbci r17,-1
+ 1976 0d0a BC01      		movw r22,r24
+ 1977 0d0c CD01      		movw r24,r26
+ 1978 0d0e 0E94 0000 		call __fixunssfsi
+ 1979 0d12 DC01      		movw r26,r24
+ 1980 0d14 CB01      		movw r24,r22
+ 1981 0d16 F801      		movw r30,r16
+ 1982 0d18 9183      		std Z+1,r25
+ 1983 0d1a 8083      		st Z,r24
+ 1984 0d1c 00C0      		rjmp .L78
+ 1985               	.L79:
+ 1986 0d1e CE01      		movw r24,r28
+ 1987 0d20 8456      		subi r24,100
+ 1988 0d22 9F4F      		sbci r25,-1
+ 1989 0d24 20E9      		ldi r18,lo8(-112)
+ 1990 0d26 31E0      		ldi r19,lo8(1)
+ 1991 0d28 FC01      		movw r30,r24
+ 1992 0d2a 3183      		std Z+1,r19
+ 1993 0d2c 2083      		st Z,r18
+ 1994               	.LBB185:
+ 1995               	.LBB186:
+ 1996               		.loc 3 105 0
+ 1997 0d2e CE01      		movw r24,r28
+ 1998 0d30 8456      		subi r24,100
+ 1999 0d32 9F4F      		sbci r25,-1
+ 2000 0d34 FC01      		movw r30,r24
+ 2001 0d36 8081      		ld r24,Z
+ 2002 0d38 9181      		ldd r25,Z+1
+ 2003               	/* #APP */
+ 2004               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2005 0d3a 0197      		1: sbiw r24,1
+ 2006 0d3c 01F4      		brne 1b
+ 2007               	 ;  0 "" 2
+ 2008               	/* #NOAPP */
+ 2009 0d3e 9E01      		movw r18,r28
+ 2010 0d40 2456      		subi r18,100
+ 2011 0d42 3F4F      		sbci r19,-1
+ 2012 0d44 F901      		movw r30,r18
+ 2013 0d46 9183      		std Z+1,r25
+ 2014 0d48 8083      		st Z,r24
+ 2015               	.LBE186:
+ 2016               	.LBE185:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 2017               		.loc 2 178 0
+ 2018 0d4a CE01      		movw r24,r28
+ 2019 0d4c 8656      		subi r24,102
+ 2020 0d4e 9F4F      		sbci r25,-1
+ 2021 0d50 9E01      		movw r18,r28
+ 2022 0d52 2656      		subi r18,102
+ 2023 0d54 3F4F      		sbci r19,-1
+ 2024 0d56 F901      		movw r30,r18
+ 2025 0d58 2081      		ld r18,Z
+ 2026 0d5a 3181      		ldd r19,Z+1
+ 2027 0d5c 2150      		subi r18,1
+ 2028 0d5e 3109      		sbc r19,__zero_reg__
+ 2029 0d60 FC01      		movw r30,r24
+ 2030 0d62 3183      		std Z+1,r19
+ 2031 0d64 2083      		st Z,r18
+ 2032               	.L78:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 2033               		.loc 2 174 0
+ 2034 0d66 CE01      		movw r24,r28
+ 2035 0d68 8656      		subi r24,102
+ 2036 0d6a 9F4F      		sbci r25,-1
+ 2037 0d6c FC01      		movw r30,r24
+ 2038 0d6e 8081      		ld r24,Z
+ 2039 0d70 9181      		ldd r25,Z+1
+ 2040 0d72 892B      		or r24,r25
+ 2041 0d74 01F4      		brne .L79
+ 2042 0d76 CE01      		movw r24,r28
+ 2043 0d78 8F56      		subi r24,111
+ 2044 0d7a 9F4F      		sbci r25,-1
+ 2045 0d7c 9E01      		movw r18,r28
+ 2046 0d7e 2B55      		subi r18,91
+ 2047 0d80 3F4F      		sbci r19,-1
+ 2048 0d82 F901      		movw r30,r18
+ 2049 0d84 2081      		ld r18,Z
+ 2050 0d86 FC01      		movw r30,r24
+ 2051 0d88 2083      		st Z,r18
+ 2052 0d8a 00C0      		rjmp .L70
+ 2053               	.L194:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 2054               		.loc 2 183 0
+ 2055 0d8c 8E01      		movw r16,r28
+ 2056 0d8e 0656      		subi r16,102
+ 2057 0d90 1F4F      		sbci r17,-1
+ 2058 0d92 CE01      		movw r24,r28
+ 2059 0d94 8A56      		subi r24,106
+ 2060 0d96 9F4F      		sbci r25,-1
+ 2061 0d98 FC01      		movw r30,r24
+ 2062 0d9a 6081      		ld r22,Z
+ 2063 0d9c 7181      		ldd r23,Z+1
+ 2064 0d9e 8281      		ldd r24,Z+2
+ 2065 0da0 9381      		ldd r25,Z+3
+ 2066 0da2 0E94 0000 		call __fixunssfsi
+ 2067 0da6 DC01      		movw r26,r24
+ 2068 0da8 CB01      		movw r24,r22
+ 2069 0daa F801      		movw r30,r16
+ 2070 0dac 9183      		std Z+1,r25
+ 2071 0dae 8083      		st Z,r24
+ 2072               	.L75:
+ 2073 0db0 CE01      		movw r24,r28
+ 2074 0db2 8256      		subi r24,98
+ 2075 0db4 9F4F      		sbci r25,-1
+ 2076 0db6 9E01      		movw r18,r28
+ 2077 0db8 2656      		subi r18,102
+ 2078 0dba 3F4F      		sbci r19,-1
+ 2079 0dbc F901      		movw r30,r18
+ 2080 0dbe 2081      		ld r18,Z
+ 2081 0dc0 3181      		ldd r19,Z+1
+ 2082 0dc2 FC01      		movw r30,r24
+ 2083 0dc4 3183      		std Z+1,r19
+ 2084 0dc6 2083      		st Z,r18
+ 2085               	.LBB187:
+ 2086               	.LBB188:
+ 2087               		.loc 3 105 0
+ 2088 0dc8 CE01      		movw r24,r28
+ 2089 0dca 8256      		subi r24,98
+ 2090 0dcc 9F4F      		sbci r25,-1
+ 2091 0dce FC01      		movw r30,r24
+ 2092 0dd0 8081      		ld r24,Z
+ 2093 0dd2 9181      		ldd r25,Z+1
+ 2094               	/* #APP */
+ 2095               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2096 0dd4 0197      		1: sbiw r24,1
+ 2097 0dd6 01F4      		brne 1b
+ 2098               	 ;  0 "" 2
+ 2099               	/* #NOAPP */
+ 2100 0dd8 9E01      		movw r18,r28
+ 2101 0dda 2256      		subi r18,98
+ 2102 0ddc 3F4F      		sbci r19,-1
+ 2103 0dde F901      		movw r30,r18
+ 2104 0de0 9183      		std Z+1,r25
+ 2105 0de2 8083      		st Z,r24
+ 2106 0de4 CE01      		movw r24,r28
+ 2107 0de6 8F56      		subi r24,111
+ 2108 0de8 9F4F      		sbci r25,-1
+ 2109 0dea 9E01      		movw r18,r28
+ 2110 0dec 2B55      		subi r18,91
+ 2111 0dee 3F4F      		sbci r19,-1
+ 2112 0df0 F901      		movw r30,r18
+ 2113 0df2 2081      		ld r18,Z
+ 2114 0df4 FC01      		movw r30,r24
+ 2115 0df6 2083      		st Z,r18
+ 2116 0df8 00C0      		rjmp .L70
+ 2117               	.L192:
+ 2118               	.LBE188:
+ 2119               	.LBE187:
+ 2120               	.LBE184:
+ 2121               	.LBE183:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 2122               		.loc 2 258 0
+ 2123 0dfa CE01      		movw r24,r28
+ 2124 0dfc 8757      		subi r24,119
+ 2125 0dfe 9F4F      		sbci r25,-1
+ 2126 0e00 20E0      		ldi r18,0
+ 2127 0e02 30E0      		ldi r19,0
+ 2128 0e04 4FE7      		ldi r20,lo8(127)
+ 2129 0e06 53E4      		ldi r21,lo8(67)
+ 2130 0e08 FC01      		movw r30,r24
+ 2131 0e0a 6081      		ld r22,Z
+ 2132 0e0c 7181      		ldd r23,Z+1
+ 2133 0e0e 8281      		ldd r24,Z+2
+ 2134 0e10 9381      		ldd r25,Z+3
+ 2135 0e12 0E94 0000 		call __gtsf2
+ 2136 0e16 1816      		cp __zero_reg__,r24
+ 2137 0e18 04F4      		brge .L195
+ 2138               	.LBB189:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 2139               		.loc 2 260 0
+ 2140 0e1a 8E01      		movw r16,r28
+ 2141 0e1c 0056      		subi r16,96
+ 2142 0e1e 1F4F      		sbci r17,-1
+ 2143 0e20 CE01      		movw r24,r28
+ 2144 0e22 8357      		subi r24,115
+ 2145 0e24 9F4F      		sbci r25,-1
+ 2146 0e26 FC01      		movw r30,r24
+ 2147 0e28 6081      		ld r22,Z
+ 2148 0e2a 7181      		ldd r23,Z+1
+ 2149 0e2c 8281      		ldd r24,Z+2
+ 2150 0e2e 9381      		ldd r25,Z+3
+ 2151 0e30 0E94 0000 		call __fixunssfsi
+ 2152 0e34 DC01      		movw r26,r24
+ 2153 0e36 CB01      		movw r24,r22
+ 2154 0e38 F801      		movw r30,r16
+ 2155 0e3a 9183      		std Z+1,r25
+ 2156 0e3c 8083      		st Z,r24
+ 2157 0e3e CE01      		movw r24,r28
+ 2158 0e40 8E55      		subi r24,94
+ 2159 0e42 9F4F      		sbci r25,-1
+ 2160 0e44 9E01      		movw r18,r28
+ 2161 0e46 2056      		subi r18,96
+ 2162 0e48 3F4F      		sbci r19,-1
+ 2163 0e4a F901      		movw r30,r18
+ 2164 0e4c 2081      		ld r18,Z
+ 2165 0e4e 3181      		ldd r19,Z+1
+ 2166 0e50 FC01      		movw r30,r24
+ 2167 0e52 3183      		std Z+1,r19
+ 2168 0e54 2083      		st Z,r18
+ 2169               	.LBB190:
+ 2170               	.LBB191:
+ 2171               		.loc 3 105 0
+ 2172 0e56 CE01      		movw r24,r28
+ 2173 0e58 8E55      		subi r24,94
+ 2174 0e5a 9F4F      		sbci r25,-1
+ 2175 0e5c FC01      		movw r30,r24
+ 2176 0e5e 8081      		ld r24,Z
+ 2177 0e60 9181      		ldd r25,Z+1
+ 2178               	/* #APP */
+ 2179               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2180 0e62 0197      		1: sbiw r24,1
+ 2181 0e64 01F4      		brne 1b
+ 2182               	 ;  0 "" 2
+ 2183               	/* #NOAPP */
+ 2184 0e66 9E01      		movw r18,r28
+ 2185 0e68 2E55      		subi r18,94
+ 2186 0e6a 3F4F      		sbci r19,-1
+ 2187 0e6c F901      		movw r30,r18
+ 2188 0e6e 9183      		std Z+1,r25
+ 2189 0e70 8083      		st Z,r24
+ 2190               	.LBE191:
+ 2191               	.LBE190:
+ 2192               	.LBE189:
+ 2193               	.LBE182:
+ 2194               	.LBE181:
+ 2195 0e72 00C0      		rjmp .L18
+ 2196               	.L195:
+ 2197               	.LBB195:
+ 2198               	.LBB194:
+ 2199               		.loc 2 265 0
+ 2200 0e74 8E01      		movw r16,r28
+ 2201 0e76 0F56      		subi r16,111
+ 2202 0e78 1F4F      		sbci r17,-1
+ 2203 0e7a CE01      		movw r24,r28
+ 2204 0e7c 8757      		subi r24,119
+ 2205 0e7e 9F4F      		sbci r25,-1
+ 2206 0e80 FC01      		movw r30,r24
+ 2207 0e82 6081      		ld r22,Z
+ 2208 0e84 7181      		ldd r23,Z+1
+ 2209 0e86 8281      		ldd r24,Z+2
+ 2210 0e88 9381      		ldd r25,Z+3
+ 2211 0e8a 0E94 0000 		call __fixunssfsi
+ 2212 0e8e DC01      		movw r26,r24
+ 2213 0e90 CB01      		movw r24,r22
+ 2214 0e92 F801      		movw r30,r16
+ 2215 0e94 8083      		st Z,r24
+ 2216               	.L70:
+ 2217 0e96 CE01      		movw r24,r28
+ 2218 0e98 8C55      		subi r24,92
+ 2219 0e9a 9F4F      		sbci r25,-1
+ 2220 0e9c 9E01      		movw r18,r28
+ 2221 0e9e 2F56      		subi r18,111
+ 2222 0ea0 3F4F      		sbci r19,-1
+ 2223 0ea2 F901      		movw r30,r18
+ 2224 0ea4 2081      		ld r18,Z
+ 2225 0ea6 FC01      		movw r30,r24
+ 2226 0ea8 2083      		st Z,r18
+ 2227               	.LBB192:
+ 2228               	.LBB193:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 2229               		.loc 3 83 0
+ 2230 0eaa CE01      		movw r24,r28
+ 2231 0eac 8C55      		subi r24,92
+ 2232 0eae 9F4F      		sbci r25,-1
+ 2233 0eb0 FC01      		movw r30,r24
+ 2234 0eb2 8081      		ld r24,Z
+ 2235 0eb4 282F      		mov r18,r24
+ 2236               	/* #APP */
+ 2237               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2238 0eb6 2A95      		1: dec r18
+ 2239 0eb8 01F4      		brne 1b
+ 2240               	 ;  0 "" 2
+ 2241               	/* #NOAPP */
+ 2242 0eba CE01      		movw r24,r28
+ 2243 0ebc 8C55      		subi r24,92
+ 2244 0ebe 9F4F      		sbci r25,-1
+ 2245 0ec0 FC01      		movw r30,r24
+ 2246 0ec2 2083      		st Z,r18
+ 2247 0ec4 00C0      		rjmp .L18
+ 2248               	.L67:
+ 2249               	.LBE193:
+ 2250               	.LBE192:
+ 2251               	.LBE194:
+ 2252               	.LBE195:
+  25:main.c        **** 		_delay_us(638);
+  26:main.c        **** 		else if ((PINA & 0b00000100) == 0)
+ 2253               		.loc 1 26 0
+ 2254 0ec6 80E2      		ldi r24,lo8(32)
+ 2255 0ec8 90E0      		ldi r25,0
+ 2256 0eca FC01      		movw r30,r24
+ 2257 0ecc 8081      		ld r24,Z
+ 2258 0ece 882F      		mov r24,r24
+ 2259 0ed0 90E0      		ldi r25,0
+ 2260 0ed2 8470      		andi r24,4
+ 2261 0ed4 9927      		clr r25
+ 2262 0ed6 892B      		or r24,r25
+ 2263 0ed8 01F0      		breq .+2
+ 2264 0eda 00C0      		rjmp .L83
+ 2265 0edc 9E01      		movw r18,r28
+ 2266 0ede 2A55      		subi r18,90
+ 2267 0ee0 3F4F      		sbci r19,-1
+ 2268 0ee2 80E0      		ldi r24,0
+ 2269 0ee4 90E0      		ldi r25,0
+ 2270 0ee6 AEE0      		ldi r26,lo8(14)
+ 2271 0ee8 B4E4      		ldi r27,lo8(68)
+ 2272 0eea F901      		movw r30,r18
+ 2273 0eec 8083      		st Z,r24
+ 2274 0eee 9183      		std Z+1,r25
+ 2275 0ef0 A283      		std Z+2,r26
+ 2276 0ef2 B383      		std Z+3,r27
+ 2277               	.LBB196:
+ 2278               	.LBB197:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 2279               		.loc 2 250 0
+ 2280 0ef4 8E01      		movw r16,r28
+ 2281 0ef6 0655      		subi r16,86
+ 2282 0ef8 1F4F      		sbci r17,-1
+ 2283 0efa CE01      		movw r24,r28
+ 2284 0efc 8A55      		subi r24,90
+ 2285 0efe 9F4F      		sbci r25,-1
+ 2286 0f00 2BEA      		ldi r18,lo8(-85)
+ 2287 0f02 3AEA      		ldi r19,lo8(-86)
+ 2288 0f04 4AEA      		ldi r20,lo8(-86)
+ 2289 0f06 50E4      		ldi r21,lo8(64)
+ 2290 0f08 FC01      		movw r30,r24
+ 2291 0f0a 6081      		ld r22,Z
+ 2292 0f0c 7181      		ldd r23,Z+1
+ 2293 0f0e 8281      		ldd r24,Z+2
+ 2294 0f10 9381      		ldd r25,Z+3
+ 2295 0f12 0E94 0000 		call __mulsf3
+ 2296 0f16 DC01      		movw r26,r24
+ 2297 0f18 CB01      		movw r24,r22
+ 2298 0f1a F801      		movw r30,r16
+ 2299 0f1c 8083      		st Z,r24
+ 2300 0f1e 9183      		std Z+1,r25
+ 2301 0f20 A283      		std Z+2,r26
+ 2302 0f22 B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 2303               		.loc 2 251 0
+ 2304 0f24 8E01      		movw r16,r28
+ 2305 0f26 0255      		subi r16,82
+ 2306 0f28 1F4F      		sbci r17,-1
+ 2307 0f2a CE01      		movw r24,r28
+ 2308 0f2c 8A55      		subi r24,90
+ 2309 0f2e 9F4F      		sbci r25,-1
+ 2310 0f30 20E0      		ldi r18,0
+ 2311 0f32 30E0      		ldi r19,0
+ 2312 0f34 40E8      		ldi r20,lo8(-128)
+ 2313 0f36 50E4      		ldi r21,lo8(64)
+ 2314 0f38 FC01      		movw r30,r24
+ 2315 0f3a 6081      		ld r22,Z
+ 2316 0f3c 7181      		ldd r23,Z+1
+ 2317 0f3e 8281      		ldd r24,Z+2
+ 2318 0f40 9381      		ldd r25,Z+3
+ 2319 0f42 0E94 0000 		call __mulsf3
+ 2320 0f46 DC01      		movw r26,r24
+ 2321 0f48 CB01      		movw r24,r22
+ 2322 0f4a F801      		movw r30,r16
+ 2323 0f4c 8083      		st Z,r24
+ 2324 0f4e 9183      		std Z+1,r25
+ 2325 0f50 A283      		std Z+2,r26
+ 2326 0f52 B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 2327               		.loc 2 252 0
+ 2328 0f54 CE01      		movw r24,r28
+ 2329 0f56 8655      		subi r24,86
+ 2330 0f58 9F4F      		sbci r25,-1
+ 2331 0f5a 20E0      		ldi r18,0
+ 2332 0f5c 30E0      		ldi r19,0
+ 2333 0f5e 40E8      		ldi r20,lo8(-128)
+ 2334 0f60 5FE3      		ldi r21,lo8(63)
+ 2335 0f62 FC01      		movw r30,r24
+ 2336 0f64 6081      		ld r22,Z
+ 2337 0f66 7181      		ldd r23,Z+1
+ 2338 0f68 8281      		ldd r24,Z+2
+ 2339 0f6a 9381      		ldd r25,Z+3
+ 2340 0f6c 0E94 0000 		call __ltsf2
+ 2341 0f70 8823      		tst r24
+ 2342 0f72 04F4      		brge .L196
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 2343               		.loc 2 253 0
+ 2344 0f74 CE01      		movw r24,r28
+ 2345 0f76 8E54      		subi r24,78
+ 2346 0f78 9F4F      		sbci r25,-1
+ 2347 0f7a 21E0      		ldi r18,lo8(1)
+ 2348 0f7c FC01      		movw r30,r24
+ 2349 0f7e 2083      		st Z,r18
+ 2350 0f80 00C0      		rjmp .L86
+ 2351               	.L196:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 2352               		.loc 2 254 0
+ 2353 0f82 CE01      		movw r24,r28
+ 2354 0f84 8255      		subi r24,82
+ 2355 0f86 9F4F      		sbci r25,-1
+ 2356 0f88 20E0      		ldi r18,0
+ 2357 0f8a 3FEF      		ldi r19,lo8(-1)
+ 2358 0f8c 4FE7      		ldi r20,lo8(127)
+ 2359 0f8e 57E4      		ldi r21,lo8(71)
+ 2360 0f90 FC01      		movw r30,r24
+ 2361 0f92 6081      		ld r22,Z
+ 2362 0f94 7181      		ldd r23,Z+1
+ 2363 0f96 8281      		ldd r24,Z+2
+ 2364 0f98 9381      		ldd r25,Z+3
+ 2365 0f9a 0E94 0000 		call __gtsf2
+ 2366 0f9e 1816      		cp __zero_reg__,r24
+ 2367 0fa0 04F0      		brlt .+2
+ 2368 0fa2 00C0      		rjmp .L197
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 2369               		.loc 2 256 0
+ 2370 0fa4 CE01      		movw r24,r28
+ 2371 0fa6 8A55      		subi r24,90
+ 2372 0fa8 9F4F      		sbci r25,-1
+ 2373 0faa 20E0      		ldi r18,0
+ 2374 0fac 30E0      		ldi r19,0
+ 2375 0fae 4AE7      		ldi r20,lo8(122)
+ 2376 0fb0 54E4      		ldi r21,lo8(68)
+ 2377 0fb2 FC01      		movw r30,r24
+ 2378 0fb4 6081      		ld r22,Z
+ 2379 0fb6 7181      		ldd r23,Z+1
+ 2380 0fb8 8281      		ldd r24,Z+2
+ 2381 0fba 9381      		ldd r25,Z+3
+ 2382 0fbc 0E94 0000 		call __divsf3
+ 2383 0fc0 DC01      		movw r26,r24
+ 2384 0fc2 CB01      		movw r24,r22
+ 2385 0fc4 9E01      		movw r18,r28
+ 2386 0fc6 2D54      		subi r18,77
+ 2387 0fc8 3F4F      		sbci r19,-1
+ 2388 0fca F901      		movw r30,r18
+ 2389 0fcc 8083      		st Z,r24
+ 2390 0fce 9183      		std Z+1,r25
+ 2391 0fd0 A283      		std Z+2,r26
+ 2392 0fd2 B383      		std Z+3,r27
+ 2393               	.LBB198:
+ 2394               	.LBB199:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 2395               		.loc 2 167 0
+ 2396 0fd4 8E01      		movw r16,r28
+ 2397 0fd6 0954      		subi r16,73
+ 2398 0fd8 1F4F      		sbci r17,-1
+ 2399 0fda CE01      		movw r24,r28
+ 2400 0fdc 8D54      		subi r24,77
+ 2401 0fde 9F4F      		sbci r25,-1
+ 2402 0fe0 20E0      		ldi r18,0
+ 2403 0fe2 30E0      		ldi r19,0
+ 2404 0fe4 4AE7      		ldi r20,lo8(122)
+ 2405 0fe6 55E4      		ldi r21,lo8(69)
+ 2406 0fe8 FC01      		movw r30,r24
+ 2407 0fea 6081      		ld r22,Z
+ 2408 0fec 7181      		ldd r23,Z+1
+ 2409 0fee 8281      		ldd r24,Z+2
+ 2410 0ff0 9381      		ldd r25,Z+3
+ 2411 0ff2 0E94 0000 		call __mulsf3
+ 2412 0ff6 DC01      		movw r26,r24
+ 2413 0ff8 CB01      		movw r24,r22
+ 2414 0ffa F801      		movw r30,r16
+ 2415 0ffc 8083      		st Z,r24
+ 2416 0ffe 9183      		std Z+1,r25
+ 2417 1000 A283      		std Z+2,r26
+ 2418 1002 B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 2419               		.loc 2 168 0
+ 2420 1004 CE01      		movw r24,r28
+ 2421 1006 8954      		subi r24,73
+ 2422 1008 9F4F      		sbci r25,-1
+ 2423 100a 20E0      		ldi r18,0
+ 2424 100c 30E0      		ldi r19,0
+ 2425 100e 40E8      		ldi r20,lo8(-128)
+ 2426 1010 5FE3      		ldi r21,lo8(63)
+ 2427 1012 FC01      		movw r30,r24
+ 2428 1014 6081      		ld r22,Z
+ 2429 1016 7181      		ldd r23,Z+1
+ 2430 1018 8281      		ldd r24,Z+2
+ 2431 101a 9381      		ldd r25,Z+3
+ 2432 101c 0E94 0000 		call __ltsf2
+ 2433 1020 8823      		tst r24
+ 2434 1022 04F4      		brge .L198
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 2435               		.loc 2 169 0
+ 2436 1024 CE01      		movw r24,r28
+ 2437 1026 8554      		subi r24,69
+ 2438 1028 9F4F      		sbci r25,-1
+ 2439 102a 21E0      		ldi r18,lo8(1)
+ 2440 102c 30E0      		ldi r19,0
+ 2441 102e FC01      		movw r30,r24
+ 2442 1030 3183      		std Z+1,r19
+ 2443 1032 2083      		st Z,r18
+ 2444 1034 00C0      		rjmp .L91
+ 2445               	.L198:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 2446               		.loc 2 170 0
+ 2447 1036 CE01      		movw r24,r28
+ 2448 1038 8954      		subi r24,73
+ 2449 103a 9F4F      		sbci r25,-1
+ 2450 103c 20E0      		ldi r18,0
+ 2451 103e 3FEF      		ldi r19,lo8(-1)
+ 2452 1040 4FE7      		ldi r20,lo8(127)
+ 2453 1042 57E4      		ldi r21,lo8(71)
+ 2454 1044 FC01      		movw r30,r24
+ 2455 1046 6081      		ld r22,Z
+ 2456 1048 7181      		ldd r23,Z+1
+ 2457 104a 8281      		ldd r24,Z+2
+ 2458 104c 9381      		ldd r25,Z+3
+ 2459 104e 0E94 0000 		call __gtsf2
+ 2460 1052 1816      		cp __zero_reg__,r24
+ 2461 1054 04F0      		brlt .+2
+ 2462 1056 00C0      		rjmp .L199
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 2463               		.loc 2 173 0
+ 2464 1058 CE01      		movw r24,r28
+ 2465 105a 8D54      		subi r24,77
+ 2466 105c 9F4F      		sbci r25,-1
+ 2467 105e 20E0      		ldi r18,0
+ 2468 1060 30E0      		ldi r19,0
+ 2469 1062 40E2      		ldi r20,lo8(32)
+ 2470 1064 51E4      		ldi r21,lo8(65)
+ 2471 1066 FC01      		movw r30,r24
+ 2472 1068 6081      		ld r22,Z
+ 2473 106a 7181      		ldd r23,Z+1
+ 2474 106c 8281      		ldd r24,Z+2
+ 2475 106e 9381      		ldd r25,Z+3
+ 2476 1070 0E94 0000 		call __mulsf3
+ 2477 1074 DC01      		movw r26,r24
+ 2478 1076 CB01      		movw r24,r22
+ 2479 1078 8E01      		movw r16,r28
+ 2480 107a 0554      		subi r16,69
+ 2481 107c 1F4F      		sbci r17,-1
+ 2482 107e BC01      		movw r22,r24
+ 2483 1080 CD01      		movw r24,r26
+ 2484 1082 0E94 0000 		call __fixunssfsi
+ 2485 1086 DC01      		movw r26,r24
+ 2486 1088 CB01      		movw r24,r22
+ 2487 108a F801      		movw r30,r16
+ 2488 108c 9183      		std Z+1,r25
+ 2489 108e 8083      		st Z,r24
+ 2490 1090 00C0      		rjmp .L94
+ 2491               	.L95:
+ 2492 1092 CE01      		movw r24,r28
+ 2493 1094 8354      		subi r24,67
+ 2494 1096 9F4F      		sbci r25,-1
+ 2495 1098 20E9      		ldi r18,lo8(-112)
+ 2496 109a 31E0      		ldi r19,lo8(1)
+ 2497 109c FC01      		movw r30,r24
+ 2498 109e 3183      		std Z+1,r19
+ 2499 10a0 2083      		st Z,r18
+ 2500               	.LBB200:
+ 2501               	.LBB201:
+ 2502               		.loc 3 105 0
+ 2503 10a2 CE01      		movw r24,r28
+ 2504 10a4 8354      		subi r24,67
+ 2505 10a6 9F4F      		sbci r25,-1
+ 2506 10a8 FC01      		movw r30,r24
+ 2507 10aa 8081      		ld r24,Z
+ 2508 10ac 9181      		ldd r25,Z+1
+ 2509               	/* #APP */
+ 2510               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2511 10ae 0197      		1: sbiw r24,1
+ 2512 10b0 01F4      		brne 1b
+ 2513               	 ;  0 "" 2
+ 2514               	/* #NOAPP */
+ 2515 10b2 9E01      		movw r18,r28
+ 2516 10b4 2354      		subi r18,67
+ 2517 10b6 3F4F      		sbci r19,-1
+ 2518 10b8 F901      		movw r30,r18
+ 2519 10ba 9183      		std Z+1,r25
+ 2520 10bc 8083      		st Z,r24
+ 2521               	.LBE201:
+ 2522               	.LBE200:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 2523               		.loc 2 178 0
+ 2524 10be CE01      		movw r24,r28
+ 2525 10c0 8554      		subi r24,69
+ 2526 10c2 9F4F      		sbci r25,-1
+ 2527 10c4 9E01      		movw r18,r28
+ 2528 10c6 2554      		subi r18,69
+ 2529 10c8 3F4F      		sbci r19,-1
+ 2530 10ca F901      		movw r30,r18
+ 2531 10cc 2081      		ld r18,Z
+ 2532 10ce 3181      		ldd r19,Z+1
+ 2533 10d0 2150      		subi r18,1
+ 2534 10d2 3109      		sbc r19,__zero_reg__
+ 2535 10d4 FC01      		movw r30,r24
+ 2536 10d6 3183      		std Z+1,r19
+ 2537 10d8 2083      		st Z,r18
+ 2538               	.L94:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 2539               		.loc 2 174 0
+ 2540 10da CE01      		movw r24,r28
+ 2541 10dc 8554      		subi r24,69
+ 2542 10de 9F4F      		sbci r25,-1
+ 2543 10e0 FC01      		movw r30,r24
+ 2544 10e2 8081      		ld r24,Z
+ 2545 10e4 9181      		ldd r25,Z+1
+ 2546 10e6 892B      		or r24,r25
+ 2547 10e8 01F4      		brne .L95
+ 2548 10ea CE01      		movw r24,r28
+ 2549 10ec 8E54      		subi r24,78
+ 2550 10ee 9F4F      		sbci r25,-1
+ 2551 10f0 9E01      		movw r18,r28
+ 2552 10f2 2A53      		subi r18,58
+ 2553 10f4 3F4F      		sbci r19,-1
+ 2554 10f6 F901      		movw r30,r18
+ 2555 10f8 2081      		ld r18,Z
+ 2556 10fa FC01      		movw r30,r24
+ 2557 10fc 2083      		st Z,r18
+ 2558 10fe 00C0      		rjmp .L86
+ 2559               	.L199:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 2560               		.loc 2 183 0
+ 2561 1100 8E01      		movw r16,r28
+ 2562 1102 0554      		subi r16,69
+ 2563 1104 1F4F      		sbci r17,-1
+ 2564 1106 CE01      		movw r24,r28
+ 2565 1108 8954      		subi r24,73
+ 2566 110a 9F4F      		sbci r25,-1
+ 2567 110c FC01      		movw r30,r24
+ 2568 110e 6081      		ld r22,Z
+ 2569 1110 7181      		ldd r23,Z+1
+ 2570 1112 8281      		ldd r24,Z+2
+ 2571 1114 9381      		ldd r25,Z+3
+ 2572 1116 0E94 0000 		call __fixunssfsi
+ 2573 111a DC01      		movw r26,r24
+ 2574 111c CB01      		movw r24,r22
+ 2575 111e F801      		movw r30,r16
+ 2576 1120 9183      		std Z+1,r25
+ 2577 1122 8083      		st Z,r24
+ 2578               	.L91:
+ 2579 1124 CE01      		movw r24,r28
+ 2580 1126 8154      		subi r24,65
+ 2581 1128 9F4F      		sbci r25,-1
+ 2582 112a 9E01      		movw r18,r28
+ 2583 112c 2554      		subi r18,69
+ 2584 112e 3F4F      		sbci r19,-1
+ 2585 1130 F901      		movw r30,r18
+ 2586 1132 2081      		ld r18,Z
+ 2587 1134 3181      		ldd r19,Z+1
+ 2588 1136 FC01      		movw r30,r24
+ 2589 1138 3183      		std Z+1,r19
+ 2590 113a 2083      		st Z,r18
+ 2591               	.LBB202:
+ 2592               	.LBB203:
+ 2593               		.loc 3 105 0
+ 2594 113c CE01      		movw r24,r28
+ 2595 113e 8154      		subi r24,65
+ 2596 1140 9F4F      		sbci r25,-1
+ 2597 1142 FC01      		movw r30,r24
+ 2598 1144 8081      		ld r24,Z
+ 2599 1146 9181      		ldd r25,Z+1
+ 2600               	/* #APP */
+ 2601               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2602 1148 0197      		1: sbiw r24,1
+ 2603 114a 01F4      		brne 1b
+ 2604               	 ;  0 "" 2
+ 2605               	/* #NOAPP */
+ 2606 114c 9E01      		movw r18,r28
+ 2607 114e 2154      		subi r18,65
+ 2608 1150 3F4F      		sbci r19,-1
+ 2609 1152 F901      		movw r30,r18
+ 2610 1154 9183      		std Z+1,r25
+ 2611 1156 8083      		st Z,r24
+ 2612 1158 CE01      		movw r24,r28
+ 2613 115a 8E54      		subi r24,78
+ 2614 115c 9F4F      		sbci r25,-1
+ 2615 115e 9E01      		movw r18,r28
+ 2616 1160 2A53      		subi r18,58
+ 2617 1162 3F4F      		sbci r19,-1
+ 2618 1164 F901      		movw r30,r18
+ 2619 1166 2081      		ld r18,Z
+ 2620 1168 FC01      		movw r30,r24
+ 2621 116a 2083      		st Z,r18
+ 2622 116c 00C0      		rjmp .L86
+ 2623               	.L197:
+ 2624               	.LBE203:
+ 2625               	.LBE202:
+ 2626               	.LBE199:
+ 2627               	.LBE198:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 2628               		.loc 2 258 0
+ 2629 116e CE01      		movw r24,r28
+ 2630 1170 8655      		subi r24,86
+ 2631 1172 9F4F      		sbci r25,-1
+ 2632 1174 20E0      		ldi r18,0
+ 2633 1176 30E0      		ldi r19,0
+ 2634 1178 4FE7      		ldi r20,lo8(127)
+ 2635 117a 53E4      		ldi r21,lo8(67)
+ 2636 117c FC01      		movw r30,r24
+ 2637 117e 6081      		ld r22,Z
+ 2638 1180 7181      		ldd r23,Z+1
+ 2639 1182 8281      		ldd r24,Z+2
+ 2640 1184 9381      		ldd r25,Z+3
+ 2641 1186 0E94 0000 		call __gtsf2
+ 2642 118a 1816      		cp __zero_reg__,r24
+ 2643 118c 04F4      		brge .L200
+ 2644               	.LBB204:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 2645               		.loc 2 260 0
+ 2646 118e 8E01      		movw r16,r28
+ 2647 1190 0F53      		subi r16,63
+ 2648 1192 1F4F      		sbci r17,-1
+ 2649 1194 CE01      		movw r24,r28
+ 2650 1196 8255      		subi r24,82
+ 2651 1198 9F4F      		sbci r25,-1
+ 2652 119a FC01      		movw r30,r24
+ 2653 119c 6081      		ld r22,Z
+ 2654 119e 7181      		ldd r23,Z+1
+ 2655 11a0 8281      		ldd r24,Z+2
+ 2656 11a2 9381      		ldd r25,Z+3
+ 2657 11a4 0E94 0000 		call __fixunssfsi
+ 2658 11a8 DC01      		movw r26,r24
+ 2659 11aa CB01      		movw r24,r22
+ 2660 11ac F801      		movw r30,r16
+ 2661 11ae 9183      		std Z+1,r25
+ 2662 11b0 8083      		st Z,r24
+ 2663 11b2 CE01      		movw r24,r28
+ 2664 11b4 8D53      		subi r24,61
+ 2665 11b6 9F4F      		sbci r25,-1
+ 2666 11b8 9E01      		movw r18,r28
+ 2667 11ba 2F53      		subi r18,63
+ 2668 11bc 3F4F      		sbci r19,-1
+ 2669 11be F901      		movw r30,r18
+ 2670 11c0 2081      		ld r18,Z
+ 2671 11c2 3181      		ldd r19,Z+1
+ 2672 11c4 FC01      		movw r30,r24
+ 2673 11c6 3183      		std Z+1,r19
+ 2674 11c8 2083      		st Z,r18
+ 2675               	.LBB205:
+ 2676               	.LBB206:
+ 2677               		.loc 3 105 0
+ 2678 11ca CE01      		movw r24,r28
+ 2679 11cc 8D53      		subi r24,61
+ 2680 11ce 9F4F      		sbci r25,-1
+ 2681 11d0 FC01      		movw r30,r24
+ 2682 11d2 8081      		ld r24,Z
+ 2683 11d4 9181      		ldd r25,Z+1
+ 2684               	/* #APP */
+ 2685               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2686 11d6 0197      		1: sbiw r24,1
+ 2687 11d8 01F4      		brne 1b
+ 2688               	 ;  0 "" 2
+ 2689               	/* #NOAPP */
+ 2690 11da 9E01      		movw r18,r28
+ 2691 11dc 2D53      		subi r18,61
+ 2692 11de 3F4F      		sbci r19,-1
+ 2693 11e0 F901      		movw r30,r18
+ 2694 11e2 9183      		std Z+1,r25
+ 2695 11e4 8083      		st Z,r24
+ 2696               	.LBE206:
+ 2697               	.LBE205:
+ 2698               	.LBE204:
+ 2699               	.LBE197:
+ 2700               	.LBE196:
+ 2701 11e6 00C0      		rjmp .L18
+ 2702               	.L200:
+ 2703               	.LBB210:
+ 2704               	.LBB209:
+ 2705               		.loc 2 265 0
+ 2706 11e8 8E01      		movw r16,r28
+ 2707 11ea 0E54      		subi r16,78
+ 2708 11ec 1F4F      		sbci r17,-1
+ 2709 11ee CE01      		movw r24,r28
+ 2710 11f0 8655      		subi r24,86
+ 2711 11f2 9F4F      		sbci r25,-1
+ 2712 11f4 FC01      		movw r30,r24
+ 2713 11f6 6081      		ld r22,Z
+ 2714 11f8 7181      		ldd r23,Z+1
+ 2715 11fa 8281      		ldd r24,Z+2
+ 2716 11fc 9381      		ldd r25,Z+3
+ 2717 11fe 0E94 0000 		call __fixunssfsi
+ 2718 1202 DC01      		movw r26,r24
+ 2719 1204 CB01      		movw r24,r22
+ 2720 1206 F801      		movw r30,r16
+ 2721 1208 8083      		st Z,r24
+ 2722               	.L86:
+ 2723 120a CE01      		movw r24,r28
+ 2724 120c 8B53      		subi r24,59
+ 2725 120e 9F4F      		sbci r25,-1
+ 2726 1210 9E01      		movw r18,r28
+ 2727 1212 2E54      		subi r18,78
+ 2728 1214 3F4F      		sbci r19,-1
+ 2729 1216 F901      		movw r30,r18
+ 2730 1218 2081      		ld r18,Z
+ 2731 121a FC01      		movw r30,r24
+ 2732 121c 2083      		st Z,r18
+ 2733               	.LBB207:
+ 2734               	.LBB208:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 2735               		.loc 3 83 0
+ 2736 121e CE01      		movw r24,r28
+ 2737 1220 8B53      		subi r24,59
+ 2738 1222 9F4F      		sbci r25,-1
+ 2739 1224 FC01      		movw r30,r24
+ 2740 1226 8081      		ld r24,Z
+ 2741 1228 282F      		mov r18,r24
+ 2742               	/* #APP */
+ 2743               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 2744 122a 2A95      		1: dec r18
+ 2745 122c 01F4      		brne 1b
+ 2746               	 ;  0 "" 2
+ 2747               	/* #NOAPP */
+ 2748 122e CE01      		movw r24,r28
+ 2749 1230 8B53      		subi r24,59
+ 2750 1232 9F4F      		sbci r25,-1
+ 2751 1234 FC01      		movw r30,r24
+ 2752 1236 2083      		st Z,r18
+ 2753 1238 00C0      		rjmp .L18
+ 2754               	.L83:
+ 2755               	.LBE208:
+ 2756               	.LBE207:
+ 2757               	.LBE209:
+ 2758               	.LBE210:
+  27:main.c        **** 		_delay_us(568);
+  28:main.c        **** 		else if ((PINA & 0b00000010) == 0)
+ 2759               		.loc 1 28 0
+ 2760 123a 80E2      		ldi r24,lo8(32)
+ 2761 123c 90E0      		ldi r25,0
+ 2762 123e FC01      		movw r30,r24
+ 2763 1240 8081      		ld r24,Z
+ 2764 1242 882F      		mov r24,r24
+ 2765 1244 90E0      		ldi r25,0
+ 2766 1246 8270      		andi r24,2
+ 2767 1248 9927      		clr r25
+ 2768 124a 892B      		or r24,r25
+ 2769 124c 01F0      		breq .+2
+ 2770 124e 00C0      		rjmp .L99
+ 2771 1250 9E01      		movw r18,r28
+ 2772 1252 2953      		subi r18,57
+ 2773 1254 3F4F      		sbci r19,-1
+ 2774 1256 80E0      		ldi r24,0
+ 2775 1258 90E0      		ldi r25,0
+ 2776 125a ADEF      		ldi r26,lo8(-3)
+ 2777 125c B3E4      		ldi r27,lo8(67)
+ 2778 125e F901      		movw r30,r18
+ 2779 1260 8083      		st Z,r24
+ 2780 1262 9183      		std Z+1,r25
+ 2781 1264 A283      		std Z+2,r26
+ 2782 1266 B383      		std Z+3,r27
+ 2783               	.LBB211:
+ 2784               	.LBB212:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 2785               		.loc 2 250 0
+ 2786 1268 8E01      		movw r16,r28
+ 2787 126a 0553      		subi r16,53
+ 2788 126c 1F4F      		sbci r17,-1
+ 2789 126e CE01      		movw r24,r28
+ 2790 1270 8953      		subi r24,57
+ 2791 1272 9F4F      		sbci r25,-1
+ 2792 1274 2BEA      		ldi r18,lo8(-85)
+ 2793 1276 3AEA      		ldi r19,lo8(-86)
+ 2794 1278 4AEA      		ldi r20,lo8(-86)
+ 2795 127a 50E4      		ldi r21,lo8(64)
+ 2796 127c FC01      		movw r30,r24
+ 2797 127e 6081      		ld r22,Z
+ 2798 1280 7181      		ldd r23,Z+1
+ 2799 1282 8281      		ldd r24,Z+2
+ 2800 1284 9381      		ldd r25,Z+3
+ 2801 1286 0E94 0000 		call __mulsf3
+ 2802 128a DC01      		movw r26,r24
+ 2803 128c CB01      		movw r24,r22
+ 2804 128e F801      		movw r30,r16
+ 2805 1290 8083      		st Z,r24
+ 2806 1292 9183      		std Z+1,r25
+ 2807 1294 A283      		std Z+2,r26
+ 2808 1296 B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 2809               		.loc 2 251 0
+ 2810 1298 8E01      		movw r16,r28
+ 2811 129a 0153      		subi r16,49
+ 2812 129c 1F4F      		sbci r17,-1
+ 2813 129e CE01      		movw r24,r28
+ 2814 12a0 8953      		subi r24,57
+ 2815 12a2 9F4F      		sbci r25,-1
+ 2816 12a4 20E0      		ldi r18,0
+ 2817 12a6 30E0      		ldi r19,0
+ 2818 12a8 40E8      		ldi r20,lo8(-128)
+ 2819 12aa 50E4      		ldi r21,lo8(64)
+ 2820 12ac FC01      		movw r30,r24
+ 2821 12ae 6081      		ld r22,Z
+ 2822 12b0 7181      		ldd r23,Z+1
+ 2823 12b2 8281      		ldd r24,Z+2
+ 2824 12b4 9381      		ldd r25,Z+3
+ 2825 12b6 0E94 0000 		call __mulsf3
+ 2826 12ba DC01      		movw r26,r24
+ 2827 12bc CB01      		movw r24,r22
+ 2828 12be F801      		movw r30,r16
+ 2829 12c0 8083      		st Z,r24
+ 2830 12c2 9183      		std Z+1,r25
+ 2831 12c4 A283      		std Z+2,r26
+ 2832 12c6 B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 2833               		.loc 2 252 0
+ 2834 12c8 CE01      		movw r24,r28
+ 2835 12ca 8553      		subi r24,53
+ 2836 12cc 9F4F      		sbci r25,-1
+ 2837 12ce 20E0      		ldi r18,0
+ 2838 12d0 30E0      		ldi r19,0
+ 2839 12d2 40E8      		ldi r20,lo8(-128)
+ 2840 12d4 5FE3      		ldi r21,lo8(63)
+ 2841 12d6 FC01      		movw r30,r24
+ 2842 12d8 6081      		ld r22,Z
+ 2843 12da 7181      		ldd r23,Z+1
+ 2844 12dc 8281      		ldd r24,Z+2
+ 2845 12de 9381      		ldd r25,Z+3
+ 2846 12e0 0E94 0000 		call __ltsf2
+ 2847 12e4 8823      		tst r24
+ 2848 12e6 04F4      		brge .L201
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 2849               		.loc 2 253 0
+ 2850 12e8 CE01      		movw r24,r28
+ 2851 12ea 8D52      		subi r24,45
+ 2852 12ec 9F4F      		sbci r25,-1
+ 2853 12ee 21E0      		ldi r18,lo8(1)
+ 2854 12f0 FC01      		movw r30,r24
+ 2855 12f2 2083      		st Z,r18
+ 2856 12f4 00C0      		rjmp .L102
+ 2857               	.L201:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 2858               		.loc 2 254 0
+ 2859 12f6 CE01      		movw r24,r28
+ 2860 12f8 8153      		subi r24,49
+ 2861 12fa 9F4F      		sbci r25,-1
+ 2862 12fc 20E0      		ldi r18,0
+ 2863 12fe 3FEF      		ldi r19,lo8(-1)
+ 2864 1300 4FE7      		ldi r20,lo8(127)
+ 2865 1302 57E4      		ldi r21,lo8(71)
+ 2866 1304 FC01      		movw r30,r24
+ 2867 1306 6081      		ld r22,Z
+ 2868 1308 7181      		ldd r23,Z+1
+ 2869 130a 8281      		ldd r24,Z+2
+ 2870 130c 9381      		ldd r25,Z+3
+ 2871 130e 0E94 0000 		call __gtsf2
+ 2872 1312 1816      		cp __zero_reg__,r24
+ 2873 1314 04F0      		brlt .+2
+ 2874 1316 00C0      		rjmp .L202
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 2875               		.loc 2 256 0
+ 2876 1318 CE01      		movw r24,r28
+ 2877 131a 8953      		subi r24,57
+ 2878 131c 9F4F      		sbci r25,-1
+ 2879 131e 20E0      		ldi r18,0
+ 2880 1320 30E0      		ldi r19,0
+ 2881 1322 4AE7      		ldi r20,lo8(122)
+ 2882 1324 54E4      		ldi r21,lo8(68)
+ 2883 1326 FC01      		movw r30,r24
+ 2884 1328 6081      		ld r22,Z
+ 2885 132a 7181      		ldd r23,Z+1
+ 2886 132c 8281      		ldd r24,Z+2
+ 2887 132e 9381      		ldd r25,Z+3
+ 2888 1330 0E94 0000 		call __divsf3
+ 2889 1334 DC01      		movw r26,r24
+ 2890 1336 CB01      		movw r24,r22
+ 2891 1338 9E01      		movw r18,r28
+ 2892 133a 2C52      		subi r18,44
+ 2893 133c 3F4F      		sbci r19,-1
+ 2894 133e F901      		movw r30,r18
+ 2895 1340 8083      		st Z,r24
+ 2896 1342 9183      		std Z+1,r25
+ 2897 1344 A283      		std Z+2,r26
+ 2898 1346 B383      		std Z+3,r27
+ 2899               	.LBB213:
+ 2900               	.LBB214:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 2901               		.loc 2 167 0
+ 2902 1348 8E01      		movw r16,r28
+ 2903 134a 0852      		subi r16,40
+ 2904 134c 1F4F      		sbci r17,-1
+ 2905 134e CE01      		movw r24,r28
+ 2906 1350 8C52      		subi r24,44
+ 2907 1352 9F4F      		sbci r25,-1
+ 2908 1354 20E0      		ldi r18,0
+ 2909 1356 30E0      		ldi r19,0
+ 2910 1358 4AE7      		ldi r20,lo8(122)
+ 2911 135a 55E4      		ldi r21,lo8(69)
+ 2912 135c FC01      		movw r30,r24
+ 2913 135e 6081      		ld r22,Z
+ 2914 1360 7181      		ldd r23,Z+1
+ 2915 1362 8281      		ldd r24,Z+2
+ 2916 1364 9381      		ldd r25,Z+3
+ 2917 1366 0E94 0000 		call __mulsf3
+ 2918 136a DC01      		movw r26,r24
+ 2919 136c CB01      		movw r24,r22
+ 2920 136e F801      		movw r30,r16
+ 2921 1370 8083      		st Z,r24
+ 2922 1372 9183      		std Z+1,r25
+ 2923 1374 A283      		std Z+2,r26
+ 2924 1376 B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 2925               		.loc 2 168 0
+ 2926 1378 CE01      		movw r24,r28
+ 2927 137a 8852      		subi r24,40
+ 2928 137c 9F4F      		sbci r25,-1
+ 2929 137e 20E0      		ldi r18,0
+ 2930 1380 30E0      		ldi r19,0
+ 2931 1382 40E8      		ldi r20,lo8(-128)
+ 2932 1384 5FE3      		ldi r21,lo8(63)
+ 2933 1386 FC01      		movw r30,r24
+ 2934 1388 6081      		ld r22,Z
+ 2935 138a 7181      		ldd r23,Z+1
+ 2936 138c 8281      		ldd r24,Z+2
+ 2937 138e 9381      		ldd r25,Z+3
+ 2938 1390 0E94 0000 		call __ltsf2
+ 2939 1394 8823      		tst r24
+ 2940 1396 04F4      		brge .L203
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 2941               		.loc 2 169 0
+ 2942 1398 CE01      		movw r24,r28
+ 2943 139a 8452      		subi r24,36
+ 2944 139c 9F4F      		sbci r25,-1
+ 2945 139e 21E0      		ldi r18,lo8(1)
+ 2946 13a0 30E0      		ldi r19,0
+ 2947 13a2 FC01      		movw r30,r24
+ 2948 13a4 3183      		std Z+1,r19
+ 2949 13a6 2083      		st Z,r18
+ 2950 13a8 00C0      		rjmp .L107
+ 2951               	.L203:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 2952               		.loc 2 170 0
+ 2953 13aa CE01      		movw r24,r28
+ 2954 13ac 8852      		subi r24,40
+ 2955 13ae 9F4F      		sbci r25,-1
+ 2956 13b0 20E0      		ldi r18,0
+ 2957 13b2 3FEF      		ldi r19,lo8(-1)
+ 2958 13b4 4FE7      		ldi r20,lo8(127)
+ 2959 13b6 57E4      		ldi r21,lo8(71)
+ 2960 13b8 FC01      		movw r30,r24
+ 2961 13ba 6081      		ld r22,Z
+ 2962 13bc 7181      		ldd r23,Z+1
+ 2963 13be 8281      		ldd r24,Z+2
+ 2964 13c0 9381      		ldd r25,Z+3
+ 2965 13c2 0E94 0000 		call __gtsf2
+ 2966 13c6 1816      		cp __zero_reg__,r24
+ 2967 13c8 04F0      		brlt .+2
+ 2968 13ca 00C0      		rjmp .L204
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 2969               		.loc 2 173 0
+ 2970 13cc CE01      		movw r24,r28
+ 2971 13ce 8C52      		subi r24,44
+ 2972 13d0 9F4F      		sbci r25,-1
+ 2973 13d2 20E0      		ldi r18,0
+ 2974 13d4 30E0      		ldi r19,0
+ 2975 13d6 40E2      		ldi r20,lo8(32)
+ 2976 13d8 51E4      		ldi r21,lo8(65)
+ 2977 13da FC01      		movw r30,r24
+ 2978 13dc 6081      		ld r22,Z
+ 2979 13de 7181      		ldd r23,Z+1
+ 2980 13e0 8281      		ldd r24,Z+2
+ 2981 13e2 9381      		ldd r25,Z+3
+ 2982 13e4 0E94 0000 		call __mulsf3
+ 2983 13e8 DC01      		movw r26,r24
+ 2984 13ea CB01      		movw r24,r22
+ 2985 13ec 8E01      		movw r16,r28
+ 2986 13ee 0452      		subi r16,36
+ 2987 13f0 1F4F      		sbci r17,-1
+ 2988 13f2 BC01      		movw r22,r24
+ 2989 13f4 CD01      		movw r24,r26
+ 2990 13f6 0E94 0000 		call __fixunssfsi
+ 2991 13fa DC01      		movw r26,r24
+ 2992 13fc CB01      		movw r24,r22
+ 2993 13fe F801      		movw r30,r16
+ 2994 1400 9183      		std Z+1,r25
+ 2995 1402 8083      		st Z,r24
+ 2996 1404 00C0      		rjmp .L110
+ 2997               	.L111:
+ 2998 1406 CE01      		movw r24,r28
+ 2999 1408 8252      		subi r24,34
+ 3000 140a 9F4F      		sbci r25,-1
+ 3001 140c 20E9      		ldi r18,lo8(-112)
+ 3002 140e 31E0      		ldi r19,lo8(1)
+ 3003 1410 FC01      		movw r30,r24
+ 3004 1412 3183      		std Z+1,r19
+ 3005 1414 2083      		st Z,r18
+ 3006               	.LBB215:
+ 3007               	.LBB216:
+ 3008               		.loc 3 105 0
+ 3009 1416 CE01      		movw r24,r28
+ 3010 1418 8252      		subi r24,34
+ 3011 141a 9F4F      		sbci r25,-1
+ 3012 141c FC01      		movw r30,r24
+ 3013 141e 8081      		ld r24,Z
+ 3014 1420 9181      		ldd r25,Z+1
+ 3015               	/* #APP */
+ 3016               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3017 1422 0197      		1: sbiw r24,1
+ 3018 1424 01F4      		brne 1b
+ 3019               	 ;  0 "" 2
+ 3020               	/* #NOAPP */
+ 3021 1426 9E01      		movw r18,r28
+ 3022 1428 2252      		subi r18,34
+ 3023 142a 3F4F      		sbci r19,-1
+ 3024 142c F901      		movw r30,r18
+ 3025 142e 9183      		std Z+1,r25
+ 3026 1430 8083      		st Z,r24
+ 3027               	.LBE216:
+ 3028               	.LBE215:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 3029               		.loc 2 178 0
+ 3030 1432 CE01      		movw r24,r28
+ 3031 1434 8452      		subi r24,36
+ 3032 1436 9F4F      		sbci r25,-1
+ 3033 1438 9E01      		movw r18,r28
+ 3034 143a 2452      		subi r18,36
+ 3035 143c 3F4F      		sbci r19,-1
+ 3036 143e F901      		movw r30,r18
+ 3037 1440 2081      		ld r18,Z
+ 3038 1442 3181      		ldd r19,Z+1
+ 3039 1444 2150      		subi r18,1
+ 3040 1446 3109      		sbc r19,__zero_reg__
+ 3041 1448 FC01      		movw r30,r24
+ 3042 144a 3183      		std Z+1,r19
+ 3043 144c 2083      		st Z,r18
+ 3044               	.L110:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 3045               		.loc 2 174 0
+ 3046 144e CE01      		movw r24,r28
+ 3047 1450 8452      		subi r24,36
+ 3048 1452 9F4F      		sbci r25,-1
+ 3049 1454 FC01      		movw r30,r24
+ 3050 1456 8081      		ld r24,Z
+ 3051 1458 9181      		ldd r25,Z+1
+ 3052 145a 892B      		or r24,r25
+ 3053 145c 01F4      		brne .L111
+ 3054 145e CE01      		movw r24,r28
+ 3055 1460 8D52      		subi r24,45
+ 3056 1462 9F4F      		sbci r25,-1
+ 3057 1464 9E01      		movw r18,r28
+ 3058 1466 2951      		subi r18,25
+ 3059 1468 3F4F      		sbci r19,-1
+ 3060 146a F901      		movw r30,r18
+ 3061 146c 2081      		ld r18,Z
+ 3062 146e FC01      		movw r30,r24
+ 3063 1470 2083      		st Z,r18
+ 3064 1472 00C0      		rjmp .L102
+ 3065               	.L204:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 3066               		.loc 2 183 0
+ 3067 1474 8E01      		movw r16,r28
+ 3068 1476 0452      		subi r16,36
+ 3069 1478 1F4F      		sbci r17,-1
+ 3070 147a CE01      		movw r24,r28
+ 3071 147c 8852      		subi r24,40
+ 3072 147e 9F4F      		sbci r25,-1
+ 3073 1480 FC01      		movw r30,r24
+ 3074 1482 6081      		ld r22,Z
+ 3075 1484 7181      		ldd r23,Z+1
+ 3076 1486 8281      		ldd r24,Z+2
+ 3077 1488 9381      		ldd r25,Z+3
+ 3078 148a 0E94 0000 		call __fixunssfsi
+ 3079 148e DC01      		movw r26,r24
+ 3080 1490 CB01      		movw r24,r22
+ 3081 1492 F801      		movw r30,r16
+ 3082 1494 9183      		std Z+1,r25
+ 3083 1496 8083      		st Z,r24
+ 3084               	.L107:
+ 3085 1498 CE01      		movw r24,r28
+ 3086 149a 8052      		subi r24,32
+ 3087 149c 9F4F      		sbci r25,-1
+ 3088 149e 9E01      		movw r18,r28
+ 3089 14a0 2452      		subi r18,36
+ 3090 14a2 3F4F      		sbci r19,-1
+ 3091 14a4 F901      		movw r30,r18
+ 3092 14a6 2081      		ld r18,Z
+ 3093 14a8 3181      		ldd r19,Z+1
+ 3094 14aa FC01      		movw r30,r24
+ 3095 14ac 3183      		std Z+1,r19
+ 3096 14ae 2083      		st Z,r18
+ 3097               	.LBB217:
+ 3098               	.LBB218:
+ 3099               		.loc 3 105 0
+ 3100 14b0 CE01      		movw r24,r28
+ 3101 14b2 8052      		subi r24,32
+ 3102 14b4 9F4F      		sbci r25,-1
+ 3103 14b6 FC01      		movw r30,r24
+ 3104 14b8 8081      		ld r24,Z
+ 3105 14ba 9181      		ldd r25,Z+1
+ 3106               	/* #APP */
+ 3107               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3108 14bc 0197      		1: sbiw r24,1
+ 3109 14be 01F4      		brne 1b
+ 3110               	 ;  0 "" 2
+ 3111               	/* #NOAPP */
+ 3112 14c0 9E01      		movw r18,r28
+ 3113 14c2 2052      		subi r18,32
+ 3114 14c4 3F4F      		sbci r19,-1
+ 3115 14c6 F901      		movw r30,r18
+ 3116 14c8 9183      		std Z+1,r25
+ 3117 14ca 8083      		st Z,r24
+ 3118 14cc CE01      		movw r24,r28
+ 3119 14ce 8D52      		subi r24,45
+ 3120 14d0 9F4F      		sbci r25,-1
+ 3121 14d2 9E01      		movw r18,r28
+ 3122 14d4 2951      		subi r18,25
+ 3123 14d6 3F4F      		sbci r19,-1
+ 3124 14d8 F901      		movw r30,r18
+ 3125 14da 2081      		ld r18,Z
+ 3126 14dc FC01      		movw r30,r24
+ 3127 14de 2083      		st Z,r18
+ 3128 14e0 00C0      		rjmp .L102
+ 3129               	.L202:
+ 3130               	.LBE218:
+ 3131               	.LBE217:
+ 3132               	.LBE214:
+ 3133               	.LBE213:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 3134               		.loc 2 258 0
+ 3135 14e2 CE01      		movw r24,r28
+ 3136 14e4 8553      		subi r24,53
+ 3137 14e6 9F4F      		sbci r25,-1
+ 3138 14e8 20E0      		ldi r18,0
+ 3139 14ea 30E0      		ldi r19,0
+ 3140 14ec 4FE7      		ldi r20,lo8(127)
+ 3141 14ee 53E4      		ldi r21,lo8(67)
+ 3142 14f0 FC01      		movw r30,r24
+ 3143 14f2 6081      		ld r22,Z
+ 3144 14f4 7181      		ldd r23,Z+1
+ 3145 14f6 8281      		ldd r24,Z+2
+ 3146 14f8 9381      		ldd r25,Z+3
+ 3147 14fa 0E94 0000 		call __gtsf2
+ 3148 14fe 1816      		cp __zero_reg__,r24
+ 3149 1500 04F4      		brge .L205
+ 3150               	.LBB219:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 3151               		.loc 2 260 0
+ 3152 1502 8E01      		movw r16,r28
+ 3153 1504 0E51      		subi r16,30
+ 3154 1506 1F4F      		sbci r17,-1
+ 3155 1508 CE01      		movw r24,r28
+ 3156 150a 8153      		subi r24,49
+ 3157 150c 9F4F      		sbci r25,-1
+ 3158 150e FC01      		movw r30,r24
+ 3159 1510 6081      		ld r22,Z
+ 3160 1512 7181      		ldd r23,Z+1
+ 3161 1514 8281      		ldd r24,Z+2
+ 3162 1516 9381      		ldd r25,Z+3
+ 3163 1518 0E94 0000 		call __fixunssfsi
+ 3164 151c DC01      		movw r26,r24
+ 3165 151e CB01      		movw r24,r22
+ 3166 1520 F801      		movw r30,r16
+ 3167 1522 9183      		std Z+1,r25
+ 3168 1524 8083      		st Z,r24
+ 3169 1526 CE01      		movw r24,r28
+ 3170 1528 8C51      		subi r24,28
+ 3171 152a 9F4F      		sbci r25,-1
+ 3172 152c 9E01      		movw r18,r28
+ 3173 152e 2E51      		subi r18,30
+ 3174 1530 3F4F      		sbci r19,-1
+ 3175 1532 F901      		movw r30,r18
+ 3176 1534 2081      		ld r18,Z
+ 3177 1536 3181      		ldd r19,Z+1
+ 3178 1538 FC01      		movw r30,r24
+ 3179 153a 3183      		std Z+1,r19
+ 3180 153c 2083      		st Z,r18
+ 3181               	.LBB220:
+ 3182               	.LBB221:
+ 3183               		.loc 3 105 0
+ 3184 153e CE01      		movw r24,r28
+ 3185 1540 8C51      		subi r24,28
+ 3186 1542 9F4F      		sbci r25,-1
+ 3187 1544 FC01      		movw r30,r24
+ 3188 1546 8081      		ld r24,Z
+ 3189 1548 9181      		ldd r25,Z+1
+ 3190               	/* #APP */
+ 3191               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3192 154a 0197      		1: sbiw r24,1
+ 3193 154c 01F4      		brne 1b
+ 3194               	 ;  0 "" 2
+ 3195               	/* #NOAPP */
+ 3196 154e 9E01      		movw r18,r28
+ 3197 1550 2C51      		subi r18,28
+ 3198 1552 3F4F      		sbci r19,-1
+ 3199 1554 F901      		movw r30,r18
+ 3200 1556 9183      		std Z+1,r25
+ 3201 1558 8083      		st Z,r24
+ 3202               	.LBE221:
+ 3203               	.LBE220:
+ 3204               	.LBE219:
+ 3205               	.LBE212:
+ 3206               	.LBE211:
+ 3207 155a 00C0      		rjmp .L18
+ 3208               	.L205:
+ 3209               	.LBB225:
+ 3210               	.LBB224:
+ 3211               		.loc 2 265 0
+ 3212 155c 8E01      		movw r16,r28
+ 3213 155e 0D52      		subi r16,45
+ 3214 1560 1F4F      		sbci r17,-1
+ 3215 1562 CE01      		movw r24,r28
+ 3216 1564 8553      		subi r24,53
+ 3217 1566 9F4F      		sbci r25,-1
+ 3218 1568 FC01      		movw r30,r24
+ 3219 156a 6081      		ld r22,Z
+ 3220 156c 7181      		ldd r23,Z+1
+ 3221 156e 8281      		ldd r24,Z+2
+ 3222 1570 9381      		ldd r25,Z+3
+ 3223 1572 0E94 0000 		call __fixunssfsi
+ 3224 1576 DC01      		movw r26,r24
+ 3225 1578 CB01      		movw r24,r22
+ 3226 157a F801      		movw r30,r16
+ 3227 157c 8083      		st Z,r24
+ 3228               	.L102:
+ 3229 157e CE01      		movw r24,r28
+ 3230 1580 8A51      		subi r24,26
+ 3231 1582 9F4F      		sbci r25,-1
+ 3232 1584 9E01      		movw r18,r28
+ 3233 1586 2D52      		subi r18,45
+ 3234 1588 3F4F      		sbci r19,-1
+ 3235 158a F901      		movw r30,r18
+ 3236 158c 2081      		ld r18,Z
+ 3237 158e FC01      		movw r30,r24
+ 3238 1590 2083      		st Z,r18
+ 3239               	.LBB222:
+ 3240               	.LBB223:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 3241               		.loc 3 83 0
+ 3242 1592 CE01      		movw r24,r28
+ 3243 1594 8A51      		subi r24,26
+ 3244 1596 9F4F      		sbci r25,-1
+ 3245 1598 FC01      		movw r30,r24
+ 3246 159a 8081      		ld r24,Z
+ 3247 159c 282F      		mov r18,r24
+ 3248               	/* #APP */
+ 3249               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3250 159e 2A95      		1: dec r18
+ 3251 15a0 01F4      		brne 1b
+ 3252               	 ;  0 "" 2
+ 3253               	/* #NOAPP */
+ 3254 15a2 CE01      		movw r24,r28
+ 3255 15a4 8A51      		subi r24,26
+ 3256 15a6 9F4F      		sbci r25,-1
+ 3257 15a8 FC01      		movw r30,r24
+ 3258 15aa 2083      		st Z,r18
+ 3259 15ac 00C0      		rjmp .L18
+ 3260               	.L99:
+ 3261               	.LBE223:
+ 3262               	.LBE222:
+ 3263               	.LBE224:
+ 3264               	.LBE225:
+  29:main.c        **** 		_delay_us(506);
+  30:main.c        **** 		else if ((PINA & 0b00000001) == 0)
+ 3265               		.loc 1 30 0
+ 3266 15ae 80E2      		ldi r24,lo8(32)
+ 3267 15b0 90E0      		ldi r25,0
+ 3268 15b2 FC01      		movw r30,r24
+ 3269 15b4 8081      		ld r24,Z
+ 3270 15b6 882F      		mov r24,r24
+ 3271 15b8 90E0      		ldi r25,0
+ 3272 15ba 8170      		andi r24,1
+ 3273 15bc 9927      		clr r25
+ 3274 15be 892B      		or r24,r25
+ 3275 15c0 01F0      		breq .+2
+ 3276 15c2 00C0      		rjmp .L18
+ 3277 15c4 9E01      		movw r18,r28
+ 3278 15c6 2851      		subi r18,24
+ 3279 15c8 3F4F      		sbci r19,-1
+ 3280 15ca 80E0      		ldi r24,0
+ 3281 15cc 90E0      		ldi r25,0
+ 3282 15ce AFEE      		ldi r26,lo8(-17)
+ 3283 15d0 B3E4      		ldi r27,lo8(67)
+ 3284 15d2 F901      		movw r30,r18
+ 3285 15d4 8083      		st Z,r24
+ 3286 15d6 9183      		std Z+1,r25
+ 3287 15d8 A283      		std Z+2,r26
+ 3288 15da B383      		std Z+3,r27
+ 3289               	.LBB226:
+ 3290               	.LBB227:
+ 250:/usr/lib/avr/include/util/delay.h **** 	__tmp2 = ((F_CPU) / 4e6) * __us;
+ 3291               		.loc 2 250 0
+ 3292 15dc 8E01      		movw r16,r28
+ 3293 15de 0451      		subi r16,20
+ 3294 15e0 1F4F      		sbci r17,-1
+ 3295 15e2 CE01      		movw r24,r28
+ 3296 15e4 8851      		subi r24,24
+ 3297 15e6 9F4F      		sbci r25,-1
+ 3298 15e8 2BEA      		ldi r18,lo8(-85)
+ 3299 15ea 3AEA      		ldi r19,lo8(-86)
+ 3300 15ec 4AEA      		ldi r20,lo8(-86)
+ 3301 15ee 50E4      		ldi r21,lo8(64)
+ 3302 15f0 FC01      		movw r30,r24
+ 3303 15f2 6081      		ld r22,Z
+ 3304 15f4 7181      		ldd r23,Z+1
+ 3305 15f6 8281      		ldd r24,Z+2
+ 3306 15f8 9381      		ldd r25,Z+3
+ 3307 15fa 0E94 0000 		call __mulsf3
+ 3308 15fe DC01      		movw r26,r24
+ 3309 1600 CB01      		movw r24,r22
+ 3310 1602 F801      		movw r30,r16
+ 3311 1604 8083      		st Z,r24
+ 3312 1606 9183      		std Z+1,r25
+ 3313 1608 A283      		std Z+2,r26
+ 3314 160a B383      		std Z+3,r27
+ 251:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 3315               		.loc 2 251 0
+ 3316 160c 8E01      		movw r16,r28
+ 3317 160e 0051      		subi r16,16
+ 3318 1610 1F4F      		sbci r17,-1
+ 3319 1612 CE01      		movw r24,r28
+ 3320 1614 8851      		subi r24,24
+ 3321 1616 9F4F      		sbci r25,-1
+ 3322 1618 20E0      		ldi r18,0
+ 3323 161a 30E0      		ldi r19,0
+ 3324 161c 40E8      		ldi r20,lo8(-128)
+ 3325 161e 50E4      		ldi r21,lo8(64)
+ 3326 1620 FC01      		movw r30,r24
+ 3327 1622 6081      		ld r22,Z
+ 3328 1624 7181      		ldd r23,Z+1
+ 3329 1626 8281      		ldd r24,Z+2
+ 3330 1628 9381      		ldd r25,Z+3
+ 3331 162a 0E94 0000 		call __mulsf3
+ 3332 162e DC01      		movw r26,r24
+ 3333 1630 CB01      		movw r24,r22
+ 3334 1632 F801      		movw r30,r16
+ 3335 1634 8083      		st Z,r24
+ 3336 1636 9183      		std Z+1,r25
+ 3337 1638 A283      		std Z+2,r26
+ 3338 163a B383      		std Z+3,r27
+ 252:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 3339               		.loc 2 252 0
+ 3340 163c CE01      		movw r24,r28
+ 3341 163e 8451      		subi r24,20
+ 3342 1640 9F4F      		sbci r25,-1
+ 3343 1642 20E0      		ldi r18,0
+ 3344 1644 30E0      		ldi r19,0
+ 3345 1646 40E8      		ldi r20,lo8(-128)
+ 3346 1648 5FE3      		ldi r21,lo8(63)
+ 3347 164a FC01      		movw r30,r24
+ 3348 164c 6081      		ld r22,Z
+ 3349 164e 7181      		ldd r23,Z+1
+ 3350 1650 8281      		ldd r24,Z+2
+ 3351 1652 9381      		ldd r25,Z+3
+ 3352 1654 0E94 0000 		call __ltsf2
+ 3353 1658 8823      		tst r24
+ 3354 165a 04F4      		brge .L206
+ 253:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp2 > 65535)
+ 3355               		.loc 2 253 0
+ 3356 165c CE01      		movw r24,r28
+ 3357 165e 8C50      		subi r24,12
+ 3358 1660 9F4F      		sbci r25,-1
+ 3359 1662 21E0      		ldi r18,lo8(1)
+ 3360 1664 FC01      		movw r30,r24
+ 3361 1666 2083      		st Z,r18
+ 3362 1668 00C0      		rjmp .L117
+ 3363               	.L206:
+ 254:/usr/lib/avr/include/util/delay.h **** 	{
+ 3364               		.loc 2 254 0
+ 3365 166a CE01      		movw r24,r28
+ 3366 166c 8051      		subi r24,16
+ 3367 166e 9F4F      		sbci r25,-1
+ 3368 1670 20E0      		ldi r18,0
+ 3369 1672 3FEF      		ldi r19,lo8(-1)
+ 3370 1674 4FE7      		ldi r20,lo8(127)
+ 3371 1676 57E4      		ldi r21,lo8(71)
+ 3372 1678 FC01      		movw r30,r24
+ 3373 167a 6081      		ld r22,Z
+ 3374 167c 7181      		ldd r23,Z+1
+ 3375 167e 8281      		ldd r24,Z+2
+ 3376 1680 9381      		ldd r25,Z+3
+ 3377 1682 0E94 0000 		call __gtsf2
+ 3378 1686 1816      		cp __zero_reg__,r24
+ 3379 1688 04F0      		brlt .+2
+ 3380 168a 00C0      		rjmp .L207
+ 256:/usr/lib/avr/include/util/delay.h **** 	}
+ 3381               		.loc 2 256 0
+ 3382 168c CE01      		movw r24,r28
+ 3383 168e 8851      		subi r24,24
+ 3384 1690 9F4F      		sbci r25,-1
+ 3385 1692 20E0      		ldi r18,0
+ 3386 1694 30E0      		ldi r19,0
+ 3387 1696 4AE7      		ldi r20,lo8(122)
+ 3388 1698 54E4      		ldi r21,lo8(68)
+ 3389 169a FC01      		movw r30,r24
+ 3390 169c 6081      		ld r22,Z
+ 3391 169e 7181      		ldd r23,Z+1
+ 3392 16a0 8281      		ldd r24,Z+2
+ 3393 16a2 9381      		ldd r25,Z+3
+ 3394 16a4 0E94 0000 		call __divsf3
+ 3395 16a8 DC01      		movw r26,r24
+ 3396 16aa CB01      		movw r24,r22
+ 3397 16ac 9E01      		movw r18,r28
+ 3398 16ae 2B50      		subi r18,11
+ 3399 16b0 3F4F      		sbci r19,-1
+ 3400 16b2 F901      		movw r30,r18
+ 3401 16b4 8083      		st Z,r24
+ 3402 16b6 9183      		std Z+1,r25
+ 3403 16b8 A283      		std Z+2,r26
+ 3404 16ba B383      		std Z+3,r27
+ 3405               	.LBB228:
+ 3406               	.LBB229:
+ 167:/usr/lib/avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 3407               		.loc 2 167 0
+ 3408 16bc 8E01      		movw r16,r28
+ 3409 16be 0750      		subi r16,7
+ 3410 16c0 1F4F      		sbci r17,-1
+ 3411 16c2 CE01      		movw r24,r28
+ 3412 16c4 8B50      		subi r24,11
+ 3413 16c6 9F4F      		sbci r25,-1
+ 3414 16c8 20E0      		ldi r18,0
+ 3415 16ca 30E0      		ldi r19,0
+ 3416 16cc 4AE7      		ldi r20,lo8(122)
+ 3417 16ce 55E4      		ldi r21,lo8(69)
+ 3418 16d0 FC01      		movw r30,r24
+ 3419 16d2 6081      		ld r22,Z
+ 3420 16d4 7181      		ldd r23,Z+1
+ 3421 16d6 8281      		ldd r24,Z+2
+ 3422 16d8 9381      		ldd r25,Z+3
+ 3423 16da 0E94 0000 		call __mulsf3
+ 3424 16de DC01      		movw r26,r24
+ 3425 16e0 CB01      		movw r24,r22
+ 3426 16e2 F801      		movw r30,r16
+ 3427 16e4 8083      		st Z,r24
+ 3428 16e6 9183      		std Z+1,r25
+ 3429 16e8 A283      		std Z+2,r26
+ 3430 16ea B383      		std Z+3,r27
+ 168:/usr/lib/avr/include/util/delay.h **** 		__ticks = 1;
+ 3431               		.loc 2 168 0
+ 3432 16ec CE01      		movw r24,r28
+ 3433 16ee 8750      		subi r24,7
+ 3434 16f0 9F4F      		sbci r25,-1
+ 3435 16f2 20E0      		ldi r18,0
+ 3436 16f4 30E0      		ldi r19,0
+ 3437 16f6 40E8      		ldi r20,lo8(-128)
+ 3438 16f8 5FE3      		ldi r21,lo8(63)
+ 3439 16fa FC01      		movw r30,r24
+ 3440 16fc 6081      		ld r22,Z
+ 3441 16fe 7181      		ldd r23,Z+1
+ 3442 1700 8281      		ldd r24,Z+2
+ 3443 1702 9381      		ldd r25,Z+3
+ 3444 1704 0E94 0000 		call __ltsf2
+ 3445 1708 8823      		tst r24
+ 3446 170a 04F4      		brge .L208
+ 169:/usr/lib/avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 3447               		.loc 2 169 0
+ 3448 170c CE01      		movw r24,r28
+ 3449 170e 8350      		subi r24,3
+ 3450 1710 9F4F      		sbci r25,-1
+ 3451 1712 21E0      		ldi r18,lo8(1)
+ 3452 1714 30E0      		ldi r19,0
+ 3453 1716 FC01      		movw r30,r24
+ 3454 1718 3183      		std Z+1,r19
+ 3455 171a 2083      		st Z,r18
+ 3456 171c 00C0      		rjmp .L122
+ 3457               	.L208:
+ 170:/usr/lib/avr/include/util/delay.h **** 	{
+ 3458               		.loc 2 170 0
+ 3459 171e CE01      		movw r24,r28
+ 3460 1720 8750      		subi r24,7
+ 3461 1722 9F4F      		sbci r25,-1
+ 3462 1724 20E0      		ldi r18,0
+ 3463 1726 3FEF      		ldi r19,lo8(-1)
+ 3464 1728 4FE7      		ldi r20,lo8(127)
+ 3465 172a 57E4      		ldi r21,lo8(71)
+ 3466 172c FC01      		movw r30,r24
+ 3467 172e 6081      		ld r22,Z
+ 3468 1730 7181      		ldd r23,Z+1
+ 3469 1732 8281      		ldd r24,Z+2
+ 3470 1734 9381      		ldd r25,Z+3
+ 3471 1736 0E94 0000 		call __gtsf2
+ 3472 173a 1816      		cp __zero_reg__,r24
+ 3473 173c 04F0      		brlt .+2
+ 3474 173e 00C0      		rjmp .L209
+ 173:/usr/lib/avr/include/util/delay.h **** 		while(__ticks)
+ 3475               		.loc 2 173 0
+ 3476 1740 CE01      		movw r24,r28
+ 3477 1742 8B50      		subi r24,11
+ 3478 1744 9F4F      		sbci r25,-1
+ 3479 1746 20E0      		ldi r18,0
+ 3480 1748 30E0      		ldi r19,0
+ 3481 174a 40E2      		ldi r20,lo8(32)
+ 3482 174c 51E4      		ldi r21,lo8(65)
+ 3483 174e FC01      		movw r30,r24
+ 3484 1750 6081      		ld r22,Z
+ 3485 1752 7181      		ldd r23,Z+1
+ 3486 1754 8281      		ldd r24,Z+2
+ 3487 1756 9381      		ldd r25,Z+3
+ 3488 1758 0E94 0000 		call __mulsf3
+ 3489 175c DC01      		movw r26,r24
+ 3490 175e CB01      		movw r24,r22
+ 3491 1760 8E01      		movw r16,r28
+ 3492 1762 0350      		subi r16,3
+ 3493 1764 1F4F      		sbci r17,-1
+ 3494 1766 BC01      		movw r22,r24
+ 3495 1768 CD01      		movw r24,r26
+ 3496 176a 0E94 0000 		call __fixunssfsi
+ 3497 176e DC01      		movw r26,r24
+ 3498 1770 CB01      		movw r24,r22
+ 3499 1772 F801      		movw r30,r16
+ 3500 1774 9183      		std Z+1,r25
+ 3501 1776 8083      		st Z,r24
+ 3502 1778 00C0      		rjmp .L125
+ 3503               	.L126:
+ 3504 177a CE01      		movw r24,r28
+ 3505 177c 8150      		subi r24,1
+ 3506 177e 9F4F      		sbci r25,-1
+ 3507 1780 20E9      		ldi r18,lo8(-112)
+ 3508 1782 31E0      		ldi r19,lo8(1)
+ 3509 1784 FC01      		movw r30,r24
+ 3510 1786 3183      		std Z+1,r19
+ 3511 1788 2083      		st Z,r18
+ 3512               	.LBB230:
+ 3513               	.LBB231:
+ 3514               		.loc 3 105 0
+ 3515 178a CE01      		movw r24,r28
+ 3516 178c 8150      		subi r24,1
+ 3517 178e 9F4F      		sbci r25,-1
+ 3518 1790 FC01      		movw r30,r24
+ 3519 1792 8081      		ld r24,Z
+ 3520 1794 9181      		ldd r25,Z+1
+ 3521               	/* #APP */
+ 3522               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3523 1796 0197      		1: sbiw r24,1
+ 3524 1798 01F4      		brne 1b
+ 3525               	 ;  0 "" 2
+ 3526               	/* #NOAPP */
+ 3527 179a 9E01      		movw r18,r28
+ 3528 179c 2150      		subi r18,1
+ 3529 179e 3F4F      		sbci r19,-1
+ 3530 17a0 F901      		movw r30,r18
+ 3531 17a2 9183      		std Z+1,r25
+ 3532 17a4 8083      		st Z,r24
+ 3533               	.LBE231:
+ 3534               	.LBE230:
+ 178:/usr/lib/avr/include/util/delay.h **** 		}
+ 3535               		.loc 2 178 0
+ 3536 17a6 CE01      		movw r24,r28
+ 3537 17a8 8350      		subi r24,3
+ 3538 17aa 9F4F      		sbci r25,-1
+ 3539 17ac 9E01      		movw r18,r28
+ 3540 17ae 2350      		subi r18,3
+ 3541 17b0 3F4F      		sbci r19,-1
+ 3542 17b2 F901      		movw r30,r18
+ 3543 17b4 2081      		ld r18,Z
+ 3544 17b6 3181      		ldd r19,Z+1
+ 3545 17b8 2150      		subi r18,1
+ 3546 17ba 3109      		sbc r19,__zero_reg__
+ 3547 17bc FC01      		movw r30,r24
+ 3548 17be 3183      		std Z+1,r19
+ 3549 17c0 2083      		st Z,r18
+ 3550               	.L125:
+ 174:/usr/lib/avr/include/util/delay.h **** 		{
+ 3551               		.loc 2 174 0
+ 3552 17c2 CE01      		movw r24,r28
+ 3553 17c4 8350      		subi r24,3
+ 3554 17c6 9F4F      		sbci r25,-1
+ 3555 17c8 FC01      		movw r30,r24
+ 3556 17ca 8081      		ld r24,Z
+ 3557 17cc 9181      		ldd r25,Z+1
+ 3558 17ce 892B      		or r24,r25
+ 3559 17d0 01F4      		brne .L126
+ 3560 17d2 CE01      		movw r24,r28
+ 3561 17d4 8C50      		subi r24,12
+ 3562 17d6 9F4F      		sbci r25,-1
+ 3563 17d8 9E01      		movw r18,r28
+ 3564 17da 285F      		subi r18,-8
+ 3565 17dc 3E4F      		sbci r19,-2
+ 3566 17de F901      		movw r30,r18
+ 3567 17e0 2081      		ld r18,Z
+ 3568 17e2 FC01      		movw r30,r24
+ 3569 17e4 2083      		st Z,r18
+ 3570 17e6 00C0      		rjmp .L117
+ 3571               	.L209:
+ 183:/usr/lib/avr/include/util/delay.h **** 	_delay_loop_2(__ticks);
+ 3572               		.loc 2 183 0
+ 3573 17e8 8E01      		movw r16,r28
+ 3574 17ea 0350      		subi r16,3
+ 3575 17ec 1F4F      		sbci r17,-1
+ 3576 17ee CE01      		movw r24,r28
+ 3577 17f0 8750      		subi r24,7
+ 3578 17f2 9F4F      		sbci r25,-1
+ 3579 17f4 FC01      		movw r30,r24
+ 3580 17f6 6081      		ld r22,Z
+ 3581 17f8 7181      		ldd r23,Z+1
+ 3582 17fa 8281      		ldd r24,Z+2
+ 3583 17fc 9381      		ldd r25,Z+3
+ 3584 17fe 0E94 0000 		call __fixunssfsi
+ 3585 1802 DC01      		movw r26,r24
+ 3586 1804 CB01      		movw r24,r22
+ 3587 1806 F801      		movw r30,r16
+ 3588 1808 9183      		std Z+1,r25
+ 3589 180a 8083      		st Z,r24
+ 3590               	.L122:
+ 3591 180c CE01      		movw r24,r28
+ 3592 180e 8F5F      		subi r24,-1
+ 3593 1810 9E4F      		sbci r25,-2
+ 3594 1812 9E01      		movw r18,r28
+ 3595 1814 2350      		subi r18,3
+ 3596 1816 3F4F      		sbci r19,-1
+ 3597 1818 F901      		movw r30,r18
+ 3598 181a 2081      		ld r18,Z
+ 3599 181c 3181      		ldd r19,Z+1
+ 3600 181e FC01      		movw r30,r24
+ 3601 1820 3183      		std Z+1,r19
+ 3602 1822 2083      		st Z,r18
+ 3603               	.LBB232:
+ 3604               	.LBB233:
+ 3605               		.loc 3 105 0
+ 3606 1824 CE01      		movw r24,r28
+ 3607 1826 8F5F      		subi r24,-1
+ 3608 1828 9E4F      		sbci r25,-2
+ 3609 182a FC01      		movw r30,r24
+ 3610 182c 8081      		ld r24,Z
+ 3611 182e 9181      		ldd r25,Z+1
+ 3612               	/* #APP */
+ 3613               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3614 1830 0197      		1: sbiw r24,1
+ 3615 1832 01F4      		brne 1b
+ 3616               	 ;  0 "" 2
+ 3617               	/* #NOAPP */
+ 3618 1834 9E01      		movw r18,r28
+ 3619 1836 2F5F      		subi r18,-1
+ 3620 1838 3E4F      		sbci r19,-2
+ 3621 183a F901      		movw r30,r18
+ 3622 183c 9183      		std Z+1,r25
+ 3623 183e 8083      		st Z,r24
+ 3624 1840 CE01      		movw r24,r28
+ 3625 1842 8C50      		subi r24,12
+ 3626 1844 9F4F      		sbci r25,-1
+ 3627 1846 9E01      		movw r18,r28
+ 3628 1848 285F      		subi r18,-8
+ 3629 184a 3E4F      		sbci r19,-2
+ 3630 184c F901      		movw r30,r18
+ 3631 184e 2081      		ld r18,Z
+ 3632 1850 FC01      		movw r30,r24
+ 3633 1852 2083      		st Z,r18
+ 3634 1854 00C0      		rjmp .L117
+ 3635               	.L207:
+ 3636               	.LBE233:
+ 3637               	.LBE232:
+ 3638               	.LBE229:
+ 3639               	.LBE228:
+ 258:/usr/lib/avr/include/util/delay.h **** 	{
+ 3640               		.loc 2 258 0
+ 3641 1856 CE01      		movw r24,r28
+ 3642 1858 8451      		subi r24,20
+ 3643 185a 9F4F      		sbci r25,-1
+ 3644 185c 20E0      		ldi r18,0
+ 3645 185e 30E0      		ldi r19,0
+ 3646 1860 4FE7      		ldi r20,lo8(127)
+ 3647 1862 53E4      		ldi r21,lo8(67)
+ 3648 1864 FC01      		movw r30,r24
+ 3649 1866 6081      		ld r22,Z
+ 3650 1868 7181      		ldd r23,Z+1
+ 3651 186a 8281      		ldd r24,Z+2
+ 3652 186c 9381      		ldd r25,Z+3
+ 3653 186e 0E94 0000 		call __gtsf2
+ 3654 1872 1816      		cp __zero_reg__,r24
+ 3655 1874 04F4      		brge .L210
+ 3656               	.LBB234:
+ 260:/usr/lib/avr/include/util/delay.h **** 		_delay_loop_2(__ticks);
+ 3657               		.loc 2 260 0
+ 3658 1876 8E01      		movw r16,r28
+ 3659 1878 0D5F      		subi r16,-3
+ 3660 187a 1E4F      		sbci r17,-2
+ 3661 187c CE01      		movw r24,r28
+ 3662 187e 8051      		subi r24,16
+ 3663 1880 9F4F      		sbci r25,-1
+ 3664 1882 FC01      		movw r30,r24
+ 3665 1884 6081      		ld r22,Z
+ 3666 1886 7181      		ldd r23,Z+1
+ 3667 1888 8281      		ldd r24,Z+2
+ 3668 188a 9381      		ldd r25,Z+3
+ 3669 188c 0E94 0000 		call __fixunssfsi
+ 3670 1890 DC01      		movw r26,r24
+ 3671 1892 CB01      		movw r24,r22
+ 3672 1894 F801      		movw r30,r16
+ 3673 1896 9183      		std Z+1,r25
+ 3674 1898 8083      		st Z,r24
+ 3675 189a CE01      		movw r24,r28
+ 3676 189c 8B5F      		subi r24,-5
+ 3677 189e 9E4F      		sbci r25,-2
+ 3678 18a0 9E01      		movw r18,r28
+ 3679 18a2 2D5F      		subi r18,-3
+ 3680 18a4 3E4F      		sbci r19,-2
+ 3681 18a6 F901      		movw r30,r18
+ 3682 18a8 2081      		ld r18,Z
+ 3683 18aa 3181      		ldd r19,Z+1
+ 3684 18ac FC01      		movw r30,r24
+ 3685 18ae 3183      		std Z+1,r19
+ 3686 18b0 2083      		st Z,r18
+ 3687               	.LBB235:
+ 3688               	.LBB236:
+ 3689               		.loc 3 105 0
+ 3690 18b2 CE01      		movw r24,r28
+ 3691 18b4 8B5F      		subi r24,-5
+ 3692 18b6 9E4F      		sbci r25,-2
+ 3693 18b8 FC01      		movw r30,r24
+ 3694 18ba 8081      		ld r24,Z
+ 3695 18bc 9181      		ldd r25,Z+1
+ 3696               	/* #APP */
+ 3697               	 ;  105 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3698 18be 0197      		1: sbiw r24,1
+ 3699 18c0 01F4      		brne 1b
+ 3700               	 ;  0 "" 2
+ 3701               	/* #NOAPP */
+ 3702 18c2 9E01      		movw r18,r28
+ 3703 18c4 2B5F      		subi r18,-5
+ 3704 18c6 3E4F      		sbci r19,-2
+ 3705 18c8 F901      		movw r30,r18
+ 3706 18ca 9183      		std Z+1,r25
+ 3707 18cc 8083      		st Z,r24
+ 3708 18ce 00C0      		rjmp .L18
+ 3709               	.L210:
+ 3710               	.LBE236:
+ 3711               	.LBE235:
+ 3712               	.LBE234:
+ 3713               		.loc 2 265 0
+ 3714 18d0 8E01      		movw r16,r28
+ 3715 18d2 0C50      		subi r16,12
+ 3716 18d4 1F4F      		sbci r17,-1
+ 3717 18d6 CE01      		movw r24,r28
+ 3718 18d8 8451      		subi r24,20
+ 3719 18da 9F4F      		sbci r25,-1
+ 3720 18dc FC01      		movw r30,r24
+ 3721 18de 6081      		ld r22,Z
+ 3722 18e0 7181      		ldd r23,Z+1
+ 3723 18e2 8281      		ldd r24,Z+2
+ 3724 18e4 9381      		ldd r25,Z+3
+ 3725 18e6 0E94 0000 		call __fixunssfsi
+ 3726 18ea DC01      		movw r26,r24
+ 3727 18ec CB01      		movw r24,r22
+ 3728 18ee F801      		movw r30,r16
+ 3729 18f0 8083      		st Z,r24
+ 3730               	.L117:
+ 3731 18f2 CE01      		movw r24,r28
+ 3732 18f4 895F      		subi r24,-7
+ 3733 18f6 9E4F      		sbci r25,-2
+ 3734 18f8 9E01      		movw r18,r28
+ 3735 18fa 2C50      		subi r18,12
+ 3736 18fc 3F4F      		sbci r19,-1
+ 3737 18fe F901      		movw r30,r18
+ 3738 1900 2081      		ld r18,Z
+ 3739 1902 FC01      		movw r30,r24
+ 3740 1904 2083      		st Z,r18
+ 3741               	.LBB237:
+ 3742               	.LBB238:
+  83:/usr/lib/avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+ 3743               		.loc 3 83 0
+ 3744 1906 CE01      		movw r24,r28
+ 3745 1908 895F      		subi r24,-7
+ 3746 190a 9E4F      		sbci r25,-2
+ 3747 190c FC01      		movw r30,r24
+ 3748 190e 8081      		ld r24,Z
+ 3749 1910 282F      		mov r18,r24
+ 3750               	/* #APP */
+ 3751               	 ;  83 "/usr/lib/avr/include/util/delay_basic.h" 1
+ 3752 1912 2A95      		1: dec r18
+ 3753 1914 01F4      		brne 1b
+ 3754               	 ;  0 "" 2
+ 3755               	/* #NOAPP */
+ 3756 1916 CE01      		movw r24,r28
+ 3757 1918 895F      		subi r24,-7
+ 3758 191a 9E4F      		sbci r25,-2
+ 3759 191c FC01      		movw r30,r24
+ 3760 191e 2083      		st Z,r18
+ 3761               	.L18:
+ 3762               	.LBE238:
+ 3763               	.LBE237:
+ 3764               	.LBE227:
+ 3765               	.LBE226:
+  31:main.c        **** 		_delay_us(478);
+  32:main.c        **** 		
+  33:main.c        **** 		if (PINA != 0xFF)
+ 3766               		.loc 1 33 0
+ 3767 1920 80E2      		ldi r24,lo8(32)
+ 3768 1922 90E0      		ldi r25,0
+ 3769 1924 FC01      		movw r30,r24
+ 3770 1926 8081      		ld r24,Z
+ 3771 1928 8F3F      		cpi r24,lo8(-1)
+ 3772 192a 01F0      		breq .L129
+  34:main.c        **** 	 	PORTB = ~PINB;
+ 3773               		.loc 1 34 0
+ 3774 192c 85E2      		ldi r24,lo8(37)
+ 3775 192e 90E0      		ldi r25,0
+ 3776 1930 23E2      		ldi r18,lo8(35)
+ 3777 1932 30E0      		ldi r19,0
+ 3778 1934 F901      		movw r30,r18
+ 3779 1936 2081      		ld r18,Z
+ 3780 1938 2095      		com r18
+ 3781 193a FC01      		movw r30,r24
+ 3782 193c 2083      		st Z,r18
+ 3783               	.L129:
+  35:main.c        **** 	}
+ 3784               		.loc 1 35 0
+ 3785 193e 0C94 0000 		jmp .L130
+ 3786               		.cfi_endproc
+ 3787               	.LFE6:
+ 3789               	.Letext0:
+ 3790               		.file 4 "/usr/lib/avr/include/stdint.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+     /tmp/ccjoZX5O.s:2      *ABS*:000000000000003e __SP_H__
+     /tmp/ccjoZX5O.s:3      *ABS*:000000000000003d __SP_L__
+     /tmp/ccjoZX5O.s:4      *ABS*:000000000000003f __SREG__
+     /tmp/ccjoZX5O.s:5      *ABS*:000000000000003b __RAMPZ__
+     /tmp/ccjoZX5O.s:6      *ABS*:0000000000000000 __tmp_reg__
+     /tmp/ccjoZX5O.s:7      *ABS*:0000000000000001 __zero_reg__
+     /tmp/ccjoZX5O.s:18     .text:0000000000000000 main
+
+UNDEFINED SYMBOLS
+__mulsf3
+__ltsf2
+__gtsf2
+__divsf3
+__fixunssfsi
