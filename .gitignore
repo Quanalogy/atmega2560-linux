@@ -3,6 +3,12 @@
 *.ko
 *.obj
 *.elf
+*.bin
+*.eep
+*.lss
+*.lst
+*.map
+*.sym
 
 # Precompiled Headers
 *.gch
@@ -32,3 +38,5 @@
 *.dSYM/
 *.su
 
+__avr_gdbinit
+.dep/*
